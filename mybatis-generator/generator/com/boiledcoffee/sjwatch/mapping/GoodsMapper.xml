@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boiledcoffee.sjwatch.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.Goods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="t_b_id" property="tBId" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="BIGINT" />
+    <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+    <result column="wholesale" property="wholesale" jdbcType="DOUBLE" />
+    <result column="purchase_price" property="purchasePrice" jdbcType="DOUBLE" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="sources" property="sources" jdbcType="VARCHAR" />
+    <result column="brand" property="brand" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="BIGINT" />
+    <result column="modify_time" property="modifyTime" jdbcType="BIGINT" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.Goods" extends="BaseResultMap" >
+    <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, t_b_id, name, number, type, sale_price, wholesale, purchase_price, stock, sources, 
+    brand, create_time, modify_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    descr
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    insert into t_goods (id, t_b_id, name, 
+      number, type, sale_price, 
+      wholesale, purchase_price, stock, 
+      sources, brand, create_time, 
+      modify_time, descr)
+    values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE}, 
+      #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER}, 
+      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+      #{modifyTime,jdbcType=BIGINT}, #{descr,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="tBId != null" >
+        t_b_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="salePrice != null" >
+        sale_price,
+      </if>
+      <if test="wholesale != null" >
+        wholesale,
+      </if>
+      <if test="purchasePrice != null" >
+        purchase_price,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="sources != null" >
+        sources,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="descr != null" >
+        descr,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="tBId != null" >
+        #{tBId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        #{salePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="wholesale != null" >
+        #{wholesale,jdbcType=DOUBLE},
+      </if>
+      <if test="purchasePrice != null" >
+        #{purchasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sources != null" >
+        #{sources,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="descr != null" >
+        #{descr,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    update t_goods
+    <set >
+      <if test="tBId != null" >
+        t_b_id = #{tBId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=BIGINT},
+      </if>
+      <if test="salePrice != null" >
+        sale_price = #{salePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="wholesale != null" >
+        wholesale = #{wholesale,jdbcType=DOUBLE},
+      </if>
+      <if test="purchasePrice != null" >
+        purchase_price = #{purchasePrice,jdbcType=DOUBLE},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="sources != null" >
+        sources = #{sources,jdbcType=VARCHAR},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=BIGINT},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=BIGINT},
+      </if>
+      <if test="descr != null" >
+        descr = #{descr,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    update t_goods
+    set t_b_id = #{tBId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIGINT},
+      sale_price = #{salePrice,jdbcType=DOUBLE},
+      wholesale = #{wholesale,jdbcType=DOUBLE},
+      purchase_price = #{purchasePrice,jdbcType=DOUBLE},
+      stock = #{stock,jdbcType=INTEGER},
+      sources = #{sources,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT},
+      descr = #{descr,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    update t_goods
+    set t_b_id = #{tBId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      type = #{type,jdbcType=BIGINT},
+      sale_price = #{salePrice,jdbcType=DOUBLE},
+      wholesale = #{wholesale,jdbcType=DOUBLE},
+      purchase_price = #{purchasePrice,jdbcType=DOUBLE},
+      stock = #{stock,jdbcType=INTEGER},
+      sources = #{sources,jdbcType=VARCHAR},
+      brand = #{brand,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=BIGINT},
+      modify_time = #{modifyTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
