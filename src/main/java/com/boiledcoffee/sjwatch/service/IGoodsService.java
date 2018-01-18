@@ -14,7 +14,7 @@ public interface IGoodsService {
      * @param goods
      * @return
      */
-    HandleResult<Integer> insertGoods(Goods goods);
+    HandleResult<Goods> insertGoods(Goods goods);
 
     /**
      * 修改商品

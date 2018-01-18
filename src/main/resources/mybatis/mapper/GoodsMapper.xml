@@ -38,19 +38,19 @@
     delete from t_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
-    insert into t_goods (id, t_b_id, name, 
-      number, type, sale_price, 
-      wholesale, purchase_price, stock, 
-      sources, brand, create_time, 
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+    insert into t_goods (id, t_b_id, name,
+      number, type, sale_price,
+      wholesale, purchase_price, stock,
+      sources, brand, create_time,
       modify_time, descr)
-    values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
-      #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE}, 
-      #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER}, 
-      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+      #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE},
+      #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER},
+      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT},
       #{modifyTime,jdbcType=BIGINT}, #{descr,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
     insert into t_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

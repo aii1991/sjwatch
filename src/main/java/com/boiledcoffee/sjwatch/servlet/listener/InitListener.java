@@ -19,17 +19,10 @@ public class InitListener implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
         Role role1 = new Role();
+        role1.setId(1L);
         role1.setName("超级管理员");
 
-        Role role2 = new Role();
-        role2.setName("卖家");
-
-        Role role3 = new Role();
-        role3.setName("买家");
-
         roleService.insertRole(role1);
-        roleService.insertRole(role2);
-        roleService.insertRole(role3);
     }
 
     @Override

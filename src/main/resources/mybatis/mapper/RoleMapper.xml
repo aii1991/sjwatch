@@ -18,11 +18,11 @@
     delete from t_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.Role" >
+  <insert id="insert" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Role" >
     insert into t_role (id, name)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.Role" >
+  <insert id="insertSelective" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Role" >
     insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -5,7 +5,7 @@ public interface BaseMapper<T> {
 
     int insert(T record);
 
-    int insertSelective(T record);
+    long insertSelective(T record);
 
     T selectByPrimaryKey(Long id);
 

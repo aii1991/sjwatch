@@ -21,8 +21,9 @@ public class RoleServiceImpl implements IRoleService{
     public HandleResult<Role> insertRole(Role role) {
         HandleResult<Role> handleResult = new HandleResult<>();
         try{
-            int resultId = roleMapper.insert(role);
-            if (resultId > 0){
+            long roleId = roleMapper.insertSelective(role);
+            if (roleId > 0){
+                role.setId(roleId);
                 handleResult.setResult(role);
             }else {
                 handleResult.setErrorMsg("role insert error");
