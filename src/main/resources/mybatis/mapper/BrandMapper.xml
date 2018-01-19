@@ -103,4 +103,15 @@
       goods_type_id = #{goodsTypeId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findSelectiveAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_brand
+    <if test="type != -1">
+      WHERE goods_type_id = type_id
+    </if>
+
+  </select>
+
 </mapper>

@@ -4,10 +4,7 @@ import com.boiledcoffee.sjwatch.model.Role;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.service.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,8 +32,8 @@ public class RoleController extends BaseController{
         return roleService.findRoles();
     }
 
-    @RequestMapping(value = "/role",method = RequestMethod.DELETE)
-    public HandleResult deleteRole(long id){
+    @RequestMapping(value = "/role/{id}",method = RequestMethod.DELETE)
+    public HandleResult deleteRole(@PathVariable(value = "id",required = true)long id){
         return roleService.deleteRoleById(id);
     }
 

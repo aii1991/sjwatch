@@ -51,7 +51,7 @@ public class UserServiceImpl implements IUserService{
         try {
             User findUser = userMapper.selectByUserName(user.getUserName());
             if (findUser != null){
-                handleResult.setErrorMsg("username exit");
+                handleResult.setErrorMsg("username exist");
             }else {
                 user.setCreateTime(System.currentTimeMillis());
                 user.setModifyTime(System.currentTimeMillis());

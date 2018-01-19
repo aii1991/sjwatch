@@ -1,7 +1,10 @@
 package com.boiledcoffee.sjwatch.service;
 
+import com.boiledcoffee.sjwatch.model.Brand;
 import com.boiledcoffee.sjwatch.model.Goods;
+import com.boiledcoffee.sjwatch.model.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,12 +27,14 @@ public interface IGoodsService {
     HandleResult<Goods> modifyGoods(Goods goods);
 
     /**
-     * 查找所有商品
-     * @param offset
-     * @param limit
+     * 查找商品
+     * @param page
+     * @param pageSize
+     * @param sort
+     * @param goods
      * @return
      */
-    HandleResult<List<Goods>> findAllGoods(int offset,int limit);
+    HandleResult<List<Goods>> findAllGoods(int page,int pageSize,int sort,Goods goods);
 
     /**
      * 通过商品id删除商品
@@ -39,29 +44,42 @@ public interface IGoodsService {
     HandleResult<Long> deleteGoodsById(long id);
 
     /**
-     * 通过商品名查找商品
-     * @param name
-     * @param offset
-     * @param limit
+     * 插入商品类型
+     * @param goodsType
      * @return
      */
-    HandleResult<List<Goods>> findGoodsByName(String name,int offset,int limit);
+    HandleResult<GoodsType> insertGoodsType(GoodsType goodsType);
 
     /**
-     * 通过品牌id查找商品
+     * 列出所有商品类型
+     * @return
+     */
+    HandleResult<List<GoodsType>> findAllGoodsType();
+
+    /**
+     * 删除商品类型
      * @param id
-     * @param offset
-     * @param limit
      * @return
      */
-    HandleResult<List<Goods>> findGoodsByBrandId(long id,int offset,int limit);
+    HandleResult<Long> deleteGoodsTypeById(long id);
 
     /**
-     * 通过品牌名查找商品
-     * @param name
-     * @param offset
-     * @param limit
+     * 插入品牌
      * @return
      */
-    HandleResult<List<Goods>> findGoodsByBrandName(String name,int offset,int limit);
+    HandleResult<Brand> insertBrand(Brand brand);
+
+    /**
+     * 通过商品类型查询品牌
+     * @return
+     */
+    HandleResult<List<Brand>> findAllBrand(long type);
+
+    /**
+     * 删除品牌
+     * @param id
+     * @return
+     */
+    HandleResult<Long> deleteBrandById(long id);
+
 }

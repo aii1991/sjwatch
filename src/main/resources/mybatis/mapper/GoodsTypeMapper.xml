@@ -20,13 +20,13 @@
     delete from t_goods_type
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.GoodsType" >
+  <insert id="insert" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.GoodsType" >
     insert into t_goods_type (id, name, create_time, 
       modify_time)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=BIGINT}, 
       #{modifyTime,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.GoodsType" >
+  <insert id="insertSelective" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.GoodsType" >
     insert into t_goods_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -79,4 +79,11 @@
       modify_time = #{modifyTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_goods_type
+  </select>
+
 </mapper>

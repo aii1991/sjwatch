@@ -219,4 +219,9 @@
       modify_time = #{modifyTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectPaging" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+
+  </select>
+
 </mapper>
