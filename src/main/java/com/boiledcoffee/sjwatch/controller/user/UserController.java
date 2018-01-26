@@ -1,8 +1,9 @@
-package com.boiledcoffee.sjwatch.controller;
+package com.boiledcoffee.sjwatch.controller.user;
 
-import com.boiledcoffee.sjwatch.model.User;
+import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IUserService;
+import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by juha on 2018/1/10.
  */
 @RestController
-public class UserController extends BaseController{
+public class UserController extends BaseController {
     @Autowired
     IUserService userService;
 
@@ -24,4 +25,5 @@ public class UserController extends BaseController{
     public HandleResult register(@RequestBody User user){
         return userService.register(user);
     }
+
 }

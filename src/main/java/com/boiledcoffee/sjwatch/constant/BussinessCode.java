@@ -1,7 +1,7 @@
 package com.boiledcoffee.sjwatch.constant;
 
 /**
- * Created by songlive on 2018/1/10.
+ * Created by juha on 2018/1/10.
  */
 public enum  BussinessCode {
     SUCCESS(1),ERROR(-1);

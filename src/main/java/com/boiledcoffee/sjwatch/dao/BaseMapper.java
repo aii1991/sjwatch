@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-public interface BaseMapper<T> {
+public interface BaseMapper<T>{
     int deleteByPrimaryKey(Long id);
 
     int insert(T record);

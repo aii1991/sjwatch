@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.boiledcoffee.sjwatch.dao.UserAclMapper" >
-  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.UserAcl" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.UserAcl" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="acl_url" property="aclUrl" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, acl_url, name, role_id
+    id, acl_url, name, role_id, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -20,13 +22,15 @@
     delete from t_user_acl
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.UserAcl" >
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.UserAcl" >
     insert into t_user_acl (id, acl_url, name, 
-      role_id)
+      role_id, create_time, modify_time
+      )
     values (#{id,jdbcType=BIGINT}, #{aclUrl,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{roleId,jdbcType=BIGINT})
+      #{roleId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.UserAcl" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.UserAcl" >
     insert into t_user_acl
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -40,6 +44,12 @@
       </if>
       <if test="roleId != null" >
         role_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -55,9 +65,15 @@
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.UserAcl" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.UserAcl" >
     update t_user_acl
     <set >
       <if test="aclUrl != null" >
@@ -69,14 +85,22 @@
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.UserAcl" >
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.UserAcl" >
     update t_user_acl
     set acl_url = #{aclUrl,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=BIGINT}
+      role_id = #{roleId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

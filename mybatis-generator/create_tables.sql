@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/1/11 16:26:14                           */
+/* Created on:     2018/1/26 14:22:12                           */
 /*==============================================================*/
 
 
@@ -26,9 +26,9 @@ create table t_brand
    id                   bigint not null auto_increment,
    name                 varchar(30),
    logo                 varchar(150),
-   create_time          bigint,
-   modify_time          bigint,
-   goods_type_id        bigint,
+   goods_type_id        bigint default NULL,
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -49,8 +49,8 @@ create table t_goods
    descr                text,
    sources              varchar(300),
    brand                int,
-   create_time          bigint,
-   modify_time          bigint,
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -61,8 +61,8 @@ create table t_goods_type
 (
    id                   bigint not null auto_increment,
    name                 varchar(30),
-   create_time          bigint,
-   modify_time          bigint,
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -71,8 +71,10 @@ create table t_goods_type
 /*==============================================================*/
 create table t_role
 (
-   id                   bigint not null auto_increment,
+   id                   bigint not null,
    name                 varchar(30),
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -86,13 +88,13 @@ create table t_user
    nick_name            varchar(30),
    password             varchar(100),
    token                varchar(50),
-   sex                  int(1),
+   sex                  int(1) comment '0=Î´Öª,1=ÄÐ,2=Å®',
    age                  int(3),
    qq_token             varchar(50),
    wechat_token         varchar(50),
-   create_time          bigint,
-   modify_time          bigint,
    role_id              bigint,
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -101,10 +103,12 @@ create table t_user
 /*==============================================================*/
 create table t_user_acl
 (
-   id                   bigint not null auto_increment,
+   id                   bigint not null,
    acl_url              varchar(20),
    name                 varchar(20),
    role_id              bigint,
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -116,6 +120,9 @@ create table t_user_log
    id                   bigint not null auto_increment,
    login_ip             varchar(20),
    uid                  bigint,
+   request_url          varchar(100),
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.boiledcoffee.sjwatch.dao.UserMapper" >
-  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.User" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.User" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="user_name" property="userName" jdbcType="VARCHAR" />
     <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
@@ -11,13 +11,13 @@
     <result column="age" property="age" jdbcType="INTEGER" />
     <result column="qq_token" property="qqToken" jdbcType="VARCHAR" />
     <result column="wechat_token" property="wechatToken" jdbcType="VARCHAR" />
-    <result column="create_time" property="createTime" jdbcType="BIGINT" />
-    <result column="modify_time" property="modifyTime" jdbcType="BIGINT" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, nick_name, password, token, sex, age, qq_token, wechat_token, create_time, 
-    modify_time, role_id
+    id, user_name, nick_name, password, token, sex, age, qq_token, wechat_token, role_id, 
+    create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -29,19 +29,19 @@
     delete from t_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.User" >
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.User" >
     insert into t_user (id, user_name, nick_name, 
       password, token, sex, 
       age, qq_token, wechat_token, 
-      create_time, modify_time, role_id
+      role_id, create_time, modify_time
       )
     values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{age,jdbcType=INTEGER}, #{qqToken,jdbcType=VARCHAR}, #{wechatToken,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=BIGINT}, #{modifyTime,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}
+      #{roleId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.User" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.User" >
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -71,14 +71,14 @@
       <if test="wechatToken != null" >
         wechat_token,
       </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
       <if test="createTime != null" >
         create_time,
       </if>
       <if test="modifyTime != null" >
         modify_time,
-      </if>
-      <if test="roleId != null" >
-        role_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -109,18 +109,18 @@
       <if test="wechatToken != null" >
         #{wechatToken,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=BIGINT},
-      </if>
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
       </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.User" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.User" >
     update t_user
     <set >
       <if test="userName != null" >
@@ -147,19 +147,19 @@
       <if test="wechatToken != null" >
         wechat_token = #{wechatToken,jdbcType=VARCHAR},
       </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=BIGINT},
-      </if>
-      <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=BIGINT},
-      </if>
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.User" >
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.User" >
     update t_user
     set user_name = #{userName,jdbcType=VARCHAR},
       nick_name = #{nickName,jdbcType=VARCHAR},
@@ -169,17 +169,9 @@
       age = #{age,jdbcType=INTEGER},
       qq_token = #{qqToken,jdbcType=VARCHAR},
       wechat_token = #{wechatToken,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=BIGINT},
-      modify_time = #{modifyTime,jdbcType=BIGINT},
-      role_id = #{roleId,jdbcType=BIGINT}
+      role_id = #{roleId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
-
-  <select id="selectByUserName" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-    where user_name = #{userName,jdbcType=VARBINARY}
-  </select>
-
 </mapper>

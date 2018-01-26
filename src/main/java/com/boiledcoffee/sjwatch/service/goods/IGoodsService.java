@@ -1,12 +1,13 @@
-package com.boiledcoffee.sjwatch.service;
+package com.boiledcoffee.sjwatch.service.goods;
 
-import com.boiledcoffee.sjwatch.model.Brand;
-import com.boiledcoffee.sjwatch.model.Goods;
-import com.boiledcoffee.sjwatch.model.GoodsType;
+import com.boiledcoffee.sjwatch.model.entity.Brand;
+import com.boiledcoffee.sjwatch.model.entity.Goods;
+import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import org.apache.ibatis.annotations.Param;
+import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juha on 2018/1/10.
@@ -30,18 +31,17 @@ public interface IGoodsService {
      * 查找商品
      * @param page
      * @param pageSize
-     * @param sort
-     * @param goods
+     * @param goodQuery
      * @return
      */
-    HandleResult<List<Goods>> findAllGoods(int page,int pageSize,int sort,Goods goods);
+    HandleResult<List<Goods>> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
 
     /**
      * 通过商品id删除商品
      * @param id
      * @return
      */
-    HandleResult<Long> deleteGoodsById(long id);
+    HandleResult<Map> deleteGoodsById(long id);
 
     /**
      * 插入商品类型
@@ -61,7 +61,7 @@ public interface IGoodsService {
      * @param id
      * @return
      */
-    HandleResult<Long> deleteGoodsTypeById(long id);
+    HandleResult<Map> deleteGoodsTypeById(long id);
 
     /**
      * 插入品牌
@@ -80,6 +80,6 @@ public interface IGoodsService {
      * @param id
      * @return
      */
-    HandleResult<Long> deleteBrandById(long id);
+    HandleResult<Map> deleteBrandById(long id);
 
 }

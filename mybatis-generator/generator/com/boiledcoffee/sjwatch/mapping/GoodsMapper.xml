@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.boiledcoffee.sjwatch.dao.GoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.Goods" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Goods" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="t_b_id" property="tBId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -13,10 +13,10 @@
     <result column="stock" property="stock" jdbcType="INTEGER" />
     <result column="sources" property="sources" jdbcType="VARCHAR" />
     <result column="brand" property="brand" jdbcType="INTEGER" />
-    <result column="create_time" property="createTime" jdbcType="BIGINT" />
-    <result column="modify_time" property="modifyTime" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.Goods" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.Goods" extends="BaseResultMap" >
     <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -38,7 +38,7 @@
     delete from t_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
     insert into t_goods (id, t_b_id, name, 
       number, type, sale_price, 
       wholesale, purchase_price, stock, 
@@ -47,10 +47,10 @@
     values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE}, 
       #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER}, 
-      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=BIGINT}, 
-      #{modifyTime,jdbcType=BIGINT}, #{descr,jdbcType=LONGVARCHAR})
+      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP}, #{descr,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
     insert into t_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -131,17 +131,17 @@
         #{brand,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        #{createTime,jdbcType=BIGINT},
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyTime != null" >
-        #{modifyTime,jdbcType=BIGINT},
+        #{modifyTime,jdbcType=TIMESTAMP},
       </if>
       <if test="descr != null" >
         #{descr,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
     update t_goods
     <set >
       <if test="tBId != null" >
@@ -175,10 +175,10 @@
         brand = #{brand,jdbcType=INTEGER},
       </if>
       <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=BIGINT},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="modifyTime != null" >
-        modify_time = #{modifyTime,jdbcType=BIGINT},
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
       <if test="descr != null" >
         descr = #{descr,jdbcType=LONGVARCHAR},
@@ -186,7 +186,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
     update t_goods
     set t_b_id = #{tBId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
@@ -198,12 +198,12 @@
       stock = #{stock,jdbcType=INTEGER},
       sources = #{sources,jdbcType=VARCHAR},
       brand = #{brand,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=BIGINT},
-      modify_time = #{modifyTime,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       descr = #{descr,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.Goods" >
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
     update t_goods
     set t_b_id = #{tBId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
@@ -215,8 +215,8 @@
       stock = #{stock,jdbcType=INTEGER},
       sources = #{sources,jdbcType=VARCHAR},
       brand = #{brand,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=BIGINT},
-      modify_time = #{modifyTime,jdbcType=BIGINT}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

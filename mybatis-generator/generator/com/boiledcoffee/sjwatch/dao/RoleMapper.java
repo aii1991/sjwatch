@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.model.entity.Role;
 
 public interface RoleMapper {
     int deleteByPrimaryKey(Long id);

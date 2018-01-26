@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.User;
+import com.boiledcoffee.sjwatch.model.entity.User;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);

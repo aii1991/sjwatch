@@ -1,7 +1,9 @@
 package com.boiledcoffee.sjwatch.servlet.listener;
 
-import com.boiledcoffee.sjwatch.model.Role;
-import com.boiledcoffee.sjwatch.service.IRoleService;
+import com.boiledcoffee.sjwatch.model.entity.Role;
+import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.service.user.IRoleService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContextEvent;
@@ -18,11 +20,14 @@ public class InitListener implements ServletContextListener{
     IRoleService roleService;
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        Role role1 = new Role();
-        role1.setId(1L);
-        role1.setName("超级管理员");
-
-        roleService.insertRole(role1);
+        HandleResult<Role> handleResult = roleService.findRoleById(1);
+        if (handleResult.isError() || handleResult.getResult() == null){
+            Role role1 = new Role();
+            role1.setId(1L);
+            role1.setName("超级管理员");
+            roleService.insertRole(role1);
+        }
+        Logger.getInstance(this.getClass()).debug("=========init success=======");
     }
 
     @Override

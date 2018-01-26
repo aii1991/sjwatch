@@ -1,18 +1,22 @@
-package com.boiledcoffee.sjwatch.service.impl;
+package com.boiledcoffee.sjwatch.service.goods.impl;
 
 import com.boiledcoffee.sjwatch.dao.BrandMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsTypeMapper;
-import com.boiledcoffee.sjwatch.model.Brand;
-import com.boiledcoffee.sjwatch.model.Goods;
-import com.boiledcoffee.sjwatch.model.GoodsType;
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.model.entity.Brand;
+import com.boiledcoffee.sjwatch.model.entity.Goods;
+import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IGoodsService;
+import com.boiledcoffee.sjwatch.model.query.GoodQuery;
+import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by juha on 2018/1/11.
@@ -25,6 +29,8 @@ public class GoodsServiceImpl implements IGoodsService{
     GoodsTypeMapper goodsTypeMapper;
     @Autowired
     BrandMapper brandMapper;
+    @Autowired
+    StringRedisTemplate stringRedisTemplate;
 
     @Override
     public HandleResult<Goods> insertGoods(Goods goods) {
@@ -32,7 +38,6 @@ public class GoodsServiceImpl implements IGoodsService{
         try{
             long goodsId = goodsMapper.insertSelective(goods);
             if (goodsId > 0){
-                goods.setId(goodsId);
                 handleResult.setResult(goods);
             }else {
                 handleResult.setErrorMsg("insert goods error");
@@ -60,26 +65,30 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<List<Goods>> findAllGoods(int page, int pageSize, int sort, Goods goods) {
-        //Todo 等写
+    public HandleResult<List<Goods>> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
         HandleResult<List<Goods>> handleResult = new HandleResult<>();
+        int offSet = page * pageSize;
         try {
-
+            PageHelper.startPage(page,pageSize);
+            int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+            List<Goods> goodsList = goodsMapper.findAllGoods(offSet, pageSize,goodQuery, isAdmin);
+            handleResult.setResult(goodsList);
         }catch (Exception e){
             e.printStackTrace();
-
+            handleResult.setErrorMsg(e.getMessage());
         }
-        int offSet = page * pageSize;
-        return null;
+        return handleResult;
     }
 
     @Override
-    public HandleResult<Long> deleteGoodsById(long id) {
-        HandleResult<Long> handleResult = new HandleResult<>();
+    public HandleResult<Map> deleteGoodsById(long id) {
+        HandleResult<Map> handleResult = new HandleResult<>();
         try{
             int resultId = goodsMapper.deleteByPrimaryKey(id);
             if (resultId > 0){
-                handleResult.setResult(id);
+                Map<String,Object> map = new HashMap<>();
+                map.put("id",id);
+                handleResult.setResult(map);
             }else {
                 handleResult.setErrorMsg("goods delete error");
             }
@@ -96,7 +105,6 @@ public class GoodsServiceImpl implements IGoodsService{
         try {
             long resultId = goodsTypeMapper.insertSelective(goodsType);
             if (resultId > 0){
-                goodsType.setId(resultId);
                 handleResult.setResult(goodsType);
             }else {
                 handleResult.setErrorMsg("goodsType insert error");
@@ -122,12 +130,14 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<Long> deleteGoodsTypeById(long id) {
-        HandleResult<Long> handleResult = new HandleResult<>();
+    public HandleResult<Map> deleteGoodsTypeById(long id) {
+        HandleResult<Map> handleResult = new HandleResult<>();
         try{
             int result = goodsTypeMapper.deleteByPrimaryKey(id);
             if (result > 0){
-                handleResult.setResult(id);
+                Map<String,Object> map = new HashMap<>();
+                map.put("id",id);
+                handleResult.setResult(map);
             }else {
                 handleResult.setErrorMsg("goods type delete error");
             }
@@ -142,9 +152,8 @@ public class GoodsServiceImpl implements IGoodsService{
     public HandleResult<Brand> insertBrand(Brand brand) {
         HandleResult<Brand> handleResult = new HandleResult<>();
         try {
-            long resultId = brandMapper.insert(brand);
+            long resultId = brandMapper.insertSelective(brand);
             if (resultId > 0){
-                brand.setId(resultId);
                 handleResult.setResult(brand);
             }else {
                 handleResult.setErrorMsg("insert brand error");
@@ -170,12 +179,14 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<Long> deleteBrandById(long id) {
-        HandleResult<Long> handleResult = new HandleResult<>();
+    public HandleResult<Map> deleteBrandById(long id) {
+        HandleResult<Map> handleResult = new HandleResult<>();
         try{
             int result = brandMapper.deleteByPrimaryKey(id);
             if (result > 0){
-                handleResult.setResult(id);
+                Map<String,Object> map = new HashMap<>();
+                map.put("id",id);
+                handleResult.setResult(map);
             }else {
                 handleResult.setErrorMsg("delete brand error");
             }

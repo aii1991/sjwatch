@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.Brand;
+import com.boiledcoffee.sjwatch.model.entity.Brand;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

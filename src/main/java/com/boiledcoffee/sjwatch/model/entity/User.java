@@ -1,4 +1,8 @@
-package com.boiledcoffee.sjwatch.model;
+package com.boiledcoffee.sjwatch.model.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
 
 public class User {
     private Long id;
@@ -7,6 +11,7 @@ public class User {
 
     private String nickName;
 
+    @JsonIgnore
     private String password;
 
     private String token;
@@ -19,11 +24,11 @@ public class User {
 
     private String wechatToken;
 
-    private Long createTime;
-
-    private Long modifyTime;
-
     private Long roleId;
+
+    private Date createTime;
+
+    private Date modifyTime;
 
     public Long getId() {
         return id;
@@ -97,27 +102,27 @@ public class User {
         this.wechatToken = wechatToken == null ? null : wechatToken.trim();
     }
 
-    public Long getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
-    }
-
-    public Long getModifyTime() {
-        return modifyTime;
-    }
-
-    public void setModifyTime(Long modifyTime) {
-        this.modifyTime = modifyTime;
-    }
-
     public Long getRoleId() {
         return roleId;
     }
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.Goods;
+import com.boiledcoffee.sjwatch.model.entity.Goods;
 
 public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);

@@ -1,9 +1,9 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.model.entity.Role;
 
 import java.util.List;
 
 public interface RoleMapper extends BaseMapper<Role>{
-    List<Role> selectAll();
+    List<Role> findAll();
 }

@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.UserAcl;
+import com.boiledcoffee.sjwatch.model.entity.UserAcl;
 
 public interface UserAclMapper {
     int deleteByPrimaryKey(Long id);

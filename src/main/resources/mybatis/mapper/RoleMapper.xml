@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.boiledcoffee.sjwatch.dao.RoleMapper" >
-  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.Role" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Role" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name
+    id, name, create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -18,11 +20,13 @@
     delete from t_role
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Role" >
-    insert into t_role (id, name)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Role" >
+    insert into t_role (id, name, create_time,
+    modify_time)
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
+    #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyProperty="id" parameterType="com.boiledcoffee.sjwatch.model.Role" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Role" >
     insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -30,6 +34,12 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -39,20 +49,39 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.Role" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Role" >
     update t_role
     <set >
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.Role" >
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Role" >
     update t_role
-    set name = #{name,jdbcType=VARCHAR}
+    set name = #{name,jdbcType=VARCHAR},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_role
+  </select>
 </mapper>

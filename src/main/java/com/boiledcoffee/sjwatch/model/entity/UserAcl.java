@@ -1,4 +1,6 @@
-package com.boiledcoffee.sjwatch.model;
+package com.boiledcoffee.sjwatch.model.entity;
+
+import java.util.Date;
 
 public class UserAcl {
     private Long id;
@@ -8,6 +10,10 @@ public class UserAcl {
     private String name;
 
     private Long roleId;
+
+    private Date createTime;
+
+    private Date modifyTime;
 
     public Long getId() {
         return id;
@@ -39,5 +45,21 @@ public class UserAcl {
 
     public void setRoleId(Long roleId) {
         this.roleId = roleId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 }

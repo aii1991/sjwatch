@@ -1,7 +1,10 @@
 package com.boiledcoffee.sjwatch.interceptor;
 
+import com.boiledcoffee.sjwatch.dao.UserMapper;
+import com.boiledcoffee.sjwatch.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -12,19 +15,29 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by juha on 2018/1/11.
  */
+@Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    UserMapper userMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         String token = httpServletRequest.getHeader("token");
-        if (StringUtils.isEmpty(token)){
+        String uid = httpServletRequest.getHeader("uid");
+        if (StringUtils.isEmpty(token) || StringUtils.isEmpty(uid)){
+            httpServletResponse.setStatus(401);
             return false;
         }
-        long timeout = stringRedisTemplate.getExpire(token);
-        if (timeout <= 0){
+        String cacheToken = stringRedisTemplate.opsForValue().get(uid);
+        if (StringUtils.isEmpty(cacheToken)){
+            httpServletResponse.setStatus(401);
+            return false;
+        }
+        if (!token.equals(cacheToken)){
+            httpServletResponse.setStatus(401);
             return false;
         }
         return true;

@@ -1,6 +1,6 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.GoodsType;
+import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 
 import java.util.List;
 

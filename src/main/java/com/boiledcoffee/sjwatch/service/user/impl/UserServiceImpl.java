@@ -1,13 +1,14 @@
-package com.boiledcoffee.sjwatch.service.impl;
+package com.boiledcoffee.sjwatch.service.user.impl;
 
 import com.boiledcoffee.sjwatch.dao.UserMapper;
-import com.boiledcoffee.sjwatch.model.User;
+import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IUserService;
+import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -29,9 +30,11 @@ public class UserServiceImpl implements IUserService{
             User findUser = userMapper.selectByUserName(userName);
             if (findUser != null){
                 String findPassword = findUser.getPassword();
-                if (findPassword.equals(userName)){
+                if (findPassword.equals(password)){
                     //登录成功
-                    stringRedisTemplate.expire(createAndSaveAccessToken(findUser),2, TimeUnit.HOURS);
+                    String token = createAndSaveAccessToken(findUser);
+                    stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,2,TimeUnit.HOURS);
+                    stringRedisTemplate.opsForValue().set("isAdmin/" + findUser.getId(),findUser.getRoleId() == 1 ? "1" : "0");
                     findUser.setPassword(null);
                     handleResult.setResult(findUser);
                 }else {
@@ -53,10 +56,8 @@ public class UserServiceImpl implements IUserService{
             if (findUser != null){
                 handleResult.setErrorMsg("username exist");
             }else {
-                user.setCreateTime(System.currentTimeMillis());
-                user.setModifyTime(System.currentTimeMillis());
-                user.setPassword(null);
-                userMapper.insert(user);
+                userMapper.insertSelective(user);
+                handleResult.setResult(user);
             }
         }catch (Exception e){
             handleResult.setErrorMsg(e.getMessage());

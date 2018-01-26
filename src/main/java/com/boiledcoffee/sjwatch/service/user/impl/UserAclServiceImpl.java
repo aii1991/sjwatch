@@ -1,8 +1,8 @@
-package com.boiledcoffee.sjwatch.service.impl;
+package com.boiledcoffee.sjwatch.service.user.impl;
 
-import com.boiledcoffee.sjwatch.model.UserAcl;
+import com.boiledcoffee.sjwatch.model.entity.UserAcl;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IUserAclService;
+import com.boiledcoffee.sjwatch.service.user.IUserAclService;
 
 import java.util.List;
 

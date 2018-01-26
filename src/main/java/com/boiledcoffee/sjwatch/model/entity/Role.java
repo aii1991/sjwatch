@@ -1,13 +1,15 @@
-package com.boiledcoffee.sjwatch.model;
+package com.boiledcoffee.sjwatch.model.entity;
 
-public class GoodsType {
+import java.util.Date;
+
+public class Role {
     private Long id;
 
     private String name;
 
-    private Long createTime;
+    private Date createTime;
 
-    private Long modifyTime;
+    private Date modifyTime;
 
     public Long getId() {
         return id;
@@ -25,19 +27,19 @@ public class GoodsType {
         this.name = name == null ? null : name.trim();
     }
 
-    public Long getCreateTime() {
+    public Date getCreateTime() {
         return createTime;
     }
 
-    public void setCreateTime(Long createTime) {
+    public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Long getModifyTime() {
+    public Date getModifyTime() {
         return modifyTime;
     }
 
-    public void setModifyTime(Long modifyTime) {
+    public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 }

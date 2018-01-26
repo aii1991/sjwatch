@@ -1,6 +1,6 @@
-package com.boiledcoffee.sjwatch.service;
+package com.boiledcoffee.sjwatch.service.user;
 
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.model.entity.Role;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 
 import java.util.List;
@@ -34,4 +34,6 @@ public interface IRoleService {
      * @return
      */
     HandleResult<List<Role>> findRoles();
+
+    HandleResult<Role> findRoleById(long id);
 }

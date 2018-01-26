@@ -1,19 +1,18 @@
-package com.boiledcoffee.sjwatch.controller;
+package com.boiledcoffee.sjwatch.controller.user;
 
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.model.entity.Role;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IRoleService;
+import com.boiledcoffee.sjwatch.service.user.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  *
  * Created by juha on 2018/1/11.
  */
 @RestController
-public class RoleController extends BaseController{
+public class RoleController extends BaseController {
     @Autowired
     IRoleService roleService;
 

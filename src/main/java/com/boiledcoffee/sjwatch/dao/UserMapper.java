@@ -1,7 +1,8 @@
 package com.boiledcoffee.sjwatch.dao;
 
-import com.boiledcoffee.sjwatch.model.User;
+import com.boiledcoffee.sjwatch.model.entity.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper extends BaseMapper<User>{
-    User selectByUserName(String userName);
+    User selectByUserName(@Param("user_name") String userName);
 }

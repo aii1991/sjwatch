@@ -1,6 +1,6 @@
-package com.boiledcoffee.sjwatch.service;
+package com.boiledcoffee.sjwatch.service.user;
 
-import com.boiledcoffee.sjwatch.model.User;
+import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 
 /**

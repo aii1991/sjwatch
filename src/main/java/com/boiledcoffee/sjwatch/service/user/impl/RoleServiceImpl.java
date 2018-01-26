@@ -1,9 +1,9 @@
-package com.boiledcoffee.sjwatch.service.impl;
+package com.boiledcoffee.sjwatch.service.user.impl;
 
 import com.boiledcoffee.sjwatch.dao.RoleMapper;
-import com.boiledcoffee.sjwatch.model.Role;
+import com.boiledcoffee.sjwatch.model.entity.Role;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
-import com.boiledcoffee.sjwatch.service.IRoleService;
+import com.boiledcoffee.sjwatch.service.user.IRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +23,12 @@ public class RoleServiceImpl implements IRoleService{
         try{
             long roleId = roleMapper.insertSelective(role);
             if (roleId > 0){
-                role.setId(roleId);
                 handleResult.setResult(role);
             }else {
                 handleResult.setErrorMsg("role insert error");
             }
         }catch (Exception e){
-            handleResult.updateStatusToError(e.getMessage());
+            handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
     }
@@ -45,7 +44,7 @@ public class RoleServiceImpl implements IRoleService{
                 handleResult.setErrorMsg("role modify error");
             }
         }catch (Exception e){
-            handleResult.updateStatusToError(e.getMessage());
+            handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
     }
@@ -70,10 +69,22 @@ public class RoleServiceImpl implements IRoleService{
     public HandleResult<List<Role>> findRoles() {
         HandleResult<List<Role>> handleResult = new HandleResult<>();
         try{
-            List<Role> roleList = roleMapper.selectAll();
+            List<Role> roleList = roleMapper.findAll();
             handleResult.setResult(roleList);
         }catch (Exception e){
-            handleResult.updateStatusToError(e.getMessage());
+            handleResult.setErrorMsg(e.getMessage());
+        }
+        return handleResult;
+    }
+
+    @Override
+    public HandleResult<Role> findRoleById(long id) {
+        HandleResult<Role> handleResult = new HandleResult<>();
+        try {
+            Role role = roleMapper.selectByPrimaryKey(id);
+            handleResult.setResult(role);
+        }catch (Exception e){
+            handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
     }
