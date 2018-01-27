@@ -11,7 +11,6 @@ public class User {
 
     private String nickName;
 
-    @JsonIgnore
     private String password;
 
     private String token;

@@ -240,11 +240,41 @@
       AND t_b_id = #{goodQuery.tBId,jdbcType = INTEGER}
     </if>
 
-    <if test="goodQuery.sortTime == 1">
-      ORDER BY modify_time ASC
+    <choose>
+      <when test="goodQuery.sortTime == 2">
+        ORDER BY modify_time DESC
+      </when>
+      <otherwise>
+        ORDER BY modify_time ASC
+      </otherwise>
+    </choose>
+
+    <if test="goodQuery.sortSalePrice == 1">
+      modify_time ASC
     </if>
-    <if test="goodQuery.sortTime == 2">
-      ORDER BY modify_time DESC
+    <if test="goodQuery.sortSalePrice == 2">
+      modify_time DESC
+    </if>
+
+    <if test="goodQuery.sortWholesale == 1">
+      modify_time ASC
+    </if>
+    <if test="goodQuery.sortWholesale == 2">
+      modify_time DESC
+    </if>
+
+    <if test="goodQuery.sortPurchasePrice == 1">
+      modify_time ASC
+    </if>
+    <if test="goodQuery.sortPurchasePrice == 2">
+      modify_time DESC
+    </if>
+
+    <if test="goodQuery.sortStock == 1">
+      modify_time ASC
+    </if>
+    <if test="goodQuery.sortStock == 2">
+      modify_time DESC
     </if>
 
   </select>

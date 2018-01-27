@@ -41,6 +41,8 @@ public class UserServiceImpl implements IUserService{
                     //账号密码错误
                     handleResult.setErrorMsg("username or password error");
                 }
+            }else {
+                handleResult.setErrorMsg("not found user,please go to register!");
             }
         }catch (Exception e){
             handleResult.setErrorMsg(e.getMessage());
@@ -57,6 +59,7 @@ public class UserServiceImpl implements IUserService{
                 handleResult.setErrorMsg("username exist");
             }else {
                 userMapper.insertSelective(user);
+                user.setPassword(null);
                 handleResult.setResult(user);
             }
         }catch (Exception e){
