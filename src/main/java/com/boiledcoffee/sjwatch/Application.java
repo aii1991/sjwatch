@@ -14,12 +14,14 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 @ServletComponentScan("com.boiledcoffee.sjwatch.servlet")
 @MapperScan("com.boiledcoffee.sjwatch.dao")
 public class Application extends SpringBootServletInitializer{
+    private static Class<Application> applicationClass = Application.class;
+
     public static void main(String[] args) {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(applicationClass,args);
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-        return builder.sources(Application.class);
+        return builder.sources(applicationClass);
     }
 }
