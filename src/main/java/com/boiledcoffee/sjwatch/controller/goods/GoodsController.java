@@ -90,8 +90,8 @@ public class GoodsController extends BaseController {
         return goodsService.findAllGoods(page,pageSize,goodQuery,uid);
     }
 
-    @RequestMapping(value = "/goods",method = RequestMethod.DELETE)
-    public HandleResult<Map> deleteGoods(long id){
+    @RequestMapping(value = "/goods/{id}",method = RequestMethod.DELETE)
+    public HandleResult<Map> deleteGoods(@PathVariable long id){
         return goodsService.deleteGoodsById(id);
     }
 
