@@ -1,5 +1,6 @@
 package com.boiledcoffee.sjwatch.service.goods;
 
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
@@ -34,7 +35,7 @@ public interface IGoodsService {
      * @param goodQuery
      * @return
      */
-    HandleResult<List<Goods>> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
+    HandleResult<PageRspData> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
 
     /**
      * 通过商品id删除商品

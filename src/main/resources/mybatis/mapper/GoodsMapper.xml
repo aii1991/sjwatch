@@ -225,11 +225,11 @@
     ,
     <include refid="Blob_Column_List" />
     FROM t_goods WHERE 1 = 1
-    <if test="goodQuery.name != null">
+    <if test="goodQuery.name != null and goodQuery.name != ''">
       <bind name="Name_Pattern" value="'%' + goodQuery.name + '%'" />
       AND name LIKE #{Name_Pattern}
     </if>
-    <if test="goodQuery.number != null" >
+    <if test="goodQuery.number != null and goodQuery.number != ''" >
       <bind name="Number_Pattern" value="'%' + goodQuery.number + '%'" />
       AND number LIKE #{Number_Pattern}
     </if>

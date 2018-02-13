@@ -3,12 +3,14 @@ package com.boiledcoffee.sjwatch.service.goods.impl;
 import com.boiledcoffee.sjwatch.dao.BrandMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsTypeMapper;
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -65,14 +67,17 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<List<Goods>> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
-        HandleResult<List<Goods>> handleResult = new HandleResult<>();
+    public HandleResult<PageRspData> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
+        HandleResult<PageRspData> handleResult = new HandleResult<>();
         int offSet = page * pageSize;
         try {
-            PageHelper.startPage(page,pageSize);
+            Page page1 = PageHelper.startPage(page, pageSize, true);
             int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
-            List<Goods> goodsList = goodsMapper.findAllGoods(offSet, pageSize,goodQuery, isAdmin);
-            handleResult.setResult(goodsList);
+            List<Goods> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodQuery, isAdmin);
+            long total = page1.getTotal();
+            PageRspData<Goods> pageRspData = new PageRspData<>(total,goodsList);
+            handleResult.setResult(pageRspData);
+
         }catch (Exception e){
             e.printStackTrace();
             handleResult.setErrorMsg(e.getMessage());

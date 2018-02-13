@@ -1,6 +1,7 @@
 package com.boiledcoffee.sjwatch.controller.goods;
 
 import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
@@ -74,7 +75,7 @@ public class GoodsController extends BaseController {
     }
 
     @RequestMapping(value = "/goods/{page}/{page_size}",method = RequestMethod.GET)
-    public HandleResult<List<Goods>> listGoods(HttpServletRequest request,@PathVariable(value = "page")int page,@PathVariable(value = "page_size")int pageSize,@RequestParam(name = "param",required = false) String queryParam){
+    public HandleResult<PageRspData> listGoods(HttpServletRequest request,@PathVariable(value = "page")int page,@PathVariable(value = "page_size")int pageSize,@RequestParam(name = "param",required = false) String queryParam){
         GoodQuery goodQuery;
         try {
             if (!StringUtils.isEmpty(queryParam)){
@@ -89,8 +90,8 @@ public class GoodsController extends BaseController {
         return goodsService.findAllGoods(page,pageSize,goodQuery,uid);
     }
 
-    @RequestMapping(value = "/goods",method = RequestMethod.DELETE)
-    public HandleResult<Map> deleteGoods(long id){
+    @RequestMapping(value = "/goods/{id}",method = RequestMethod.DELETE)
+    public HandleResult<Map> deleteGoods(@PathVariable long id){
         return goodsService.deleteGoodsById(id);
     }
 
