@@ -29,6 +29,8 @@ public class User {
 
     private Date modifyTime;
 
+    private String uploadToken;
+
     public Long getId() {
         return id;
     }
@@ -123,5 +125,13 @@ public class User {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getUploadToken() {
+        return uploadToken;
+    }
+
+    public void setUploadToken(String uploadToken) {
+        this.uploadToken = uploadToken;
     }
 }

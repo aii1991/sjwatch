@@ -1,9 +1,11 @@
 package com.boiledcoffee.sjwatch.service.user.impl;
 
 import com.boiledcoffee.sjwatch.dao.UserMapper;
+import com.boiledcoffee.sjwatch.model.QiniuProperties;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
+import com.boiledcoffee.sjwatch.util.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class UserServiceImpl implements IUserService{
     StringRedisTemplate stringRedisTemplate;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    QiniuProperties qiniuProperties;
 
     @Override
     public HandleResult<User> login(String userName,String password) {
@@ -36,6 +40,7 @@ public class UserServiceImpl implements IUserService{
                     stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,2,TimeUnit.HOURS);
                     stringRedisTemplate.opsForValue().set("isAdmin/" + findUser.getId(),findUser.getRoleId() == 1 ? "1" : "0");
                     findUser.setPassword(null);
+                    findUser.setUploadToken(QiniuUtils.generatorToken(qiniuProperties.getAk(),qiniuProperties.getSk(),qiniuProperties.getBucket()));
                     handleResult.setResult(findUser);
                 }else {
                     //账号密码错误

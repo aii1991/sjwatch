@@ -1,7 +1,7 @@
 debug: true
 spring:
   datasource:
-              url: jdbc:mysql://192.168.56.128:3306/sjwatch?useUnicode=true&characterEncoding=UTF-8
+              url: jdbc:mysql://192.168.126.130:3306/sjwatch?useUnicode=true&characterEncoding=UTF-8
               username: root
               password: 123456
               driver-class-name: com.mysql.jdbc.Driver
@@ -11,7 +11,7 @@ spring:
 
 redis:
         database: 0
-        host: 192.168.56.128
+        host: 192.168.126.130
         port: 6379
         password: 123456
         timeout: 3000
@@ -34,4 +34,10 @@ logging:
     com.boiledcoffee.sjwatch: DEBUG
   file: ./logs/sjwathc.log
   root: INFO
+
+qiniu:
+  ak: 6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ
+  sk: 7l7arEeXadKEVSxBX3WIx-xKPgsVQvvKuuExpXGu
+  bucket: sjwatch
+
 
