@@ -53,6 +53,9 @@ export default {
       })
     },
     handleClick(row, event, column) {
+      if (event) {
+        event.stopPropagation()
+      }
       this.$router.push({
         name: 'goods',
         params: {

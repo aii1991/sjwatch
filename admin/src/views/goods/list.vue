@@ -13,7 +13,7 @@
         </el-form-item>
       </el-form>
     </div>
-    <el-table :data="goodsData" style="width: 100%" v-loading.fullscreen.lock="loading" empty-text="无">
+    <el-table :data="goodsData" style="width: 100%" v-loading.fullscreen.lock="loading" empty-text="无" @row-click="handleClick">
       <el-table-column fixed prop="id" label="id" ></el-table-column>
       <el-table-column label="类型" >
         <template slot-scope="scope">
@@ -94,6 +94,21 @@ export default {
       }).catch((reason) => {
         this.loading = false
         this.$message({ showClose: true, message: '列表加载失败请刷新重试', type: 'error' })
+      })
+    },
+    handleClick(row, event, column) {
+      if (event) {
+        event.stopPropagation()
+      }
+      this.$router.push({
+        name: 'goodsDetail',
+        params: {
+          param: {
+            type: this.goodsTypeId,
+            tBId: this.goodsBrandId,
+            data: row
+          }
+        }
       })
     },
     handlePageChange(currentPage) {

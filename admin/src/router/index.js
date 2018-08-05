@@ -69,11 +69,19 @@ export const constantRouterMap = [
       },
       {
         hidden: true,
-        path: 'goods/edit/:param',
+        path: 'edit/:param',
         name: 'goodsEdit',
         component: () => import('@/views/goods/edit'),
         props: true,
         meta: { title: '编辑', icon: 'goods' }
+      },
+      {
+        hidden: true,
+        path: 'detail/:param',
+        name: 'goodsDetail',
+        component: () => import('@/views/goods/detail'),
+        props: true,
+        meta: { title: '详情', icon: 'goods' }
       },
       {
         path: 'type',
