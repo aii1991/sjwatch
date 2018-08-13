@@ -1,19 +1,20 @@
 package com.boiledcoffee.sjwatch.dao;
 
 import com.boiledcoffee.sjwatch.model.entity.Goods;
+import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
 
 public interface GoodsMapper {
     int deleteByPrimaryKey(Long id);
 
-    int insert(Goods record);
+    int insert(GoodsWithBLOBs record);
 
-    int insertSelective(Goods record);
+    int insertSelective(GoodsWithBLOBs record);
 
-    Goods selectByPrimaryKey(Long id);
+    GoodsWithBLOBs selectByPrimaryKey(Long id);
 
-    int updateByPrimaryKeySelective(Goods record);
+    int updateByPrimaryKeySelective(GoodsWithBLOBs record);
 
-    int updateByPrimaryKeyWithBLOBs(Goods record);
+    int updateByPrimaryKeyWithBLOBs(GoodsWithBLOBs record);
 
     int updateByPrimaryKey(Goods record);
 }

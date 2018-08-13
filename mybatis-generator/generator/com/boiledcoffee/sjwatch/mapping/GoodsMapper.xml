@@ -11,20 +11,19 @@
     <result column="wholesale" property="wholesale" jdbcType="DOUBLE" />
     <result column="purchase_price" property="purchasePrice" jdbcType="DOUBLE" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
-    <result column="sources" property="sources" jdbcType="VARCHAR" />
-    <result column="brand" property="brand" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.Goods" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" extends="BaseResultMap" >
     <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
+    <result column="sources" property="sources" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, t_b_id, name, number, type, sale_price, wholesale, purchase_price, stock, sources, 
-    brand, create_time, modify_time
+    id, t_b_id, name, number, type, sale_price, wholesale, purchase_price, stock, create_time, 
+    modify_time
   </sql>
   <sql id="Blob_Column_List" >
-    descr
+    descr, sources
   </sql>
   <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
@@ -38,19 +37,19 @@
     delete from t_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     insert into t_goods (id, t_b_id, name, 
       number, type, sale_price, 
       wholesale, purchase_price, stock, 
-      sources, brand, create_time, 
-      modify_time, descr)
+      create_time, modify_time, descr, 
+      sources)
     values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
       #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE}, 
       #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER}, 
-      #{sources,jdbcType=VARCHAR}, #{brand,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{modifyTime,jdbcType=TIMESTAMP}, #{descr,jdbcType=LONGVARCHAR})
+      #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{descr,jdbcType=LONGVARCHAR}, 
+      #{sources,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     insert into t_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -80,12 +79,6 @@
       <if test="stock != null" >
         stock,
       </if>
-      <if test="sources != null" >
-        sources,
-      </if>
-      <if test="brand != null" >
-        brand,
-      </if>
       <if test="createTime != null" >
         create_time,
       </if>
@@ -94,6 +87,9 @@
       </if>
       <if test="descr != null" >
         descr,
+      </if>
+      <if test="sources != null" >
+        sources,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -124,12 +120,6 @@
       <if test="stock != null" >
         #{stock,jdbcType=INTEGER},
       </if>
-      <if test="sources != null" >
-        #{sources,jdbcType=VARCHAR},
-      </if>
-      <if test="brand != null" >
-        #{brand,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -139,9 +129,12 @@
       <if test="descr != null" >
         #{descr,jdbcType=LONGVARCHAR},
       </if>
+      <if test="sources != null" >
+        #{sources,jdbcType=LONGVARCHAR},
+      </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     update t_goods
     <set >
       <if test="tBId != null" >
@@ -168,12 +161,6 @@
       <if test="stock != null" >
         stock = #{stock,jdbcType=INTEGER},
       </if>
-      <if test="sources != null" >
-        sources = #{sources,jdbcType=VARCHAR},
-      </if>
-      <if test="brand != null" >
-        brand = #{brand,jdbcType=INTEGER},
-      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -183,10 +170,13 @@
       <if test="descr != null" >
         descr = #{descr,jdbcType=LONGVARCHAR},
       </if>
+      <if test="sources != null" >
+        sources = #{sources,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     update t_goods
     set t_b_id = #{tBId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
@@ -196,11 +186,10 @@
       wholesale = #{wholesale,jdbcType=DOUBLE},
       purchase_price = #{purchasePrice,jdbcType=DOUBLE},
       stock = #{stock,jdbcType=INTEGER},
-      sources = #{sources,jdbcType=VARCHAR},
-      brand = #{brand,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      descr = #{descr,jdbcType=LONGVARCHAR}
+      descr = #{descr,jdbcType=LONGVARCHAR},
+      sources = #{sources,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Goods" >
@@ -213,8 +202,6 @@
       wholesale = #{wholesale,jdbcType=DOUBLE},
       purchase_price = #{purchasePrice,jdbcType=DOUBLE},
       stock = #{stock,jdbcType=INTEGER},
-      sources = #{sources,jdbcType=VARCHAR},
-      brand = #{brand,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}

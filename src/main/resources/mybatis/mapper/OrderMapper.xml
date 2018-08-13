@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boiledcoffee.sjwatch.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="no" property="no" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="CHAR" />
+    <result column="receiver_name" property="receiverName" jdbcType="CHAR" />
+    <result column="receiver_number" property="receiverNumber" jdbcType="INTEGER" />
+    <result column="delivery_number" property="deliveryNumber" jdbcType="INTEGER" />
+    <result column="good_id" property="goodId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, no, status, address, receiver_name, receiver_number, delivery_number, good_id, 
+    create_time, modify_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+    insert into t_order (id, no, status, 
+      address, receiver_name, receiver_number, 
+      delivery_number, good_id, create_time, 
+      modify_time)
+    values (#{id,jdbcType=BIGINT}, #{no,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{address,jdbcType=CHAR}, #{receiverName,jdbcType=CHAR}, #{receiverNumber,jdbcType=INTEGER}, 
+      #{deliveryNumber,jdbcType=INTEGER}, #{goodId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="no != null" >
+        no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="receiverName != null" >
+        receiver_name,
+      </if>
+      <if test="receiverNumber != null" >
+        receiver_number,
+      </if>
+      <if test="deliveryNumber != null" >
+        delivery_number,
+      </if>
+      <if test="goodId != null" >
+        good_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="no != null" >
+        #{no,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=CHAR},
+      </if>
+      <if test="receiverName != null" >
+        #{receiverName,jdbcType=CHAR},
+      </if>
+      <if test="receiverNumber != null" >
+        #{receiverNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNumber != null" >
+        #{deliveryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        #{goodId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+    update t_order
+    <set >
+      <if test="no != null" >
+        no = #{no,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=CHAR},
+      </if>
+      <if test="receiverName != null" >
+        receiver_name = #{receiverName,jdbcType=CHAR},
+      </if>
+      <if test="receiverNumber != null" >
+        receiver_number = #{receiverNumber,jdbcType=INTEGER},
+      </if>
+      <if test="deliveryNumber != null" >
+        delivery_number = #{deliveryNumber,jdbcType=INTEGER},
+      </if>
+      <if test="goodId != null" >
+        good_id = #{goodId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+    update t_order
+    set no = #{no,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      address = #{address,jdbcType=CHAR},
+      receiver_name = #{receiverName,jdbcType=CHAR},
+      receiver_number = #{receiverNumber,jdbcType=INTEGER},
+      delivery_number = #{deliveryNumber,jdbcType=INTEGER},
+      good_id = #{goodId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

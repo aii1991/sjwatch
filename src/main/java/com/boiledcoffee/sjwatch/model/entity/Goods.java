@@ -21,13 +21,9 @@ public class Goods {
 
     private Integer stock;
 
-    private String sources;
-
     private Date createTime;
 
     private Date modifyTime;
-
-    private String descr;
 
     public Long getId() {
         return id;
@@ -101,14 +97,6 @@ public class Goods {
         this.stock = stock;
     }
 
-    public String getSources() {
-        return sources;
-    }
-
-    public void setSources(String sources) {
-        this.sources = sources == null ? null : sources.trim();
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -123,13 +111,5 @@ public class Goods {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
-    }
-
-    public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String descr) {
-        this.descr = descr == null ? null : descr.trim();
     }
 }

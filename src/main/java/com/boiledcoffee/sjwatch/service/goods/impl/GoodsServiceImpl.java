@@ -5,6 +5,7 @@ import com.boiledcoffee.sjwatch.dao.GoodsMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsTypeMapper;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
+import com.boiledcoffee.sjwatch.model.entity.BrandType;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
@@ -200,6 +201,26 @@ public class GoodsServiceImpl implements IGoodsService{
             handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
+    }
+
+    @Override
+    public HandleResult<BrandType> insertBrandType(BrandType brandType) {
+        return null;
+    }
+
+    @Override
+    public HandleResult<BrandType> modifyBrandType(BrandType brandType) {
+        return null;
+    }
+
+    @Override
+    public HandleResult<List<BrandType>> findBrandTypeById(long brandId) {
+        return null;
+    }
+
+    @Override
+    public HandleResult<Map> deleteBrandTypeById(long brandTypeId) {
+        return null;
     }
 
 }

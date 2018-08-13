@@ -2,6 +2,7 @@ package com.boiledcoffee.sjwatch.service.goods;
 
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
+import com.boiledcoffee.sjwatch.model.entity.BrandType;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
@@ -82,5 +83,33 @@ public interface IGoodsService {
      * @return
      */
     HandleResult<Map> deleteBrandById(long id);
+
+    /**
+     * 插入品牌类型
+     * @param brandType
+     * @return
+     */
+    HandleResult<BrandType> insertBrandType(BrandType brandType);
+
+    /**
+     * 修改品牌类型
+     * @param brandType
+     * @return
+     */
+    HandleResult<BrandType> modifyBrandType(BrandType brandType);
+
+    /**
+     * 根据品牌id查找该品牌下有那几种类型  如手表卡西欧品牌下有 男表 女表等
+     * @param brandId
+     * @return
+     */
+    HandleResult<List<BrandType>> findBrandTypeById(long brandId);
+
+    /**
+     * 根据品牌类型id删除品牌类型
+     * @param brandTypeId
+     * @return
+     */
+    HandleResult<Map> deleteBrandTypeById(long brandTypeId);
 
 }

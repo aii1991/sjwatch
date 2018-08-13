@@ -1,14 +1,18 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/1/26 14:22:12                           */
+/* Created on:     2018/8/6 11:39:14                            */
 /*==============================================================*/
 
 
 drop table if exists t_brand;
 
+drop table if exists t_brand_type;
+
 drop table if exists t_goods;
 
 drop table if exists t_goods_type;
+
+drop table if exists t_order;
 
 drop table if exists t_role;
 
@@ -25,10 +29,21 @@ create table t_brand
 (
    id                   bigint not null auto_increment,
    name                 varchar(30),
-   logo                 varchar(150),
+   logo                 varchar(300),
    goods_type_id        bigint default NULL,
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: t_brand_type                                          */
+/*==============================================================*/
+create table t_brand_type
+(
+   name                 char(30),
+   brand_id             bigint,
+   id                   bigint not null auto_increment,
    primary key (id)
 );
 
@@ -47,8 +62,7 @@ create table t_goods
    purchase_price       double,
    stock                int,
    descr                text,
-   sources              varchar(300),
-   brand                int,
+   sources              text comment 'json数组格式',
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
@@ -63,6 +77,24 @@ create table t_goods_type
    name                 varchar(30),
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   primary key (id)
+);
+
+/*==============================================================*/
+/* Table: t_order                                               */
+/*==============================================================*/
+create table t_order
+(
+   id                   bigint not null auto_increment,
+   no                   int,
+   status               int(2),
+   address              char(200),
+   receiver_name        char(50),
+   receiver_number      int(15),
+   delivery_number      int,
+   good_id              bigint,
+   create_time          timestamp,
+   modify_time          timestamp,
    primary key (id)
 );
 
@@ -129,11 +161,17 @@ create table t_user_log
 alter table t_brand add constraint FK_Reference_3 foreign key (goods_type_id)
       references t_goods_type (id) on delete restrict on update restrict;
 
+alter table t_brand_type add constraint FK_Reference_7 foreign key (brand_id)
+      references t_brand (id) on delete restrict on update restrict;
+
 alter table t_goods add constraint FK_Reference_1 foreign key (type)
       references t_goods_type (id) on delete restrict on update restrict;
 
 alter table t_goods add constraint FK_Reference_2 foreign key (t_b_id)
       references t_brand (id) on delete restrict on update restrict;
+
+alter table t_order add constraint FK_Reference_8 foreign key (good_id)
+      references t_goods (id) on delete restrict on update restrict;
 
 alter table t_user add constraint FK_Reference_5 foreign key (role_id)
       references t_role (id) on delete restrict on update restrict;
