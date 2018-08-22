@@ -38,7 +38,6 @@ public class InitListener implements ServletContextListener{
             admin.setPassword("123456");
             admin.setRoleId(role1.getId());
             userService.register(admin);
-
         }
         Logger.getInstance(this.getClass()).debug("=========init success=======");
     }

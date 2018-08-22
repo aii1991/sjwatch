@@ -1,12 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/8/6 11:39:14                            */
+/* Created on:     2018/8/20 14:15:29                           */
 /*==============================================================*/
 
 
 drop table if exists t_brand;
-
-drop table if exists t_brand_type;
 
 drop table if exists t_goods;
 
@@ -33,17 +31,8 @@ create table t_brand
    goods_type_id        bigint default NULL,
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   primary key (id)
-);
-
-/*==============================================================*/
-/* Table: t_brand_type                                          */
-/*==============================================================*/
-create table t_brand_type
-(
-   name                 char(30),
-   brand_id             bigint,
-   id                   bigint not null auto_increment,
+   category_id          int,
+   category_name        char(30),
    primary key (id)
 );
 
@@ -160,9 +149,6 @@ create table t_user_log
 
 alter table t_brand add constraint FK_Reference_3 foreign key (goods_type_id)
       references t_goods_type (id) on delete restrict on update restrict;
-
-alter table t_brand_type add constraint FK_Reference_7 foreign key (brand_id)
-      references t_brand (id) on delete restrict on update restrict;
 
 alter table t_goods add constraint FK_Reference_1 foreign key (type)
       references t_goods_type (id) on delete restrict on update restrict;

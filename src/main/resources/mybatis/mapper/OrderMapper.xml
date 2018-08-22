@@ -3,18 +3,18 @@
 <mapper namespace="com.boiledcoffee.sjwatch.dao.OrderMapper" >
   <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Order" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="no" property="no" jdbcType="INTEGER" />
+    <result column="no" property="no" jdbcType="BIGINT" />
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="address" property="address" jdbcType="CHAR" />
     <result column="receiver_name" property="receiverName" jdbcType="CHAR" />
-    <result column="receiver_number" property="receiverNumber" jdbcType="INTEGER" />
+    <result column="receiver_number" property="receiverNumber" jdbcType="CHAR" />
     <result column="delivery_number" property="deliveryNumber" jdbcType="INTEGER" />
-    <result column="good_id" property="goodId" jdbcType="BIGINT" />
+    <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, no, status, address, receiver_name, receiver_number, delivery_number, good_id, 
+    id, no, status, address, receiver_name, receiver_number, delivery_number, goods_id, 
     create_time, modify_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -27,17 +27,17 @@
     delete from t_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
     insert into t_order (id, no, status, 
       address, receiver_name, receiver_number, 
-      delivery_number, good_id, create_time, 
+      delivery_number, goods_id, create_time, 
       modify_time)
     values (#{id,jdbcType=BIGINT}, #{no,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
-      #{address,jdbcType=CHAR}, #{receiverName,jdbcType=CHAR}, #{receiverNumber,jdbcType=INTEGER}, 
-      #{deliveryNumber,jdbcType=INTEGER}, #{goodId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{address,jdbcType=CHAR}, #{receiverName,jdbcType=CHAR}, #{receiverNumber,jdbcType=CHAR},
+      #{deliveryNumber,jdbcType=INTEGER}, #{goodsId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP},
       #{modifyTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Order" >
     insert into t_order
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -61,8 +61,8 @@
       <if test="deliveryNumber != null" >
         delivery_number,
       </if>
-      <if test="goodId != null" >
-        good_id,
+      <if test="goodsId != null" >
+        goods_id,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -88,13 +88,13 @@
         #{receiverName,jdbcType=CHAR},
       </if>
       <if test="receiverNumber != null" >
-        #{receiverNumber,jdbcType=INTEGER},
+        #{receiverNumber,jdbcType=CHAR},
       </if>
       <if test="deliveryNumber != null" >
         #{deliveryNumber,jdbcType=INTEGER},
       </if>
-      <if test="goodId != null" >
-        #{goodId,jdbcType=BIGINT},
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -120,13 +120,13 @@
         receiver_name = #{receiverName,jdbcType=CHAR},
       </if>
       <if test="receiverNumber != null" >
-        receiver_number = #{receiverNumber,jdbcType=INTEGER},
+        receiver_number = #{receiverNumber,jdbcType=CHAR},
       </if>
       <if test="deliveryNumber != null" >
         delivery_number = #{deliveryNumber,jdbcType=INTEGER},
       </if>
-      <if test="goodId != null" >
-        good_id = #{goodId,jdbcType=BIGINT},
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=BIGINT},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -143,11 +143,27 @@
       status = #{status,jdbcType=INTEGER},
       address = #{address,jdbcType=CHAR},
       receiver_name = #{receiverName,jdbcType=CHAR},
-      receiver_number = #{receiverNumber,jdbcType=INTEGER},
+      receiver_number = #{receiverNumber,jdbcType=CHAR},
       delivery_number = #{deliveryNumber,jdbcType=INTEGER},
-      good_id = #{goodId,jdbcType=BIGINT},
+      goods_id = #{goodsId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+
+  <select id="findAllOrders" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+    <if test="sort == 1">
+      modify_time ASC
+    </if>
+    <if test="sort == 2">
+      modify_time DESC
+    </if>
+  </select>
+
 </mapper>

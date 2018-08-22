@@ -5,7 +5,7 @@ import java.util.Date;
 public class Order {
     private Long id;
 
-    private Integer no;
+    private Long no;
 
     private Integer status;
 
@@ -13,11 +13,11 @@ public class Order {
 
     private String receiverName;
 
-    private Integer receiverNumber;
+    private String receiverNumber;
 
     private Integer deliveryNumber;
 
-    private Long goodId;
+    private Long goodsId;
 
     private Date createTime;
 
@@ -31,11 +31,11 @@ public class Order {
         this.id = id;
     }
 
-    public Integer getNo() {
+    public Long getNo() {
         return no;
     }
 
-    public void setNo(Integer no) {
+    public void setNo(Long no) {
         this.no = no;
     }
 
@@ -63,11 +63,11 @@ public class Order {
         this.receiverName = receiverName == null ? null : receiverName.trim();
     }
 
-    public Integer getReceiverNumber() {
+    public String getReceiverNumber() {
         return receiverNumber;
     }
 
-    public void setReceiverNumber(Integer receiverNumber) {
+    public void setReceiverNumber(String receiverNumber) {
         this.receiverNumber = receiverNumber;
     }
 
@@ -79,12 +79,12 @@ public class Order {
         this.deliveryNumber = deliveryNumber;
     }
 
-    public Long getGoodId() {
-        return goodId;
+    public Long getGoodsId() {
+        return goodsId;
     }
 
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
+    public void setGoodsId(Long goodsId) {
+        this.goodsId = goodsId;
     }
 
     public Date getCreateTime() {

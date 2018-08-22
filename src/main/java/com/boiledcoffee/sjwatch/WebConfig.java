@@ -30,7 +30,9 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         interceptorRegistry
                 .addInterceptor(authInterceptor)
                 .addPathPatterns("/rest/v1/**")
-                .excludePathPatterns("/rest/v1/user/**");
+                .excludePathPatterns("/rest/v1/user/**")
+                .excludePathPatterns("/rest/v1/sms/**")
+                .excludePathPatterns("/rest/v1/mobile/**");
     }
 
     @Override

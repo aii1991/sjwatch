@@ -5,10 +5,10 @@ import com.boiledcoffee.sjwatch.dao.GoodsMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsTypeMapper;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
-import com.boiledcoffee.sjwatch.model.entity.BrandType;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
 import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
 import com.github.pagehelper.Page;
@@ -23,6 +23,7 @@ import java.util.Map;
 
 /**
  * Created by juha on 2018/1/11.
+ *
  */
 @Service("goodsService")
 public class GoodsServiceImpl implements IGoodsService{
@@ -36,8 +37,8 @@ public class GoodsServiceImpl implements IGoodsService{
     StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public HandleResult<Goods> insertGoods(Goods goods) {
-        HandleResult<Goods> handleResult = new HandleResult<>();
+    public HandleResult<GoodsWithBLOBs> insertGoods(GoodsWithBLOBs goods) {
+        HandleResult<GoodsWithBLOBs> handleResult = new HandleResult<>();
         try{
             long goodsId = goodsMapper.insertSelective(goods);
             if (goodsId > 0){
@@ -52,8 +53,8 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<Goods> modifyGoods(Goods goods) {
-        HandleResult<Goods> handleResult = new HandleResult<>();
+    public HandleResult<GoodsWithBLOBs> modifyGoods(GoodsWithBLOBs goods) {
+        HandleResult<GoodsWithBLOBs> handleResult = new HandleResult<>();
         try{
             int resultId = goodsMapper.updateByPrimaryKeySelective(goods);
             if (resultId > 0){
@@ -68,15 +69,15 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<PageRspData> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
-        HandleResult<PageRspData> handleResult = new HandleResult<>();
+    public HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
+        HandleResult<PageRspData<GoodsWithBLOBs>> handleResult = new HandleResult<>();
         int offSet = page * pageSize;
         try {
             Page page1 = PageHelper.startPage(page, pageSize, true);
             int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
-            List<Goods> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodQuery, isAdmin);
+            List<GoodsWithBLOBs> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodQuery, isAdmin);
             long total = page1.getTotal();
-            PageRspData<Goods> pageRspData = new PageRspData<>(total,goodsList);
+            PageRspData<GoodsWithBLOBs> pageRspData = new PageRspData<>(total,goodsList);
             handleResult.setResult(pageRspData);
 
         }catch (Exception e){
@@ -202,25 +203,4 @@ public class GoodsServiceImpl implements IGoodsService{
         }
         return handleResult;
     }
-
-    @Override
-    public HandleResult<BrandType> insertBrandType(BrandType brandType) {
-        return null;
-    }
-
-    @Override
-    public HandleResult<BrandType> modifyBrandType(BrandType brandType) {
-        return null;
-    }
-
-    @Override
-    public HandleResult<List<BrandType>> findBrandTypeById(long brandId) {
-        return null;
-    }
-
-    @Override
-    public HandleResult<Map> deleteBrandTypeById(long brandTypeId) {
-        return null;
-    }
-
 }

@@ -11,7 +11,7 @@ spring:
 
 redis:
         database: 0
-        host: 192.168.56.128
+        host: 23.83.229.84
         port: 6379
         password: 123456
         timeout: 3000
@@ -39,5 +39,17 @@ qiniu:
   ak: 6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ
   sk: 7l7arEeXadKEVSxBX3WIx-xKPgsVQvvKuuExpXGu
   bucket: sjwatch
+
+ali-sms:
+  ak: 123
+  sk: 123
+  signName: "张俊洪"
+  templateCode: "SMS_1000000"
+
+sj-config:
+  # 用户token有效时长 单位小时
+  tokenValidTime: 2
+  # 短信验证码有效时长 单位分钟
+  smsValidTime: 5
 
 

@@ -8,9 +8,11 @@
     <result column="goods_type_id" property="goodsTypeId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, logo, goods_type_id, create_time, modify_time
+    id, name, logo, goods_type_id, create_time, modify_time, category_id, category_name
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
@@ -22,15 +24,15 @@
     delete from t_brand
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyProperty="id" useGeneratedKeys="true"  parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
     insert into t_brand (id, name, logo,
-    goods_type_id, create_time, modify_time
-    )
+    goods_type_id, create_time, modify_time,
+    category_id, category_name)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR},
-    #{goodsTypeId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}
-    )
+    #{goodsTypeId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+    #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
     insert into t_brand
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -50,6 +52,12 @@
       </if>
       <if test="modifyTime != null" >
         modify_time,
+      </if>
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -71,6 +79,12 @@
       <if test="modifyTime != null" >
         #{modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=CHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
@@ -91,6 +105,12 @@
       <if test="modifyTime != null" >
         modify_time = #{modifyTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="categoryId != null" >
+        category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=CHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -100,16 +120,9 @@
     logo = #{logo,jdbcType=VARCHAR},
     goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
     create_time = #{createTime,jdbcType=TIMESTAMP},
-    modify_time = #{modifyTime,jdbcType=TIMESTAMP}
+    modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+    category_id = #{categoryId,jdbcType=INTEGER},
+    category_name = #{categoryName,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <select id="findSelectiveAll" resultMap="BaseResultMap">
-    SELECT
-    <include refid="Base_Column_List" />
-    FROM t_brand
-    <if test="type_id != -1">
-      WHERE goods_type_id = #{type_id,jdbcType=BIGINT}
-    </if>
-
-  </select>
 </mapper>

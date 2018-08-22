@@ -2,10 +2,10 @@ package com.boiledcoffee.sjwatch.service.goods;
 
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
-import com.boiledcoffee.sjwatch.model.entity.BrandType;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
 import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 
 import java.util.List;
@@ -20,14 +20,14 @@ public interface IGoodsService {
      * @param goods
      * @return
      */
-    HandleResult<Goods> insertGoods(Goods goods);
+    HandleResult<GoodsWithBLOBs> insertGoods(GoodsWithBLOBs goods);
 
     /**
      * 修改商品
      * @param goods
      * @return
      */
-    HandleResult<Goods> modifyGoods(Goods goods);
+    HandleResult<GoodsWithBLOBs> modifyGoods(GoodsWithBLOBs goods);
 
     /**
      * 查找商品
@@ -36,7 +36,7 @@ public interface IGoodsService {
      * @param goodQuery
      * @return
      */
-    HandleResult<PageRspData> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
+    HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
 
     /**
      * 通过商品id删除商品
@@ -83,33 +83,4 @@ public interface IGoodsService {
      * @return
      */
     HandleResult<Map> deleteBrandById(long id);
-
-    /**
-     * 插入品牌类型
-     * @param brandType
-     * @return
-     */
-    HandleResult<BrandType> insertBrandType(BrandType brandType);
-
-    /**
-     * 修改品牌类型
-     * @param brandType
-     * @return
-     */
-    HandleResult<BrandType> modifyBrandType(BrandType brandType);
-
-    /**
-     * 根据品牌id查找该品牌下有那几种类型  如手表卡西欧品牌下有 男表 女表等
-     * @param brandId
-     * @return
-     */
-    HandleResult<List<BrandType>> findBrandTypeById(long brandId);
-
-    /**
-     * 根据品牌类型id删除品牌类型
-     * @param brandTypeId
-     * @return
-     */
-    HandleResult<Map> deleteBrandTypeById(long brandTypeId);
-
 }

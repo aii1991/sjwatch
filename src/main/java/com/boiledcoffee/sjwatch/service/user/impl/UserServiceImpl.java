@@ -2,6 +2,7 @@ package com.boiledcoffee.sjwatch.service.user.impl;
 
 import com.boiledcoffee.sjwatch.dao.UserMapper;
 import com.boiledcoffee.sjwatch.model.QiniuProperties;
+import com.boiledcoffee.sjwatch.model.SJProperties;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
@@ -26,6 +27,8 @@ public class UserServiceImpl implements IUserService{
     UserMapper userMapper;
     @Autowired
     QiniuProperties qiniuProperties;
+    @Autowired
+    SJProperties sjProperties;
 
     @Override
     public HandleResult<User> login(String userName,String password) {
@@ -37,7 +40,7 @@ public class UserServiceImpl implements IUserService{
                 if (findPassword.equals(password)){
                     //登录成功
                     String token = createAndSaveAccessToken(findUser);
-                    stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,2,TimeUnit.HOURS);
+                    stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,sjProperties.getTokenValidTime(),TimeUnit.HOURS);
                     stringRedisTemplate.opsForValue().set("isAdmin/" + findUser.getId(),findUser.getRoleId() == 1 ? "1" : "0");
                     findUser.setPassword(null);
                     findUser.setUploadToken(QiniuUtils.generatorToken(qiniuProperties.getAk(),qiniuProperties.getSk(),qiniuProperties.getBucket()));

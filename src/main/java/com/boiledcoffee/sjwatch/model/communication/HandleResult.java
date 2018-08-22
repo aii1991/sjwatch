@@ -20,8 +20,7 @@ public class HandleResult<T> {
         return setStatus(BussinessCode.SUCCESS.getCode());
     }
 
-    public HandleResult<T> updateStatusToError(String errorMsg){
-        setErrorMsg(errorMsg);
+    public HandleResult<T> updateStatusToError(){
         return setStatus(BussinessCode.ERROR.getCode());
     }
 
@@ -31,6 +30,7 @@ public class HandleResult<T> {
         return this;
     }
     public HandleResult<T> setErrorMsg(String errorMsg) {
+        updateStatusToError();
         this.errorMsg = errorMsg;
         return this;
     }

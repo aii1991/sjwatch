@@ -6,6 +6,7 @@ import com.boiledcoffee.sjwatch.model.entity.Brand;
 import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
 import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,17 +66,17 @@ public class GoodsController extends BaseController {
     }
 
     @RequestMapping(value = "/goods",method = RequestMethod.POST)
-    public HandleResult<Goods> addGoods(@RequestBody Goods goods){
+    public HandleResult<GoodsWithBLOBs> addGoods(@RequestBody GoodsWithBLOBs goods){
         return goodsService.insertGoods(goods);
     }
 
     @RequestMapping(value = "/goods",method = RequestMethod.PUT)
-    public HandleResult<Goods> modifyGoods(@RequestBody Goods goods){
+    public HandleResult<GoodsWithBLOBs> modifyGoods(@RequestBody GoodsWithBLOBs goods){
         return goodsService.modifyGoods(goods);
     }
 
     @RequestMapping(value = "/goods/{page}/{page_size}",method = RequestMethod.GET)
-    public HandleResult<PageRspData> listGoods(HttpServletRequest request,@PathVariable(value = "page")int page,@PathVariable(value = "page_size")int pageSize,@RequestParam(name = "param",required = false) String queryParam){
+    public HandleResult<PageRspData<GoodsWithBLOBs>> listGoods(HttpServletRequest request,@PathVariable(value = "page")int page,@PathVariable(value = "page_size")int pageSize,@RequestParam(name = "param",required = false) String queryParam){
         GoodQuery goodQuery;
         try {
             if (!StringUtils.isEmpty(queryParam)){

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by juha on 2018/1/11.
+ *
  */
 @Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
