@@ -56,6 +56,7 @@ public class SmsServiceImpl implements ISmsService{
         String verifyCode = GeneratorUtils.generateSmSVerifyCode();
 
         if (isDebug){ //调试环境下不调用发送短信接口
+            stringRedisTemplate.opsForValue().set(phoneNumber,verifyCode,sjProperties.getSmsValidTime(), TimeUnit.MINUTES);
             Map<String,String> map = new HashMap<>();
             map.put("code",verifyCode);
             handleResult.setResult(map);

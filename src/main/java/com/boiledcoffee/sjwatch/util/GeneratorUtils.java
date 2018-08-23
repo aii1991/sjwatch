@@ -22,4 +22,12 @@ public class GeneratorUtils {
         }
         return verifyBuilder.toString();
     }
+
+    /**
+     * 生成订单号
+     * @return
+     */
+    public static long generateOrderNO(){
+        return 1 + System.currentTimeMillis();
+    }
 }

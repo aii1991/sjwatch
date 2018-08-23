@@ -13,10 +13,22 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="ListResultMap" extends="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.OrderWrapper">
+    <collection property="goods" javaType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs">
+      <id column="id" property="id" jdbcType="BIGINT" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="number" property="number" jdbcType="VARCHAR" />
+      <result column="type" property="type" jdbcType="BIGINT" />
+      <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
+      <result column="sources" property="sources" jdbcType="VARCHAR" />
+    </collection>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, no, status, address, receiver_name, receiver_number, delivery_number, goods_id, 
     create_time, modify_time
   </sql>
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
@@ -152,18 +164,52 @@
   </update>
 
 
-
-  <select id="findAllOrders" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="findAllOrders" resultMap="ListResultMap" parameterType="java.lang.Long" >
     select
-    <include refid="Base_Column_List" />
-    from t_order
-    where id = #{id,jdbcType=BIGINT}
-    <if test="sort == 1">
-      modify_time ASC
-    </if>
-    <if test="sort == 2">
-      modify_time DESC
-    </if>
-  </select>
+    o.id, o.no, o.status, o.address, o.receiver_name, o.receiver_number, o.delivery_number, o.goods_id,
+    o.create_time, o.modify_time,g.id,g.name,g.number,g.type,g.sale_price,g.sources
+    from (SELECT * FROM t_order LIMIT #{offset},#{limit}) o LEFT JOIN t_goods g ON o.goods_id = g.id WHERE 1 = 1
 
+    <if test="orderQuery.receiverName != null and orderQuery.receiverName != ''">
+      <bind name="Name_Pattern" value="'%' + orderQuery.receiverName + '%'" />
+      AND o.receiver_name LIKE #{Name_Pattern}
+    </if>
+
+    <if test="orderQuery.receiverNumber != null and orderQuery.receiverNumber != ''">
+      <bind name="Name_Pattern" value="'%' + orderQuery.receiverNumber + '%'" />
+      AND o.receiver_number LIKE #{Name_Pattern}
+    </if>
+
+    <if test="orderQuery.deliveryNumber != null and orderQuery.deliveryNumber != ''">
+      <bind name="Name_Pattern" value="'%' + orderQuery.deliveryNumber + '%'" />
+      AND o.delivery_number LIKE #{Name_Pattern}
+    </if>
+
+    <if test="orderQuery.address != null and orderQuery.address != ''">
+      <bind name="Name_Pattern" value="'%' + orderQuery.address + '%'" />
+      AND o.address LIKE #{Name_Pattern}
+    </if>
+
+    <if test="orderQuery.no != null and orderQuery.no != ''">
+      <bind name="Name_Pattern" value="'%' + orderQuery.address + '%'" />
+      AND o.no LIKE #{Name_Pattern}
+    </if>
+
+    <if test="orderQuery.goodsId != 0">
+      AND o.goods_id = #{orderQuery.goodsId}
+    </if>
+    <if test="orderQuery.status != 0">
+      AND o.status = #{orderQuery.status}
+    </if>
+
+    <choose>
+      <when test="orderQuery.sortTime == 2">
+        ORDER BY o.modify_time DESC
+      </when>
+      <otherwise>
+        ORDER BY o.modify_time ASC
+      </otherwise>
+    </choose>
+
+  </select>
 </mapper>

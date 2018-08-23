@@ -125,4 +125,13 @@
     category_name = #{categoryName,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <select id="findSelectiveAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM t_brand
+    <if test="type_id != -1">
+      WHERE goods_type_id = #{type_id,jdbcType=BIGINT}
+    </if>
+  </select>
+
 </mapper>

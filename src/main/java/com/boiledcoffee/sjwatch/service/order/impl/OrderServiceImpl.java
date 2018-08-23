@@ -5,8 +5,11 @@ import com.boiledcoffee.sjwatch.dao.OrderMapper;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Order;
+import com.boiledcoffee.sjwatch.model.entity.OrderWrapper;
+import com.boiledcoffee.sjwatch.model.query.OrderQuery;
 import com.boiledcoffee.sjwatch.service.order.IOrderService;
 import com.boiledcoffee.sjwatch.service.sms.ISmsService;
+import com.boiledcoffee.sjwatch.util.GeneratorUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +55,7 @@ public class OrderServiceImpl implements IOrderService{
             return handleResult;
         }
 
-        order.setNo(generateOrderNO());
+        order.setNo(GeneratorUtils.generateOrderNO());
         order.setStatus(OrderStatus.PENDING_DELIVERY.getStatus());
         try{
             long orderId = orderMapper.insertSelective(order);
@@ -130,9 +133,12 @@ public class OrderServiceImpl implements IOrderService{
     }
 
     @Override
-    public HandleResult<PageRspData<Order>> listOrder(int page, int pageSize, int sort,long uid) {
-        HandleResult<PageRspData<Order>> handleResult = new HandleResult<>();
-        int offSet = page * pageSize;
+    public HandleResult<PageRspData<OrderWrapper>> listOrder(int page, int pageSize,long uid,OrderQuery orderQuery) {
+        HandleResult<PageRspData<OrderWrapper>> handleResult = new HandleResult<>();
+        int offSet = (page - 1) * pageSize;
+        if (offSet < 0){
+            offSet = 0;
+        }
         try {
             Page page1 = PageHelper.startPage(page, pageSize, true);
             int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
@@ -140,9 +146,9 @@ public class OrderServiceImpl implements IOrderService{
                 handleResult.setErrorMsg("no authority to get data");
                 return handleResult;
             }
-            List<Order> orderList = orderMapper.findAllOrders(offSet, pageSize,sort);
+            List<OrderWrapper> orderList = orderMapper.findAllOrders(offSet, pageSize,orderQuery);
             long total = page1.getTotal();
-            PageRspData<Order> pageRspData = new PageRspData<>(total,orderList);
+            PageRspData<OrderWrapper> pageRspData = new PageRspData<>(total,orderList);
             handleResult.setResult(pageRspData);
 
         }catch (Exception e){
@@ -150,14 +156,5 @@ public class OrderServiceImpl implements IOrderService{
             handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
-    }
-
-
-    /**
-     * 生成订单号
-     * @return
-     */
-    private long generateOrderNO(){
-        return 1 + System.currentTimeMillis();
     }
 }
