@@ -17,6 +17,10 @@ public class Order {
 
     private Integer deliveryNumber;
 
+    private String deliveryName;
+
+    private Double price;
+
     private Long goodsId;
 
     private Date createTime;
@@ -101,5 +105,21 @@ public class Order {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getDeliveryName() {
+        return deliveryName;
+    }
+
+    public void setDeliveryName(String deliveryName) {
+        this.deliveryName = deliveryName;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }

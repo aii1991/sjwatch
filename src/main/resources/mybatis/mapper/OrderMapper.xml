@@ -9,6 +9,8 @@
     <result column="receiver_name" property="receiverName" jdbcType="CHAR" />
     <result column="receiver_number" property="receiverNumber" jdbcType="CHAR" />
     <result column="delivery_number" property="deliveryNumber" jdbcType="INTEGER" />
+    <result column="delivery_name" property="deliveryName" jdbcType="CHAR" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
     <result column="goods_id" property="goodsId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
@@ -25,7 +27,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, no, status, address, receiver_name, receiver_number, delivery_number, goods_id, 
+    id, no, status, address, receiver_name, receiver_number, delivery_number,delivery_name, price, goods_id,
     create_time, modify_time
   </sql>
 
@@ -166,7 +168,7 @@
 
   <select id="findAllOrders" resultMap="ListResultMap" parameterType="java.lang.Long" >
     select
-    o.id, o.no, o.status, o.address, o.receiver_name, o.receiver_number, o.delivery_number, o.goods_id,
+    o.id, o.no, o.status, o.address, o.receiver_name, o.receiver_number, o.delivery_number,o.delivery_name,o.price,o.goods_id,
     o.create_time, o.modify_time,g.id,g.name,g.number,g.type,g.sale_price,g.sources
     from (SELECT * FROM t_order LIMIT #{offset},#{limit}) o LEFT JOIN t_goods g ON o.goods_id = g.id WHERE 1 = 1
 

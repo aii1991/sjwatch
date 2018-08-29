@@ -99,6 +99,31 @@ export const constantRouterMap = [
       }
     ]
   },
+  {
+    path: '/order',
+    name: 'orderManager',
+    redirect: '/order/index',
+    component: Layout,
+    meta: { title: '订单管理', icon: 'goods' },
+    children: [
+      {
+        hidden: false,
+        path: 'index',
+        name: 'orderIndex',
+        component: () => import('@/views/order/index'),
+        props: true,
+        meta: { title: '订单', icon: 'goods' }
+      },
+      {
+        hidden: true,
+        path: 'edit',
+        name: 'orderEdit',
+        component: () => import('@/views/order/add'),
+        props: true,
+        meta: { title: '编辑订单', icon: 'goods' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
