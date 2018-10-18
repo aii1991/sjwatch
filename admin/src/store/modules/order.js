@@ -19,7 +19,7 @@ const order = {
   actions: {
     AddOrder({ commit }, data) {
       return new Promise((resolve, reject) => {
-        addOrder(data).then(response => {
+        addOrder(data, data.validateCode).then(response => {
           commit('ADD_ORDER_SUCCESS')
           resolve(response)
         }).catch(error => {
@@ -39,7 +39,7 @@ const order = {
     },
     ModifyOrder({ commit }, paramData) {
       return new Promise((resolve, reject) => {
-        modifyOrder(paramData).then(response => {
+        modifyOrder(paramData, paramData.validateCode).then(response => {
           resolve()
           commit('MODIFY_ORDER_SUCCESS')
         }).catch(error => {

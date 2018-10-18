@@ -44,7 +44,7 @@ export default {
       },
       loading: false,
       uploadToken: {
-        token: '6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ:oKsD1XinRSpa2nmJQVr_EG5Dpm0=:eyJzY29wZSI6InNqd2F0Y2giLCJkZWFkbGluZSI6MTUxODY2NDgzMn0='
+        token: this.$store.getters.uploadToken
       },
       dialogImageUrl: '',
       dialogVisible: false,

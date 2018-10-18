@@ -35,7 +35,8 @@ public class OrderServiceImpl implements IOrderService{
     ISmsService smsService;
 
     @Override
-    public HandleResult<Order> insertOrder(Order order,String verifyCode) {
+    public HandleResult<Order> insertOrder(long uid,Order order,String verifyCode) {
+        final int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
         final HandleResult<Order> handleResult = new HandleResult<>();
         final String receiverName = order.getReceiverName();
         final String receiverPhoneNumber = order.getReceiverNumber();
@@ -44,7 +45,7 @@ public class OrderServiceImpl implements IOrderService{
             handleResult.setErrorMsg("goods not found");
             return handleResult;
         }
-        if (!smsService.validateCode(receiverPhoneNumber,verifyCode)){
+        if (isAdmin != 1 && !smsService.validateCode(receiverPhoneNumber,verifyCode)){
             handleResult.setErrorMsg("验证码错误,请重新获取验证码后重试");
             return handleResult;
         }
@@ -72,8 +73,8 @@ public class OrderServiceImpl implements IOrderService{
 
     @Override
     public HandleResult<Map> delOrderById(long uid,long orderId) {
-        int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
-        HandleResult<Map> handleResult = new HandleResult<>();
+        final int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+        final HandleResult<Map> handleResult = new HandleResult<>();
         if (isAdmin != 1){
             handleResult.setErrorMsg("no authority");
             return handleResult;

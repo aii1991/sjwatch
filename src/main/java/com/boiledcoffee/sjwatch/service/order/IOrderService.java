@@ -13,7 +13,7 @@ import java.util.Map;
  *
  */
 public interface IOrderService {
-    HandleResult<Order> insertOrder(Order order,String verifyCode);
+    HandleResult<Order> insertOrder(long uid,Order order,String verifyCode);
 
     HandleResult<Map> delOrderById(long uid,long orderId);
 

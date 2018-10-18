@@ -44,11 +44,11 @@ public class GoodQuery implements Serializable{
         this.type = type;
     }
 
-    public long getBId() {
+    public long gettBId() {
         return tBId;
     }
 
-    public void setBId(long tBId) {
+    public void settBId(long tBId) {
         this.tBId = tBId;
     }
 

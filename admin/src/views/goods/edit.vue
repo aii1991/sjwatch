@@ -121,7 +121,7 @@ export default {
       brandSelectDisabled: false,
       loading: false,
       uploadToken: {
-        token: '6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ:oKsD1XinRSpa2nmJQVr_EG5Dpm0=:eyJzY29wZSI6InNqd2F0Y2giLCJkZWFkbGluZSI6MTUxODY2NDgzMn0='
+        token: this.$store.getters.uploadToken
       },
       uploadUrl: process.env.FILE_UPLOAD_URL,
       dialogImageUrl: '',
@@ -150,7 +150,8 @@ export default {
       this.$refs['goodsForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('AddGoods', {
+          this.$store.dispatch('ModifyGoods', {
+            id: this.param.data.id,
             type: this.goodsForm.type,
             tBId: this.goodsForm.tBId,
             name: this.goodsForm.name,
@@ -160,10 +161,10 @@ export default {
             wholesale: this.goodsForm.wholesale,
             purchasePrice: this.goodsForm.purchasePrice,
             stock: this.goodsForm.stock,
-            sources: this.goodsForm.sources
+            sources: JSON.stringify(this.goodsForm.sources)
           }).then(() => {
             this.loading = false
-            this.$message({ showClose: true, message: '添加成功', type: 'success' })
+            this.$message({ showClose: true, message: '编辑成功', type: 'success' })
           }).catch(reason => {
             this.loading = false
             this.$message({ showClose: true, message: reason, type: 'error' })

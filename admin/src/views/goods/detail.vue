@@ -1,6 +1,6 @@
 <template>
  <div class="app-padding" v-loading.fullscreen.lock="loading" style="width: 600px;" >
-    <el-form ref="goodsForm" :model="goodsForm" :rules="rules" label-width="100px">
+    <el-form ref="goodsForm" :model="goodsForm" label-width="100px">
       <el-form-item label="类型" prop="type">
         <el-select v-model="goodsForm.type" placeholder="请选择" disabled>
             <el-option
@@ -20,6 +20,9 @@
                 :value="item.id">
             </el-option>
         </el-select>
+      </el-form-item>
+      <el-form-item label="商品id" prop="name">
+        <span>{{ goodsForm.id }}</span>
       </el-form-item>
       <el-form-item label="名称" prop="name">
         <span>{{ goodsForm.name }}</span>
@@ -49,13 +52,7 @@
             name="file"
             disabled
             :file-list="goodsForm.sources"
-            :limit="uploadFileLimit"
-            :data="uploadToken"
-            :on-exceed="handleExceed"
-            :on-success="handleUpload"
-            :on-error="handleUploadError"
-            :on-preview="handlePictureCardPreview"
-            :on-remove="handleRemove">
+            :on-preview="handlePictureCardPreview">
             <i class="el-icon-plus"></i>
           </el-upload>
           <el-dialog :visible.sync="dialogVisible">
@@ -74,6 +71,7 @@ export default {
   data() {
     return {
       goodsForm: {
+        id: this.param.id,
         type: this.param.type,
         tBId: this.param.tBId,
         name: this.param.data.name,
@@ -112,28 +110,9 @@ export default {
       }
       return getGoodsTypeList()
     },
-    handleRemove(file, fileList) {
-      var rvIndex = -1
-      for (var i = 0; i < this.goodsForm.sources.length; i++) {
-        var item = this.goodsForm.sources[i]
-        if (item.id === file.response.hash) {
-          rvIndex = i
-          break
-        }
-      }
-      if (rvIndex !== -1) {
-        this.goodsForm.sources.splice(rvIndex, 1)
-      }
-    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
-    },
-    handleUploadError(err, file, fileList) {
-      this.$message({ showClose: true, message: '上传失败,' + err, type: 'error' })
-    },
-    handleExceed(files, fileList) {
-      this.$message({ showClose: true, message: 'Logo最多上传' + this.uploadFileLimit + '张图片,', type: 'error' })
     }
   }
 }

@@ -72,18 +72,19 @@ export const constantRouterMap = [
         path: 'edit/:param',
         name: 'goodsEdit',
         component: () => import('@/views/goods/edit'),
-        props: true,
-        meta: { title: '编辑', icon: 'goods' }
+        meta: { title: '编辑', icon: 'goods' },
+        props: true
       },
       {
         hidden: true,
         path: 'detail/:param',
         name: 'goodsDetail',
         component: () => import('@/views/goods/detail'),
-        props: true,
-        meta: { title: '详情', icon: 'goods' }
+        meta: { title: '详情', icon: 'goods' },
+        props: true
       },
       {
+        hidden: false,
         path: 'type',
         name: 'goodsType',
         component: () => import('@/views/goods/type/index'),
@@ -118,9 +119,17 @@ export const constantRouterMap = [
         hidden: true,
         path: 'edit',
         name: 'orderEdit',
-        component: () => import('@/views/order/add'),
+        component: () => import('@/views/order/edit'),
         props: true,
         meta: { title: '编辑订单', icon: 'goods' }
+      },
+      {
+        hidden: true,
+        path: 'detail',
+        name: 'orderDetial',
+        component: () => import('@/views/order/detail'),
+        props: true,
+        meta: { title: '订单详情', icon: 'goods' }
       }
     ]
   },

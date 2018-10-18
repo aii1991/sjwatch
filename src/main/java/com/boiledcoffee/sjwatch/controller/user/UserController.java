@@ -4,8 +4,12 @@ import com.boiledcoffee.sjwatch.controller.BaseController;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -26,4 +30,9 @@ public class UserController extends BaseController {
         return userService.register(user);
     }
 
+    @RequestMapping(value = "/user/logout")
+    public HandleResult logout(HttpServletRequest request) throws JSONException {
+        String uid = request.getHeader("uid");
+        return userService.loginOut(Long.parseLong(uid));
+    }
 }

@@ -25,7 +25,7 @@
       <el-table-column prop="goods.name" label="商品名"></el-table-column>
       <el-table-column label="商品缩略图" >
           <template slot-scope="scope">
-            <img :src ="scope.row.sources" width="50px" height="50px"/>
+              <img :src ="getUrl(scope.row.goods.sources)" width="50px" height="50px"/>
           </template>
       </el-table-column>
       <el-table-column prop="goods.salePrice" label="商品价格(元)" ></el-table-column>
@@ -100,11 +100,9 @@ export default {
         event.stopPropagation()
       }
       this.$router.push({
-        name: 'orderDetail',
+        name: 'orderDetial',
         params: {
           param: {
-            type: this.goodsTypeId,
-            tBId: this.goodsBrandId,
             data: row
           }
         }
@@ -160,6 +158,16 @@ export default {
       } else {
         return '已完成'
       }
+    },
+    getUrl(sources) {
+      if (sources === '') {
+        return ''
+      }
+      var sArray = JSON.parse(sources)
+      if (sArray.length > 0) {
+        return sArray[0].url
+      }
+      return ''
     }
   }
 }

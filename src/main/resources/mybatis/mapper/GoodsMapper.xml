@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.boiledcoffee.sjwatch.dao.GoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Goods" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="t_b_id" property="tBId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
@@ -11,12 +11,12 @@
     <result column="wholesale" property="wholesale" jdbcType="DOUBLE" />
     <result column="purchase_price" property="purchasePrice" jdbcType="DOUBLE" />
     <result column="stock" property="stock" jdbcType="INTEGER" />
-    <result column="sources" property="sources" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.Goods" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" extends="BaseResultMap" >
     <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
+    <result column="sources" property="sources" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, t_b_id, name, number, type, sale_price, wholesale, stock, sources, create_time, modify_time
@@ -237,7 +237,7 @@
       AND type = #{goodQuery.type,jdbcType = BIGINT}
     </if>
     <if test="goodQuery.tBId != 0">
-      AND t_b_id = #{goodQuery.tBId,jdbcType = INTEGER}
+      AND t_b_id = #{goodQuery.tBId,jdbcType = BIGINT}
     </if>
 
     <choose>

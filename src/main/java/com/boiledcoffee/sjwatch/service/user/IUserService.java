@@ -29,4 +29,5 @@ public interface IUserService {
      */
     HandleResult<User> setUserRole(User user);
 
+    HandleResult loginOut(long uid);
 }

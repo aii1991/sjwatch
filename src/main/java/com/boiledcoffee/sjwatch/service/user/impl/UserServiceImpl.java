@@ -58,6 +58,12 @@ public class UserServiceImpl implements IUserService{
         return handleResult;
     }
 
+    public HandleResult loginOut(long uid){
+        HandleResult<User> handleResult = new HandleResult<>();
+        handleResult.updateStatusToSuccess();
+        return  handleResult;
+    }
+
     @Override
     public HandleResult<User> register(User user) {
         HandleResult<User> handleResult = new HandleResult<>();

@@ -26,6 +26,11 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="商品名称" ></el-table-column>
+       <el-table-column label="商品缩略图" >
+          <template slot-scope="scope">
+              <img :src ="getUrl(scope.row.sources)" width="50px" height="50px"/>
+          </template>
+      </el-table-column>
        <el-table-column prop="descr" label="商品描述" ></el-table-column>
       <el-table-column prop="number" label="商品编号" ></el-table-column>
       <el-table-column prop="salePrice" label="销售价" ></el-table-column>
@@ -154,6 +159,16 @@ export default {
     },
     formatterDate(row, column, cellValue) {
       return new Date(cellValue).toLocaleString()
+    },
+    getUrl(sources) {
+      if (sources === '') {
+        return ''
+      }
+      var sArray = JSON.parse(sources)
+      if (sArray.length > 0) {
+        return sArray[0].url
+      }
+      return ''
     }
   }
 }

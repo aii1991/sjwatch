@@ -29,8 +29,9 @@ public class OrderController extends BaseController{
     ObjectMapper objectMapper;
 
     @RequestMapping(value = "/order/{validateCode}",method = RequestMethod.POST)
-    public HandleResult<Order> addOrder(@RequestBody Order order,@PathVariable(value = "validateCode") String validateCode){
-        return orderService.insertOrder(order,validateCode);
+    public HandleResult<Order> addOrder(HttpServletRequest request,@RequestBody Order order,@PathVariable(value = "validateCode") String validateCode){
+        long uid = Long.parseLong(request.getHeader("uid"));
+        return orderService.insertOrder(uid,order,validateCode);
     }
 
     @RequestMapping(value = "/order/{validateCode}",method = RequestMethod.PUT)

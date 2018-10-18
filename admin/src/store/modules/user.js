@@ -50,8 +50,8 @@ const user = {
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_USER_INFO', null)
+        logout().then(() => {
+          commit('SET_USER_INFO', '')
           removeToken()
           resolve()
         }).catch(error => {

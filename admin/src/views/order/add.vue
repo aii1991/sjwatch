@@ -1,6 +1,6 @@
 <template>
  <div class="app-padding" v-loading.fullscreen.lock="loading" style="width: 600px;" >
-    <el-form ref="orderForm" :model="goodsForm" :rules="rules" label-width="100px">
+    <el-form ref="orderForm" :model="orderForm" :rules="rules" label-width="100px">
       <el-form-item label="收件人地址" prop="address">
         <el-input v-model="orderForm.address" clearable></el-input>
       </el-form-item>
@@ -22,6 +22,13 @@
       <el-form-item label="商品Id" prop="goodsId">
         <el-input v-model="orderForm.goodsId" clearable></el-input>
       </el-form-item>
+      <el-form-item label="验证码" prop="validateCode">
+        <el-input v-model="orderForm.validateCode" clearable></el-input>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSubmit">提交</el-button>
+        <el-button @click="resetForm('orderForm')">复原</el-button>
+      </el-form-item>
     </el-form>
  </div>
 </template>
@@ -37,7 +44,8 @@ export default {
         deliveryNumber: '',
         deliveryName: '',
         price: 0,
-        goodsId: this.goodsId
+        goodsId: this.goodsId,
+        validateCode: ''
       },
       rules: {
         address: [
@@ -63,9 +71,13 @@ export default {
             address: this.orderForm.address,
             receiverName: this.orderForm.receiverName,
             receiverNumber: this.orderForm.receiverNumber,
-            deliveryNumber: this.orderForm.deliveryNumber
+            deliveryNumber: this.orderForm.deliveryNumber,
+            deliveryName: this.orderForm.deliveryName,
+            price: this.orderForm.price,
+            goodsId: this.orderForm.goodsId,
+            validateCode: this.orderForm.validateCode
           }).then(() => {
-            this.resetForm('goodsForm')
+            this.resetForm('orderForm')
             this.loading = false
             this.$message({ showClose: true, message: '添加成功', type: 'success' })
           }).catch(reason => {
@@ -79,7 +91,7 @@ export default {
       })
     },
     resetForm(formName) {
-      this.$refs.upload.clearFiles()
+      this.orderForm.sources = []
       this.$refs[formName].resetFields()
     }
   }
