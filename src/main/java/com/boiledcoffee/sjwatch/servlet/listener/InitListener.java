@@ -6,6 +6,7 @@ import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.service.user.IRoleService;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.apache.log4j.Logger;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.ServletContextEvent;
@@ -25,21 +26,26 @@ public class InitListener implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        HandleResult<Role> handleResult = roleService.findRoleById(1);
+        addUser(1L,"超级管理员","admin","超级管理员","123456");
+        addUser(100L,"未知用户","unknow","未知用户", MD5Encoder.encode("unknow1122334455".getBytes()));
+        Logger.getInstance(this.getClass()).debug("=========init success=======");
+    }
+
+    private void addUser(long roleId,String roleName,String userName,String nickName,String pwd) {
+        HandleResult<Role> handleResult = roleService.findRoleById(roleId);
         if (handleResult.isError() || handleResult.getResult() == null){
             Role role1 = new Role();
-            role1.setId(1L);
-            role1.setName("超级管理员");
+            role1.setId(roleId);
+            role1.setName(roleName);
             roleService.insertRole(role1);
 
             User admin = new User();
-            admin.setUserName("admin");
-            admin.setNickName("超级管理员");
-            admin.setPassword("123456");
+            admin.setUserName(userName);
+            admin.setNickName(nickName);
+            admin.setPassword(pwd);
             admin.setRoleId(role1.getId());
             userService.register(admin);
         }
-        Logger.getInstance(this.getClass()).debug("=========init success=======");
     }
 
     @Override
