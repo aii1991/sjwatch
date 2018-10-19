@@ -22,7 +22,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String strUid = request.getHeader("uid");
-        long uid = 0;
+        long uid = 100;
         if (!StringUtils.isEmpty(strUid)){
             uid = Long.parseLong(strUid);
         }
