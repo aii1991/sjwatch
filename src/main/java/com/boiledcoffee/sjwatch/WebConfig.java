@@ -1,6 +1,7 @@
 package com.boiledcoffee.sjwatch;
 
 import com.boiledcoffee.sjwatch.interceptor.AuthInterceptor;
+import com.boiledcoffee.sjwatch.interceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -24,6 +25,8 @@ import java.util.List;
 public class WebConfig extends WebMvcConfigurerAdapter{
     @Autowired
     AuthInterceptor authInterceptor;
+    @Autowired
+    LogInterceptor logInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
@@ -33,6 +36,8 @@ public class WebConfig extends WebMvcConfigurerAdapter{
                 .excludePathPatterns("/rest/v1/user/**")
                 .excludePathPatterns("/rest/v1/sms/**")
                 .excludePathPatterns("/rest/v1/mobile/**");
+
+        interceptorRegistry.addInterceptor(logInterceptor);
     }
 
     @Override

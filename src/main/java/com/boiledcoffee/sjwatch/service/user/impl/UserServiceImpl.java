@@ -1,10 +1,12 @@
 package com.boiledcoffee.sjwatch.service.user.impl;
 
+import com.boiledcoffee.sjwatch.dao.UserLogMapper;
 import com.boiledcoffee.sjwatch.dao.UserMapper;
 import com.boiledcoffee.sjwatch.model.QiniuProperties;
 import com.boiledcoffee.sjwatch.model.SJProperties;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import com.boiledcoffee.sjwatch.util.QiniuUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class UserServiceImpl implements IUserService{
     StringRedisTemplate stringRedisTemplate;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    UserLogMapper userLogMapper;
     @Autowired
     QiniuProperties qiniuProperties;
     @Autowired
@@ -62,6 +66,20 @@ public class UserServiceImpl implements IUserService{
         HandleResult<User> handleResult = new HandleResult<>();
         handleResult.updateStatusToSuccess();
         return  handleResult;
+    }
+
+    @Override
+    public HandleResult addUserLog(UserLog userLog) {
+        HandleResult<User> handleResult = new HandleResult<>();
+        try{
+            userLogMapper.insertSelective(userLog);
+            handleResult.updateStatusToSuccess();
+        }catch (Exception e){
+            e.printStackTrace();
+            handleResult.updateStatusToError();
+            handleResult.setErrorMsg(e.getMessage());
+        }
+        return handleResult;
     }
 
     @Override

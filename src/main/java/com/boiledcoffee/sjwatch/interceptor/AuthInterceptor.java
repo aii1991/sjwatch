@@ -1,7 +1,7 @@
 package com.boiledcoffee.sjwatch.interceptor;
 
-import com.boiledcoffee.sjwatch.dao.UserMapper;
-import com.boiledcoffee.sjwatch.model.entity.User;
+import com.boiledcoffee.sjwatch.model.entity.UserLog;
+import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     StringRedisTemplate stringRedisTemplate;
     @Autowired
-    UserMapper userMapper;
+    IUserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
