@@ -23,7 +23,7 @@ redis:
             min-idle: 0
 
 server:
-        port: 1111
+        port: 80
 
 mybatis:
   type-aliases-package: com.boiledcoffee.sjwatch.model

@@ -1,5 +1,6 @@
 package com.boiledcoffee.sjwatch.service.user;
 
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.UserLog;
@@ -33,4 +34,6 @@ public interface IUserService {
     HandleResult loginOut(long uid);
 
     HandleResult addUserLog(UserLog userLog);
+
+    HandleResult<PageRspData<UserLog>> listUserLog(int page, int pageSize,long uid);
 }

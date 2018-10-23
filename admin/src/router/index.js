@@ -50,6 +50,13 @@ export const constantRouterMap = [
       component: () => import('@/views/user/role/index'),
       props: true,
       meta: { title: '角色', icon: 'user' }
+    },
+    {
+      path: 'log/index',
+      name: 'log',
+      component: () => import('@/views/user/log/index'),
+      props: true,
+      meta: { title: '日志', icon: 'user' }
     }]
   },
   {

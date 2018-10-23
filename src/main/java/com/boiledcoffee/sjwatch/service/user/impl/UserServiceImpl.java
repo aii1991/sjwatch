@@ -4,16 +4,22 @@ import com.boiledcoffee.sjwatch.dao.UserLogMapper;
 import com.boiledcoffee.sjwatch.dao.UserMapper;
 import com.boiledcoffee.sjwatch.model.QiniuProperties;
 import com.boiledcoffee.sjwatch.model.SJProperties;
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
+import com.boiledcoffee.sjwatch.model.entity.OrderWrapper;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import com.boiledcoffee.sjwatch.util.QiniuUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +39,7 @@ public class UserServiceImpl implements IUserService{
     QiniuProperties qiniuProperties;
     @Autowired
     SJProperties sjProperties;
+
 
     @Override
     public HandleResult<User> login(String userName,String password) {
@@ -79,6 +86,26 @@ public class UserServiceImpl implements IUserService{
             handleResult.updateStatusToError();
             handleResult.setErrorMsg(e.getMessage());
         }
+        return handleResult;
+    }
+
+    @Override
+    public HandleResult<PageRspData<UserLog>> listUserLog(int page, int pageSize, long uid) {
+        final int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+        final HandleResult<PageRspData<UserLog>> handleResult = new HandleResult<>();
+        if (isAdmin != 1){
+            handleResult.setErrorMsg("no authority");
+            return handleResult;
+        }
+        int offSet = (page - 1) * pageSize;
+        if (offSet < 0){
+            offSet = 0;
+        }
+        Page page1 = PageHelper.startPage(page, pageSize, true);
+        List<UserLog> orderList = userLogMapper.findAllUserLog(offSet,pageSize);
+        long total = page1.getTotal();
+        PageRspData<UserLog> pageRspData = new PageRspData<>(total,orderList);
+        handleResult.setResult(pageRspData);
         return handleResult;
     }
 

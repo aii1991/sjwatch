@@ -27,3 +27,10 @@ export function logout() {
     method: 'post'
   })
 }
+
+export function listLog(currentPage, pageSize) {
+  return request({
+    url: '/user/log/' + currentPage + '/' + pageSize,
+    method: 'get'
+  })
+}

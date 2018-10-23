@@ -1,8 +1,10 @@
 package com.boiledcoffee.sjwatch.controller.user;
 
 import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
+import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 /**
  *
@@ -34,5 +37,11 @@ public class UserController extends BaseController {
     public HandleResult logout(HttpServletRequest request) throws JSONException {
         String uid = request.getHeader("uid");
         return userService.loginOut(Long.parseLong(uid));
+    }
+
+    @RequestMapping(value = "/user/log/{page}/{page_size}",method = RequestMethod.GET)
+    public HandleResult<PageRspData<UserLog>> getUserLog(HttpServletRequest request,@PathVariable("page")int page,@PathVariable("page_size") int pageSize){
+        String uid = request.getHeader("uid");
+        return userService.listUserLog(page,pageSize,Long.parseLong(uid));
     }
 }

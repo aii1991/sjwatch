@@ -1,4 +1,4 @@
-import { login, logout } from '@/api/login'
+import { login, logout, listLog } from '@/api/login'
 import { getToken, setToken, removeToken, setUid, getUid } from '@/utils/auth'
 import { setUploadToken } from '@/utils/sjcookies'
 
@@ -27,6 +27,9 @@ const user = {
       state.age = payload.age
       state.roleId = payload.roleId
       state.uploadToken = payload.uploadToken
+    },
+    LIST_LOG_SUCCESS: (state, payload) => {
+      state.isFetchOrderData = false
     }
   },
 
@@ -66,6 +69,17 @@ const user = {
         commit('SET_TOKEN', '')
         removeToken()
         resolve()
+      })
+    },
+
+    ListLog({ commit }, param) {
+      return new Promise((resolve, reject) => {
+        listLog(param.currentPage, param.pageSize).then((response) => {
+          commit('LIST_LOG_SUCCESS')
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
       })
     }
   }
