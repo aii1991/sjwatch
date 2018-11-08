@@ -33,7 +33,7 @@ service.interceptors.response.use(
     const httpStatus = response.status
     if (res.error) {
       Message({
-        message: res.msg,
+        message: res.errorMsg,
         type: 'error',
         duration: 5 * 1000
       })
