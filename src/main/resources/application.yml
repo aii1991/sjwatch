@@ -55,7 +55,7 @@ qiniu:
 ali-sms:
   ak: 123
   sk: 123
-  signName: "张俊洪"
+  signName: "jason"
   templateCode: "SMS_1000000"
 
 sj-config:
