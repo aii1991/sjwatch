@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-public class SmsController extends BaseController{
+public class SmsController extends ApiBaseController {
     @Autowired
     ISmsService smsService;
 

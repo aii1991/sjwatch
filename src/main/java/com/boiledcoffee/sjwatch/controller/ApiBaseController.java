@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RequestMapping;
  *
  */
 @RequestMapping(value = "/rest/v1",produces="application/json;charset=UTF-8")
-public class BaseController {
+public class ApiBaseController {
 }

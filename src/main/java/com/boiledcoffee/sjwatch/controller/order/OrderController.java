@@ -1,11 +1,10 @@
 package com.boiledcoffee.sjwatch.controller.order;
 
-import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.controller.ApiBaseController;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Order;
 import com.boiledcoffee.sjwatch.model.entity.OrderWrapper;
-import com.boiledcoffee.sjwatch.model.query.GoodQuery;
 import com.boiledcoffee.sjwatch.model.query.OrderQuery;
 import com.boiledcoffee.sjwatch.service.order.IOrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,7 +21,7 @@ import java.util.Map;
  *
  */
 @RestController
-public class OrderController extends BaseController{
+public class OrderController extends ApiBaseController {
     @Autowired
     IOrderService orderService;
     @Autowired

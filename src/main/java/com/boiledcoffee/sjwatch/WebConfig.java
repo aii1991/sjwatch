@@ -44,6 +44,12 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //将所有/static/** 访问都映射到classpath:/static/ 目录下
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/AmazeUI-2.4.2/**").addResourceLocations("classpath:/templates/mall/AmazeUI-2.4.2/");
+        registry.addResourceHandler("/AmazeUI-2.4.2/**").addResourceLocations("classpath:/templates/mall/AmazeUI-2.4.2/");
+        registry.addResourceHandler("/basic/**").addResourceLocations("classpath:/templates/mall/basic/");
+        registry.addResourceHandler("/css/**").addResourceLocations("classpath:/templates/mall/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("classpath:/templates/mall/js/");
+        registry.addResourceHandler("/images/**").addResourceLocations("classpath:/templates/mall/images/");
     }
 
 }

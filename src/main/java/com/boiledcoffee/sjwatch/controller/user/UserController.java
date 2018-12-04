@@ -1,25 +1,23 @@
 package com.boiledcoffee.sjwatch.controller.user;
 
-import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.controller.ApiBaseController;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.json.JSONException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
 
 /**
  *
  * Created by juha on 2018/1/10.
  */
 @RestController
-public class UserController extends BaseController {
+public class UserController extends ApiBaseController {
     @Autowired
     IUserService userService;
 

@@ -9,6 +9,18 @@ spring:
   jackson:
           default-property-inclusion: NON_NULL
 
+  thymeleaf:
+            cache: true
+            check-template: true
+            check-template-location: true
+            enabled: true
+            encoding: UTF-8
+            mode: HTML5
+            prefix: classpath:/templates/mall/
+            suffix: .html
+            servlet:
+              content-type: text/html
+
 redis:
         database: 0
         host: 132.232.189.188
@@ -51,5 +63,3 @@ sj-config:
   tokenValidTime: 2
   # 短信验证码有效时长 单位分钟
   smsValidTime: 5
-
-

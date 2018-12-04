@@ -1,9 +1,8 @@
 package com.boiledcoffee.sjwatch.controller.goods;
 
-import com.boiledcoffee.sjwatch.controller.BaseController;
+import com.boiledcoffee.sjwatch.controller.ApiBaseController;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
-import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
@@ -24,7 +23,7 @@ import java.util.Map;
  *
  */
 @RestController
-public class GoodsController extends BaseController {
+public class GoodsController extends ApiBaseController {
     @Autowired
     IGoodsService goodsService;
     @Autowired
