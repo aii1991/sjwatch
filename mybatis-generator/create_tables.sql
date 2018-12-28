@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/8/20 14:15:29                           */
+/* Created on:     2018/12/27 16:57:24                          */
 /*==============================================================*/
 
+
+drop table if exists t_banner;
 
 drop table if exists t_brand;
 
@@ -19,6 +21,19 @@ drop table if exists t_user;
 drop table if exists t_user_acl;
 
 drop table if exists t_user_log;
+
+/*==============================================================*/
+/* Table: t_banner                                              */
+/*==============================================================*/
+create table t_banner
+(
+   id                   bigint not null,
+   g_id                 bigint,
+   src                  varbinary(100),
+   create_time          timestamp,
+   modify_time          timestamp,
+   primary key (id)
+);
 
 /*==============================================================*/
 /* Table: t_brand                                               */
@@ -54,6 +69,9 @@ create table t_goods
    sources              text comment 'json数组格式',
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   is_hot               int(2),
+   is_recommend         int(2),
+   sex                  int(2),
    primary key (id)
 );
 
@@ -75,16 +93,19 @@ create table t_goods_type
 create table t_order
 (
    id                   bigint not null auto_increment,
-   no                   int,
+   no                   bigint not null,
    status               int(2),
    address              char(200),
    receiver_name        char(50),
-   receiver_number      int(15),
+   receiver_number      char(20),
    delivery_number      int,
-   good_id              bigint,
+   delivery_name        char(30),
+   price                double,
+   goods_id             bigint,
    create_time          timestamp,
    modify_time          timestamp,
-   primary key (id)
+   primary key (id),
+   unique key AK_Key_2 (no)
 );
 
 /*==============================================================*/
@@ -156,7 +177,7 @@ alter table t_goods add constraint FK_Reference_1 foreign key (type)
 alter table t_goods add constraint FK_Reference_2 foreign key (t_b_id)
       references t_brand (id) on delete restrict on update restrict;
 
-alter table t_order add constraint FK_Reference_8 foreign key (good_id)
+alter table t_order add constraint FK_Reference_8 foreign key (goods_id)
       references t_goods (id) on delete restrict on update restrict;
 
 alter table t_user add constraint FK_Reference_5 foreign key (role_id)

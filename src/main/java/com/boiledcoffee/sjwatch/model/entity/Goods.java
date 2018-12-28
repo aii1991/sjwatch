@@ -25,6 +25,12 @@ public class Goods {
 
     private Date modifyTime;
 
+    private Integer isHot;
+
+    private Integer isRecommend;
+
+    private Integer sex;
+
     public Long getId() {
         return id;
     }
@@ -111,5 +117,29 @@ public class Goods {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public Integer getIsHot() {
+        return isHot;
+    }
+
+    public void setIsHot(Integer isHot) {
+        this.isHot = isHot;
+    }
+
+    public Integer getIsRecommend() {
+        return isRecommend;
+    }
+
+    public void setIsRecommend(Integer isRecommend) {
+        this.isRecommend = isRecommend;
+    }
+
+    public Integer getSex() {
+        return sex;
+    }
+
+    public void setSex(Integer sex) {
+        this.sex = sex;
     }
 }

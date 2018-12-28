@@ -1,5 +1,6 @@
 package com.boiledcoffee.sjwatch.interceptor;
 
+import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +23,15 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String strUid = request.getHeader("uid");
-        long uid = 100;
-        if (!StringUtils.isEmpty(strUid)){
+        long uid = 2;
+        if (!StringUtils.isEmpty(strUid) && !"null".equals(strUid)){
             uid = Long.parseLong(strUid);
         }
         UserLog userLog = new UserLog();
         userLog.setUid(uid);
         userLog.setRequestUrl(request.getRequestURL().toString());
         userLog.setLoginIp(request.getRemoteAddr() + ":" + request.getRemotePort());
-        userService.addUserLog(userLog);
-        return super.preHandle(request, response, handler);
+        HandleResult handleResult = userService.addUserLog(userLog);
+        return !handleResult.isError();
     }
 }

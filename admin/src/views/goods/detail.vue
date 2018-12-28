@@ -71,7 +71,7 @@ export default {
   data() {
     return {
       goodsForm: {
-        id: this.param.id,
+        id: this.param.data.id,
         type: this.param.type,
         tBId: this.param.tBId,
         name: this.param.data.name,
@@ -84,7 +84,10 @@ export default {
         sources: JSON.parse(this.param.data.sources)
       },
       goodsTypeData: this.getGoodsTypeData(),
-      goodsBrandData: [],
+      goodsBrandData: [{
+        id: this.param.tBId,
+        name: this.param.tBName
+      }],
       brandSelectDisabled: false,
       loading: false,
       uploadUrl: process.env.FILE_UPLOAD_URL,

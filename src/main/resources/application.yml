@@ -23,7 +23,7 @@ spring:
 
 redis:
         database: 0
-        host: 132.232.189.188
+        host: 104.160.41.217
         port: 6379
         password: 123456
         timeout: 3000
@@ -35,7 +35,7 @@ redis:
             min-idle: 0
 
 server:
-        port: 80
+        port: 1111
 
 mybatis:
   type-aliases-package: com.boiledcoffee.sjwatch.model

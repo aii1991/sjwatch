@@ -21,6 +21,40 @@
             </el-option>
         </el-select>
       </el-form-item>
+
+      <el-form-item label="适用性别" prop="sex">
+         <el-select v-model="goodsForm.sex" placeholder="男女" @change="handleSexChange">
+            <el-option
+                v-for="item in sexOpts"
+                :key="item.key"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="是否为热门" prop="sex">
+         <el-select v-model="goodsForm.isHot" placeholder="否" @change="handleHotChange">
+            <el-option
+                v-for="item in booleanOpts"
+                :key="item.key"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+        </el-select>
+      </el-form-item>
+
+      <el-form-item label="是否为推荐" prop="sex">
+         <el-select v-model="goodsForm.isRecommend" placeholder="否" @change="handleRecommendChange">
+            <el-option
+                v-for="item in booleanOpts"
+                :key="item.key"
+                :label="item.label"
+                :value="item.value">
+            </el-option>
+        </el-select>
+      </el-form-item>
+
       <el-form-item label="名称" prop="name">
         <el-input v-model="goodsForm.name" clearable></el-input>
       </el-form-item>
@@ -76,6 +110,35 @@ import { getGoodsTypeList } from '@/utils/sjcookies'
 export default {
   data() {
     return {
+      sexOpts: [
+        {
+          key: 0,
+          label: '男女',
+          value: 0
+        },
+        {
+          key: 1,
+          label: '男',
+          value: 1
+        },
+        {
+          key: 2,
+          label: '女',
+          value: 2
+        }
+      ],
+      booleanOpts: [
+        {
+          key: 0,
+          label: '否',
+          value: 0
+        },
+        {
+          key: 1,
+          label: '是',
+          value: 1
+        }
+      ],
       goodsForm: {
         type: this.param.type,
         tBId: this.param.tBId,
@@ -86,6 +149,9 @@ export default {
         wholesale: this.param.data.wholesale,
         purchasePrice: this.param.data.purchasePrice,
         stock: this.param.data.stock,
+        sex: 0,
+        isHot: 0,
+        isRecommend: 0,
         sources: JSON.parse(this.param.data.sources)
       },
       rules: {
@@ -117,7 +183,10 @@ export default {
         ]
       },
       goodsTypeData: this.getGoodsTypeData(),
-      goodsBrandData: [],
+      goodsBrandData: [{
+        id: this.param.tBId,
+        name: this.param.tBName
+      }],
       brandSelectDisabled: false,
       loading: false,
       uploadToken: {
@@ -146,6 +215,15 @@ export default {
     handleGoodsBrandChange(value) {
       this.tBId = value
     },
+    handleSexChange(value) {
+      this.sex = value
+    },
+    handleHotChange(value) {
+      this.isHot = value
+    },
+    handleRecommendChange(value) {
+      this.isRecommend = value
+    },
     onSubmit() {
       this.$refs['goodsForm'].validate((valid) => {
         if (valid) {
@@ -161,6 +239,9 @@ export default {
             wholesale: this.goodsForm.wholesale,
             purchasePrice: this.goodsForm.purchasePrice,
             stock: this.goodsForm.stock,
+            sex: this.goodsForm.sex,
+            isHot: this.isHot,
+            isRecommend: this.isRecommend,
             sources: JSON.stringify(this.goodsForm.sources)
           }).then(() => {
             this.loading = false

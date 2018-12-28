@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class MallController {
 
-    @RequestMapping(value = "/index")
+    @RequestMapping(value = "/mall/index")
     public String index(Model model){
         model.addAttribute("name","json");
         return "/home/index";

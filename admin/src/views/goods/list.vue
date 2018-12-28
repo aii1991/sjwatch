@@ -37,6 +37,9 @@
       <el-table-column prop="wholesale" label="批发价" ></el-table-column>
       <el-table-column prop="purchasePrice" label="采购价" ></el-table-column>
       <el-table-column prop="stock" label="库存" ></el-table-column>
+      <el-table-column prop="sex" label="适用性别" :formatter="formatterSex"></el-table-column>
+      <el-table-column prop="isHot" label="是否为热门" :formatter="formatterBoolean"></el-table-column>
+      <el-table-column prop="isRecommend" label="是否为推荐" :formatter="formatterBoolean"></el-table-column>
       <el-table-column prop="createTime" :formatter="formatterDate" label="创建时间" ></el-table-column>
       <el-table-column prop="modifyTime" :formatter="formatterDate" label="修改时间" ></el-table-column>
       <el-table-column label="操作" fixed="right" width="100px">
@@ -102,6 +105,9 @@ export default {
       })
     },
     handleClick(row, event, column) {
+      console.log(row)
+      console.log('tBId=' + this.goodsBrandId)
+      console.log('tBName=' + this.goodsBrandName)
       if (event) {
         event.stopPropagation()
       }
@@ -111,6 +117,7 @@ export default {
           param: {
             type: this.goodsTypeId,
             tBId: this.goodsBrandId,
+            tBName: this.goodsBrandName,
             data: row
           }
         }
@@ -145,6 +152,7 @@ export default {
           param: {
             type: this.goodsTypeId,
             tBId: this.goodsBrandId,
+            tBName: this.goodsBrandName,
             data: this.goodsData[scope.$index]
           }
         }
@@ -159,6 +167,21 @@ export default {
     },
     formatterDate(row, column, cellValue) {
       return new Date(cellValue).toLocaleString()
+    },
+    formatterSex(row, column, cellValue) {
+      if (cellValue === 0) {
+        return '男女'
+      }
+      if (cellValue === 1) {
+        return '男'
+      }
+      if (cellValue === 2) {
+        return '女'
+      }
+      return '未知'
+    },
+    formatterBoolean(row, column, cellValue) {
+      return cellValue === 1 ? '是' : '否'
     },
     getUrl(sources) {
       if (sources === '') {
