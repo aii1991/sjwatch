@@ -8,7 +8,7 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.Banner" extends="BaseResultMap" >
-    <result column="src" property="src" jdbcType="VARBINARY" />
+    <result column="src" property="src" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, g_id, create_time, modify_time
@@ -28,13 +28,13 @@
     delete from t_banner
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Banner" >
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Banner" >
     insert into t_banner (id, g_id, create_time, 
       modify_time, src)
     values (#{id,jdbcType=BIGINT}, #{gId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{modifyTime,jdbcType=TIMESTAMP}, #{src,jdbcType=VARBINARY})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Banner" >
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Banner" >
     insert into t_banner
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -104,4 +104,10 @@
       modify_time = #{modifyTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="findAllBanner" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    SELECT * FROM t_banner ORDER BY modify_time DESC LIMIT 0,#{limit,jdbcType=BIGINT}
+  </select>
+
 </mapper>

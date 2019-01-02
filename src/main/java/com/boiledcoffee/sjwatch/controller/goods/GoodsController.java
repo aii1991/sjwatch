@@ -90,13 +90,14 @@ public class GoodsController extends ApiBaseController {
         return goodsService.findAllGoods(page,pageSize,goodQuery,uid);
     }
 
+    @RequestMapping(value = "/goods/{goodsId}")
+    public HandleResult<GoodsWithBLOBs> getGoodsById(@PathVariable long goodsId){
+        return goodsService.getGoodsById(goodsId);
+    }
+
     @RequestMapping(value = "/goods/{id}",method = RequestMethod.DELETE)
     public HandleResult<Map> deleteGoods(@PathVariable long id){
         return goodsService.deleteGoodsById(id);
     }
-
-
-
-
 
 }

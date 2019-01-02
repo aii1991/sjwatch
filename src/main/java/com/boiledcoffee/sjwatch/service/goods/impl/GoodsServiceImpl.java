@@ -47,6 +47,7 @@ public class GoodsServiceImpl implements IGoodsService{
                 handleResult.setErrorMsg("insert goods error");
             }
         }catch (Exception e){
+            e.printStackTrace();
             handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
@@ -63,6 +64,7 @@ public class GoodsServiceImpl implements IGoodsService{
                 handleResult.setErrorMsg("goods modify error");
             }
         }catch (Exception e){
+            e.printStackTrace();
             handleResult.setErrorMsg(e.getMessage());
         }
         return handleResult;
@@ -80,6 +82,23 @@ public class GoodsServiceImpl implements IGoodsService{
             PageRspData<GoodsWithBLOBs> pageRspData = new PageRspData<>(total,goodsList);
             handleResult.setResult(pageRspData);
 
+        }catch (Exception e){
+            e.printStackTrace();
+            handleResult.setErrorMsg(e.getMessage());
+        }
+        return handleResult;
+    }
+
+    @Override
+    public HandleResult<GoodsWithBLOBs> getGoodsById(long goodsId) {
+        HandleResult<GoodsWithBLOBs> handleResult = new HandleResult<>();
+        try {
+            GoodsWithBLOBs result = goodsMapper.getGoodsById(goodsId);
+            if(result != null){
+                handleResult.setResult(result);
+            }else {
+                handleResult.setErrorMsg("can not find the goods");
+            }
         }catch (Exception e){
             e.printStackTrace();
             handleResult.setErrorMsg(e.getMessage());

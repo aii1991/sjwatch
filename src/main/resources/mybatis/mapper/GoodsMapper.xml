@@ -16,6 +16,7 @@
     <result column="is_hot" property="isHot" jdbcType="INTEGER" />
     <result column="is_recommend" property="isRecommend" jdbcType="INTEGER" />
     <result column="sex" property="sex" jdbcType="INTEGER" />
+    <result column="cover_src" property="coverSrc" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" extends="BaseResultMap" >
     <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
@@ -23,7 +24,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, t_b_id, name, number, type, sale_price, wholesale, purchase_price, stock, create_time,
-    modify_time, is_hot, is_recommend, sex
+    modify_time, is_hot, is_recommend, sex, cover_src
   </sql>
 
   <sql id="Blob_Column_List" >
@@ -41,21 +42,21 @@
     delete from t_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     insert into t_goods (id, t_b_id, name,
       number, type, sale_price,
       wholesale, purchase_price, stock,
       create_time, modify_time, is_hot,
       is_recommend, sex, descr,
-      sources)
+      sources,cover_src)
     values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
       #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE},
       #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{isHot,jdbcType=INTEGER},
       #{isRecommend,jdbcType=INTEGER}, #{sex,jdbcType=INTEGER}, #{descr,jdbcType=LONGVARCHAR},
-      #{sources,jdbcType=LONGVARCHAR})
+      #{sources,jdbcType=LONGVARCHAR},#{coverSrc,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
     insert into t_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -155,6 +156,9 @@
       </if>
       <if test="sources != null" >
         #{sources,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="coverSrc != null">
+        #{cover_src,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -305,6 +309,10 @@
       modify_time DESC
     </if>
 
+  </select>
+
+  <select id="getGoodsById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">
+      SELECT * FROM t_goods WHERE id = #{goodsId,jdbcType = BIGINT}
   </select>
 
 </mapper>

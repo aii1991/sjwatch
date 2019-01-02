@@ -39,6 +39,13 @@ public interface IGoodsService {
     HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
 
     /**
+     * 通过商品id获取商品
+     * @param goodsId
+     * @return
+     */
+    HandleResult<GoodsWithBLOBs> getGoodsById(long goodsId);
+
+    /**
      * 通过商品id删除商品
      * @param id
      * @return

@@ -59,7 +59,12 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
       </el-form-item>
+      <el-form-item>
+        <img width="200" height="100" :src="goodsForm.coverSrc"/>
+      </el-form-item>
     </el-form>
+    <el-button type="primary" @click="handleAddToBanner">加入主页广告</el-button>
+    <el-button type="danger" @click="handleDelete">删除</el-button>
  </div>
 </template>
 
@@ -81,7 +86,8 @@ export default {
         wholesale: this.param.data.wholesale,
         purchasePrice: this.param.data.purchasePrice,
         stock: this.param.data.stock,
-        sources: JSON.parse(this.param.data.sources)
+        sources: JSON.parse(this.param.data.sources),
+        coverSrc: this.param.data.coverSrc
       },
       goodsTypeData: this.getGoodsTypeData(),
       goodsBrandData: [{
@@ -116,6 +122,38 @@ export default {
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
+    },
+    handleAddToBanner() {
+      this.loading = true
+      this.$store.dispatch('AddBanner', { 'gId': this.goodsForm.id, 'coverSrc': this.goodsForm.coverSrc }).then(response => {
+        this.loading = false
+        this.$message({ showClose: true, message: '加入成功', type: 'success' })
+      }).catch((reason) => {
+        this.loading = false
+        this.$message({ showClose: true, message: '加入失败', type: 'error' })
+      })
+    },
+    handleDelete() {
+      this.$confirm('是否继续删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.invokeDelete()
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除' })
+      })
+    },
+    invokeDelete() {
+      this.loading = true
+      this.$store.dispatch('DeleteGoods', this.goodsForm.id).then(response => {
+        this.loading = false
+        this.$message({ showClose: true, message: '删除成功', type: 'error' })
+        this.$router.go(-1)
+      }).catch((reason) => {
+        this.loading = false
+        this.$message({ showClose: true, message: '删除失败', type: 'error' })
+      })
     }
   }
 }

@@ -108,6 +108,23 @@ export const constantRouterMap = [
     ]
   },
   {
+    path: '/banner',
+    name: 'bannerManager',
+    redirect: '/banner/index',
+    component: Layout,
+    meta: { title: '广告管理', icon: 'goods' },
+    children: [
+      {
+        hidden: false,
+        path: 'index',
+        name: 'bannerIndex',
+        component: () => import('@/views/banner/index'),
+        props: true,
+        meta: { title: '主页广告', icon: 'goods' }
+      }
+    ]
+  },
+  {
     path: '/order',
     name: 'orderManager',
     redirect: '/order/index',

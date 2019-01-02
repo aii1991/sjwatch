@@ -11,7 +11,7 @@ public class Banner {
 
     private Date modifyTime;
 
-    private byte[] src;
+    private String src;
 
     public Long getId() {
         return id;
@@ -45,11 +45,11 @@ public class Banner {
         this.modifyTime = modifyTime;
     }
 
-    public byte[] getSrc() {
+    public String getSrc() {
         return src;
     }
 
-    public void setSrc(byte[] src) {
+    public void setSrc(String src) {
         this.src = src;
     }
 }

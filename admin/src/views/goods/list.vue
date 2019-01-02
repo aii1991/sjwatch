@@ -26,7 +26,7 @@
         </template>
       </el-table-column>
       <el-table-column prop="name" label="商品名称" ></el-table-column>
-       <el-table-column label="商品缩略图" >
+      <el-table-column label="商品缩略图" >
           <template slot-scope="scope">
               <img :src ="getUrl(scope.row.sources)" width="50px" height="50px"/>
           </template>
@@ -46,6 +46,7 @@
           <template slot-scope="scope">
            <el-button @click="handleEditClick(scope,$event)" type="text" size="small">编辑</el-button>
            <el-button @click="handleDeleteClick(scope,$event)" type="text" size="small">删除</el-button>
+           <el-button @click="handleAddToBanner(scope,$event)" type="text" size="small">加入主页广告</el-button>
           </template>
       </el-table-column>
     </el-table>
@@ -130,6 +131,17 @@ export default {
       if (event) {
         event.stopPropagation()
       }
+      this.$confirm('是否继续删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.invokeDelete(scope)
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除' })
+      })
+    },
+    invokeDelete(scope) {
       this.loading = true
       var id = scope.row.id
       this.$store.dispatch('DeleteGoods', id).then((response) => {
@@ -156,6 +168,19 @@ export default {
             data: this.goodsData[scope.$index]
           }
         }
+      })
+    },
+    handleAddToBanner(scope, event) {
+      if (event) {
+        event.stopPropagation()
+      }
+      this.loading = true
+      this.$store.dispatch('AddBanner', { 'gId': this.goodsData[scope.$index].id, 'coverSrc': this.goodsData[scope.$index].coverSrc }).then(response => {
+        this.loading = false
+        this.$message({ showClose: true, message: '加入成功', type: 'success' })
+      }).catch((reason) => {
+        this.loading = false
+        this.$message({ showClose: true, message: '加入失败', type: 'error' })
       })
     },
     onSearchSubmit() {

@@ -114,6 +114,17 @@ export function modifyGoods(data) {
 }
 
 /**
+ * 通过商品id获取商品
+ * @param {} goodsId 商品id
+ */
+export function getGoodsById(goodsId) {
+  return request({
+    url: '/goods/' + goodsId,
+    method: 'GET'
+  })
+}
+
+/**
  * 删除商品
  * @param {*} goodsId 商品id
  */

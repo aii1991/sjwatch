@@ -94,6 +94,26 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
       </el-form-item>
+
+      <el-form-item label="封面图片">
+         <el-upload ref="upload"
+            :action="uploadUrl"
+            list-type="picture-card"
+            name="file"
+            :limit="1"
+            :data="uploadToken"
+            :on-exceed="handleExceed"
+            :on-success="handleUploadCover"
+            :on-error="handleUploadError"
+            :on-preview="handlePictureCardPreview"
+            :on-remove="handelRemoveCover">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="">
+          </el-dialog>
+      </el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="resetForm('goodsForm')">重置</el-button>
@@ -151,7 +171,8 @@ export default {
         sex: 0,
         isHot: 0,
         isRecommend: 0,
-        sources: []
+        sources: [],
+        coverSrc: ''
       },
       rules: {
         type: [
@@ -237,7 +258,8 @@ export default {
             sex: this.goodsForm.sex,
             isHot: this.isHot,
             isRecommend: this.isRecommend,
-            sources: JSON.stringify(this.goodsForm.sources)
+            sources: JSON.stringify(this.goodsForm.sources),
+            coverSrc: this.goodsForm.coverSrc
           }).then(() => {
             this.resetForm('goodsForm')
             this.loading = false
@@ -272,6 +294,9 @@ export default {
         this.goodsForm.sources.splice(rvIndex, 1)
       }
     },
+    handelRemoveCover() {
+      this.goodsForm.coverSrc = ''
+    },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url
       this.dialogVisible = true
@@ -285,6 +310,11 @@ export default {
         'name': file.name,
         'size': file.size
       })
+    },
+    handleUploadCover(response, file, fileList) {
+      var baseDownloadUrl = process.env.BASE_DOWNLOAD_URL
+      var fileUrl = baseDownloadUrl + '/' + response.key
+      this.goodsForm.coverSrc = fileUrl
     },
     handleUploadError(err, file, fileList) {
       this.$message({ showClose: true, message: '上传失败,' + err, type: 'error' })

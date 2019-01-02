@@ -5,6 +5,7 @@ import user from './modules/user'
 import goods from './modules/goods'
 import getters from './getters'
 import order from './modules/order'
+import banner from './modules/banner'
 
 Vue.use(Vuex)
 
@@ -13,7 +14,8 @@ const store = new Vuex.Store({
     app,
     user,
     goods,
-    order
+    order,
+    banner
   },
   getters
 })

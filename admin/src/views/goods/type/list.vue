@@ -62,6 +62,17 @@ export default {
       if (event) {
         event.stopPropagation()
       }
+      this.$confirm('是否继续删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.invokeDelete(scope)
+      }).catch(() => {
+        this.$message({ type: 'info', message: '已取消删除' })
+      })
+    },
+    invokeDelete(scope) {
       this.loading = true
       var id = scope.row.id
       this.$store.dispatch('DeleteGoodsType', id).then((response) => {

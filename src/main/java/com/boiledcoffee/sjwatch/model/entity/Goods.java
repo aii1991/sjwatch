@@ -31,6 +31,8 @@ public class Goods {
 
     private Integer sex;
 
+    private String coverSrc;
+
     public Long getId() {
         return id;
     }
@@ -141,5 +143,13 @@ public class Goods {
 
     public void setSex(Integer sex) {
         this.sex = sex;
+    }
+
+    public String getCoverSrc() {
+        return coverSrc;
+    }
+
+    public void setCoverSrc(String coverSrc) {
+        this.coverSrc = coverSrc;
     }
 }

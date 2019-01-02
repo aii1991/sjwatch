@@ -1,4 +1,4 @@
-import { addGoodsType, listGoodsType, addGoodsBrand, listGoodsBrand, listGoods, addGoods, modifyGoods, deleteGoodsBrand, deleteGoodsType, deleteGoods } from '@/api/goods'
+import { addGoodsType, listGoodsType, addGoodsBrand, listGoodsBrand, listGoods, addGoods, modifyGoods, deleteGoodsBrand, deleteGoodsType, deleteGoods, getGoodsById } from '@/api/goods'
 import { setGoodsTypeList } from '@/utils/sjcookies'
 
 const goods = {
@@ -24,6 +24,9 @@ const goods = {
     },
     MODIFY_GOODS_SUCCESS: (state) => {
       state.isFetchGoodData = true
+    },
+    GET_GOODS_BY_ID_SUCCESS: (state) => {
+      state.isFetchGoodData = false
     }
   },
   actions: {
@@ -113,6 +116,16 @@ const goods = {
         modifyGoods(paramData).then(response => {
           resolve()
           commit('MODIFY_GOODS_SUCCESS')
+        }).catch(error => {
+          reject(error)
+        })
+      })
+    },
+    GetGoodsById({ commit }, goodsId) {
+      return new Promise((resolve, reject) => {
+        getGoodsById(goodsId).then(response => {
+          resolve(response)
+          commit('GET_GOODS_BY_ID_SUCCESS')
         }).catch(error => {
           reject(error)
         })

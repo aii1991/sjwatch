@@ -27,9 +27,9 @@ drop table if exists t_user_log;
 /*==============================================================*/
 create table t_banner
 (
-   id                   bigint not null,
-   g_id                 bigint,
-   src                  varbinary(100),
+   id                   bigint  not null auto_increment,
+   g_id                 bigint not null,
+   src                  varchar(100),
    create_time          timestamp,
    modify_time          timestamp,
    primary key (id)
@@ -66,12 +66,13 @@ create table t_goods
    purchase_price       double,
    stock                int,
    descr                text,
-   sources              text comment 'jsonÊý×é¸ñÊ½',
+   sources              text comment 'jsonï¿½ï¿½ï¿½ï¿½ï¿½Ê½',
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    is_hot               int(2),
    is_recommend         int(2),
    sex                  int(2),
+   cover_src            varchar(100),
    primary key (id)
 );
 
@@ -130,7 +131,7 @@ create table t_user
    nick_name            varchar(30),
    password             varchar(100),
    token                varchar(50),
-   sex                  int(1) comment '0=Î´Öª,1=ÄÐ,2=Å®',
+   sex                  int(1) comment '0=Î´Öª,1=ï¿½ï¿½,2=Å®',
    age                  int(3),
    qq_token             varchar(50),
    wechat_token         varchar(50),
