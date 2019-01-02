@@ -1,1 +1,0 @@
-该目录为mybatis-generator自动生成代码目录,执行exec_generator脚本后,该目录会生成对应的dao,mapping,model
