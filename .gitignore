@@ -27,3 +27,8 @@ hs_err_pid*
 .idea/
 sjwatch.iml
 target/
+/admin/node_modules/
+.settings/
+admin/dist/
+libs/
+logs/sjwathc.log.1
