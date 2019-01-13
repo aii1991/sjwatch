@@ -58,6 +58,7 @@ export default {
               type: response.type,
               tBId: response.tBId,
               tBName: '',
+              isShowAddToBanner: false,
               data: response
             }
           }

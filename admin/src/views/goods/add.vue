@@ -77,7 +77,7 @@
         <el-input v-model.number="goodsForm.descr" type="textarea" clearable></el-input>
       </el-form-item>
       <el-form-item label="图片描述">
-         <el-upload ref="upload"
+         <el-upload ref="uploadImg"
             :action="uploadUrl"
             list-type="picture-card"
             name="file"
@@ -96,7 +96,7 @@
       </el-form-item>
 
       <el-form-item label="封面图片">
-         <el-upload ref="upload"
+         <el-upload ref="uploadCover"
             :action="uploadUrl"
             list-type="picture-card"
             name="file"
@@ -324,7 +324,8 @@ export default {
     },
     resetForm(formName) {
       this.goodsForm.sources = []
-      this.$refs.upload.clearFiles()
+      this.$refs.uploadImg.clearFiles()
+      this.$refs.uploadCover.clearFiles()
       this.$refs[formName].resetFields()
     }
   }

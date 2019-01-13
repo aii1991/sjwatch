@@ -45,7 +45,7 @@ public class HandleResult<T> {
         return status;
     }
     public boolean isError(){
-        return !StringUtils.isEmpty(errorMsg);
+        return !StringUtils.isEmpty(errorMsg) && status != BussinessCode.SUCCESS.getCode();
     }
 
 }

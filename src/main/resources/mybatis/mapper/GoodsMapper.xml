@@ -107,6 +107,9 @@
       <if test="sources != null" >
         sources,
       </if>
+      <if test="coverSrc != null">
+        cover_src
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -158,7 +161,7 @@
         #{sources,jdbcType=LONGVARCHAR},
       </if>
       <if test="coverSrc != null">
-        #{cover_src,jdbcType=VARCHAR}
+        #{coverSrc,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -271,6 +274,15 @@
     <if test="goodQuery.tBId != 0">
       AND t_b_id = #{goodQuery.tBId,jdbcType = BIGINT}
     </if>
+    <if test="goodQuery.sex > 0">
+      AND sex = #{goodQuery.sex,jdbcType = INTEGER}
+    </if>
+    <if test="goodQuery.isHot > 0">
+      AND is_hot = #{goodQuery.isHot,jdbcType = INTEGER}
+    </if>
+    <if test="goodQuery.isRecommend > 0">
+      AND is_recommend = #{goodQuery.isRecommend,jdbcType = INTEGER}
+    </if>
 
     <choose>
       <when test="goodQuery.sortTime == 2">
@@ -282,31 +294,38 @@
     </choose>
 
     <if test="goodQuery.sortSalePrice == 1">
-      modify_time ASC
+      sale_price ASC
     </if>
     <if test="goodQuery.sortSalePrice == 2">
-      modify_time DESC
+      sale_price DESC
     </if>
 
     <if test="goodQuery.sortWholesale == 1">
-      modify_time ASC
+      wholesale ASC
     </if>
     <if test="goodQuery.sortWholesale == 2">
-      modify_time DESC
+      wholesale DESC
     </if>
 
     <if test="goodQuery.sortPurchasePrice == 1">
-      modify_time ASC
+      purchase_price ASC
     </if>
     <if test="goodQuery.sortPurchasePrice == 2">
-      modify_time DESC
+      purchase_price DESC
     </if>
 
     <if test="goodQuery.sortStock == 1">
-      modify_time ASC
+      stock ASC
     </if>
     <if test="goodQuery.sortStock == 2">
-      modify_time DESC
+      stock DESC
+    </if>
+
+    <if test="goodQuery.sortBrand == 1">
+      t_b_id ASC
+    </if>
+    <if test="goodQuery.sortBrand == 2">
+      t_b_id DESC
     </if>
 
   </select>

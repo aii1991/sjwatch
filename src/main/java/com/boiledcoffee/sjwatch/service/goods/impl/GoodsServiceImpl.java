@@ -16,6 +16,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -76,7 +77,7 @@ public class GoodsServiceImpl implements IGoodsService{
         int offSet = page * pageSize;
         try {
             Page page1 = PageHelper.startPage(page, pageSize, true);
-            int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+            int isAdmin = StringUtils.isEmpty(stringRedisTemplate.opsForValue().get("isAdmin/" + uid)) ? 0 : Integer.parseInt(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
             List<GoodsWithBLOBs> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodQuery, isAdmin);
             long total = page1.getTotal();
             PageRspData<GoodsWithBLOBs> pageRspData = new PageRspData<>(total,goodsList);

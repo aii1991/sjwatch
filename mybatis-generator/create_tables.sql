@@ -30,8 +30,8 @@ create table t_banner
    id                   bigint  not null auto_increment,
    g_id                 bigint not null,
    src                  varchar(100),
-   create_time          timestamp,
-   modify_time          timestamp,
+   create_time           timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id)
 );
 
@@ -103,8 +103,8 @@ create table t_order
    delivery_name        char(30),
    price                double,
    goods_id             bigint,
-   create_time          timestamp,
-   modify_time          timestamp,
+  create_time         timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    primary key (id),
    unique key AK_Key_2 (no)
 );

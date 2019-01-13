@@ -5,21 +5,18 @@ import com.boiledcoffee.sjwatch.dao.UserMapper;
 import com.boiledcoffee.sjwatch.model.QiniuProperties;
 import com.boiledcoffee.sjwatch.model.SJProperties;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
-import com.boiledcoffee.sjwatch.model.entity.OrderWrapper;
 import com.boiledcoffee.sjwatch.model.entity.User;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.UserLog;
 import com.boiledcoffee.sjwatch.service.user.IUserService;
-import com.boiledcoffee.sjwatch.util.QiniuUtils;
+import com.boiledcoffee.sjwatch.util.UploadUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -54,7 +51,7 @@ public class UserServiceImpl implements IUserService{
                     stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,sjProperties.getTokenValidTime(),TimeUnit.HOURS);
                     stringRedisTemplate.opsForValue().set("isAdmin/" + findUser.getId(),findUser.getRoleId() == 1 ? "1" : "0");
                     findUser.setPassword(null);
-                    findUser.setUploadToken(QiniuUtils.generatorToken(qiniuProperties.getAk(),qiniuProperties.getSk(),qiniuProperties.getBucket()));
+                    findUser.setUploadToken(UploadUtils.generatorQiNiuToken(qiniuProperties.getAk(),qiniuProperties.getSk(),qiniuProperties.getBucket()));
                     handleResult.setResult(findUser);
                 }else {
                     //账号密码错误

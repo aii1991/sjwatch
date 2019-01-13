@@ -12,6 +12,9 @@ public class GoodQuery implements Serializable{
     private String number;
     private long type;
     private long tBId;
+    private int isHot = -1;
+    private int isRecommend = -1;
+    private int sex = -1;
     private int sortName;
     private int sortNumber;
     private int sortTime = 2;
@@ -19,6 +22,7 @@ public class GoodQuery implements Serializable{
     private int sortWholesale;
     private int sortPurchasePrice;
     private int sortStock;
+    private int sortBrand;
 
     public String getName() {
         return name;
@@ -106,5 +110,37 @@ public class GoodQuery implements Serializable{
 
     public void setSortStock(int sortStock) {
         this.sortStock = sortStock;
+    }
+
+    public int getIsHot() {
+        return isHot;
+    }
+
+    public void setIsHot(int isHot) {
+        this.isHot = isHot;
+    }
+
+    public int getIsRecommend() {
+        return isRecommend;
+    }
+
+    public void setIsRecommend(int isRecommend) {
+        this.isRecommend = isRecommend;
+    }
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public int getSortBrand() {
+        return sortBrand;
+    }
+
+    public void setSortBrand(int sortBrand) {
+        this.sortBrand = sortBrand;
     }
 }

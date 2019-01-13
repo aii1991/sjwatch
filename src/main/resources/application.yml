@@ -52,6 +52,12 @@ qiniu:
   sk: 7l7arEeXadKEVSxBX3WIx-xKPgsVQvvKuuExpXGu
   bucket: sjwatch
 
+oss:
+  ak: 6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ
+  sk: 7l7arEeXadKEVSxBX3WIx
+  bucket: sjwatch
+  expiration: 24
+
 ali-sms:
   ak: 123
   sk: 123

@@ -63,7 +63,8 @@
         <img width="200" height="100" :src="goodsForm.coverSrc"/>
       </el-form-item>
     </el-form>
-    <el-button type="primary" @click="handleAddToBanner">加入主页广告</el-button>
+
+    <el-button type="primary" v-if="isShowAddToBanner" @click="handleAddToBanner">加入主页广告</el-button>
     <el-button type="danger" @click="handleDelete">删除</el-button>
  </div>
 </template>
@@ -99,7 +100,8 @@ export default {
       uploadUrl: process.env.FILE_UPLOAD_URL,
       dialogImageUrl: '',
       dialogVisible: false,
-      uploadFileLimit: 9
+      uploadFileLimit: 9,
+      isShowAddToBanner: this.param.isShowAddToBanner ? true : this.param.isShowAddToBanner
     }
   },
   props: ['param'],
