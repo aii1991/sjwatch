@@ -1,17 +1,17 @@
 import { login, logout, listLog } from '@/api/login'
-import { getToken, setToken, removeToken, setUid, getUid } from '@/utils/auth'
-import { setUploadToken } from '@/utils/sjcookies'
+import { getToken, getUploadToken, getUserName, getNickName, getRoleId, removeUserInfo, getUid, getSex, getAge, setUserInfo } from '@/utils/auth'
 
 const user = {
   state: {
     token: getToken(),
     uid: getUid(),
-    name: '',
-    nickName: '',
-    avatar: '',
-    sex: 0,
-    age: 0,
-    roleId: 0
+    name: getUserName(),
+    nickName: getNickName(),
+    avatar: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3051523273,1778200958&fm=26&gp=0.jpg',
+    sex: getSex(),
+    age: getAge(),
+    roleId: getRoleId(),
+    uploadToken: getUploadToken()
   },
 
   mutations: {
@@ -39,9 +39,7 @@ const user = {
       const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
-          setToken(response.token)
-          setUid(response.id)
-          setUploadToken(response.uploadToken)
+          setUserInfo(response)
           commit('SET_USER_INFO', response)
           resolve()
         }).catch(error => {
@@ -55,7 +53,7 @@ const user = {
       return new Promise((resolve, reject) => {
         logout().then(() => {
           commit('SET_USER_INFO', '')
-          removeToken()
+          removeUserInfo()
           resolve()
         }).catch(error => {
           reject(error)
@@ -67,7 +65,7 @@ const user = {
     FedLogOut({ commit }) {
       return new Promise(resolve => {
         commit('SET_TOKEN', '')
-        removeToken()
+        removeUserInfo()
         resolve()
       })
     },

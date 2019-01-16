@@ -33,7 +33,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="是否为热门" prop="sex">
+      <el-form-item label="是否为热门" prop="isHot">
          <el-select v-model="goodsForm.isHot" placeholder="否" @change="handleHotChange">
             <el-option
                 v-for="item in booleanOpts"
@@ -44,7 +44,7 @@
         </el-select>
       </el-form-item>
 
-      <el-form-item label="是否为推荐" prop="sex">
+      <el-form-item label="是否为推荐" prop="isRecommend">
          <el-select v-model="goodsForm.isRecommend" placeholder="否" @change="handleRecommendChange">
             <el-option
                 v-for="item in booleanOpts"
@@ -82,7 +82,7 @@
             list-type="picture-card"
             name="file"
             :limit="uploadFileLimit"
-            :data="uploadToken"
+            :data="uploadInfo"
             :on-exceed="handleExceed"
             :on-success="handleUpload"
             :on-error="handleUploadError"
@@ -101,7 +101,7 @@
             list-type="picture-card"
             name="file"
             :limit="1"
-            :data="uploadToken"
+            :data="uploadInfo"
             :on-exceed="handleExceed"
             :on-success="handleUploadCover"
             :on-error="handleUploadError"
@@ -206,8 +206,11 @@ export default {
       goodsBrandData: [],
       brandSelectDisabled: true,
       loading: false,
-      uploadToken: {
-        token: this.$store.getters.uploadToken
+      uploadInfo: {
+        policy: this.getOssUploadInfo()[0],
+        OSSAccessKeyId: this.getOssUploadInfo()[1],
+        Signature: this.getOssUploadInfo()[2],
+        key: 'sj' + new Date().getTime()
       },
       uploadUrl: process.env.FILE_UPLOAD_URL,
       dialogImageUrl: '',
@@ -302,8 +305,7 @@ export default {
       this.dialogVisible = true
     },
     handleUpload(response, file, fileList) {
-      var baseDownloadUrl = process.env.BASE_DOWNLOAD_URL
-      var fileUrl = baseDownloadUrl + '/' + response.key
+      var fileUrl = this.uploadUrl + '/' + this.uploadInfo.key
       this.goodsForm.sources.push({
         'id': response.hash,
         'url': fileUrl,
@@ -312,8 +314,7 @@ export default {
       })
     },
     handleUploadCover(response, file, fileList) {
-      var baseDownloadUrl = process.env.BASE_DOWNLOAD_URL
-      var fileUrl = baseDownloadUrl + '/' + response.key
+      var fileUrl = this.uploadUrl + '/' + this.uploadInfo.key
       this.goodsForm.coverSrc = fileUrl
     },
     handleUploadError(err, file, fileList) {
@@ -327,6 +328,10 @@ export default {
       this.$refs.uploadImg.clearFiles()
       this.$refs.uploadCover.clearFiles()
       this.$refs[formName].resetFields()
+    },
+    getOssUploadInfo() {
+      var upToken = this.$store.getters.uploadToken
+      return upToken.split('.')
     }
   }
 }
