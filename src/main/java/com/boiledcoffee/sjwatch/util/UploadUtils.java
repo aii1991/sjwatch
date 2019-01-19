@@ -9,7 +9,9 @@ import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -26,8 +28,16 @@ public class UploadUtils {
         return uploadToken;
     }
 
-    public static String[] generateOssPolicyAndToken(String ak, int expiration) throws JSONException {
-        String[] result = new String[2];
+    /**
+     *
+     * @param ak
+     * @param sk
+     * @param expiration
+     * @return 返回上传OSS凭证,数据包含policy,ak,signature
+     * @throws JSONException
+     */
+    public static String generateOssPolicyAndToken(String ak,String sk,int expiration) throws JSONException {
+        String[] result = new String[3];
         long expirationTimeMillis = 1000 * 60 * 60 * expiration;
         Date date = new Date(System.currentTimeMillis() + expirationTimeMillis);
         String expirationData = FORMAT_YMD.format(date) + "T" + FORMAT_HMS.format(date) + "Z";
@@ -36,11 +46,12 @@ public class UploadUtils {
         String policy = "{\"expiration\": \"" + expirationData + "\",\"conditions\": [[\"content-length-range\", 0, " + contentLengthRange + "]]}";
         String encodePolicy = new String(Base64.encodeBase64(policy.getBytes()));
         result[0] = encodePolicy;
-        String signature = ServiceSignature.create().computeSignature(ak, encodePolicy);
-        result[1] = signature;
+        result[1] = ak;
+        String signature = ServiceSignature.create().computeSignature(sk, encodePolicy);
+        result[2] = signature;
         System.out.println("policy=>"+policy);
         System.out.println("encodePolicy=>"+encodePolicy);
         System.out.println("signature=>"+signature);
-        return result;
+        return result[0] + "." + result[1] + "." + result[2];
     }
 }

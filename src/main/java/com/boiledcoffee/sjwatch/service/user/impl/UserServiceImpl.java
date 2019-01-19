@@ -2,6 +2,7 @@ package com.boiledcoffee.sjwatch.service.user.impl;
 
 import com.boiledcoffee.sjwatch.dao.UserLogMapper;
 import com.boiledcoffee.sjwatch.dao.UserMapper;
+import com.boiledcoffee.sjwatch.model.OssProperties;
 import com.boiledcoffee.sjwatch.model.QiniuProperties;
 import com.boiledcoffee.sjwatch.model.SJProperties;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
@@ -36,23 +37,26 @@ public class UserServiceImpl implements IUserService{
     QiniuProperties qiniuProperties;
     @Autowired
     SJProperties sjProperties;
+    @Autowired
+    OssProperties ossProperties;
 
 
     @Override
     public HandleResult<User> login(String userName,String password) {
         HandleResult<User> handleResult = new HandleResult<>();
         try {
-            User findUser = userMapper.selectByUserName(userName);
-            if (findUser != null){
-                String findPassword = findUser.getPassword();
+            User user = userMapper.selectByUserName(userName);
+            if (user != null){
+                String findPassword = user.getPassword();
                 if (findPassword.equals(password)){
                     //登录成功
-                    String token = createAndSaveAccessToken(findUser);
-                    stringRedisTemplate.opsForValue().set(String.valueOf(findUser.getId()),token,sjProperties.getTokenValidTime(),TimeUnit.HOURS);
-                    stringRedisTemplate.opsForValue().set("isAdmin/" + findUser.getId(),findUser.getRoleId() == 1 ? "1" : "0");
-                    findUser.setPassword(null);
-                    findUser.setUploadToken(UploadUtils.generatorQiNiuToken(qiniuProperties.getAk(),qiniuProperties.getSk(),qiniuProperties.getBucket()));
-                    handleResult.setResult(findUser);
+                    String token = createAndSaveAccessToken(user);
+                    stringRedisTemplate.opsForValue().set(String.valueOf(user.getId()), token, sjProperties.getTokenValidTime(), TimeUnit.HOURS);
+                    stringRedisTemplate.opsForValue().set("isAdmin/" + user.getId(),user.getRoleId() == 1 ? "1" : "0");
+                    user.setPassword(null);
+//                    user.setUploadToken(UploadUtils.generatorQiNiuToken(qiniuProperties.getAk(), qiniuProperties.getSk(), qiniuProperties.getBucket()));
+                    user.setUploadToken(UploadUtils.generateOssPolicyAndToken(ossProperties.getAk(),ossProperties.getSk(),ossProperties.getExpiration()));
+                    handleResult.setResult(user);
                 }else {
                     //账号密码错误
                     handleResult.setErrorMsg("username or password error");

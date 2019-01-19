@@ -10,7 +10,8 @@
             list-type="picture-card"
             name="file"
             :limit="1"
-            :data="uploadToken"
+            :data="uploadInfo"
+            :headers="headers"
             :on-exceed="handleExceed"
             :on-success="handleUpload"
             :on-error="handleUploadError"
@@ -33,7 +34,6 @@
 
 
 <script>
-// import { getUploadToken } from '@/utils/sjcookies'
 
 export default {
   data() {
@@ -43,8 +43,14 @@ export default {
         logo: ''
       },
       loading: false,
-      uploadToken: {
-        token: this.$store.getters.uploadToken
+      headers: {
+
+      },
+      uploadInfo: {
+        policy: this.getOssUploadInfo()[0],
+        OSSAccessKeyId: this.getOssUploadInfo()[1],
+        Signature: this.getOssUploadInfo()[2],
+        key: 'sj' + new Date().getTime()
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -87,8 +93,7 @@ export default {
       this.dialogVisible = true
     },
     handleUpload(response, file, fileList) {
-      var baseDownloadUrl = process.env.BASE_DOWNLOAD_URL
-      this.goodsBrandForm.logo = baseDownloadUrl + '/' + response.key
+      this.goodsBrandForm.logo = this.uploadUrl + '/' + this.uploadInfo.key
     },
     handleUploadError(err, file, fileList) {
       this.goodsBrandForm.logo = ''
@@ -101,6 +106,10 @@ export default {
       this.goodsBrandForm.logo = ''
       this.$refs.upload.clearFiles()
       this.$refs[formName].resetFields()
+    },
+    getOssUploadInfo() {
+      var upToken = this.$store.getters.uploadToken
+      return upToken.split('.')
     }
   }
 }
