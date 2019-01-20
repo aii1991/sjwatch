@@ -130,33 +130,33 @@
 				<img src="../images/2016.png "/>
 				<p>今日<br/>推荐</p>
 			</div>
-			<div class="am-u-sm-4 am-u-lg-3 ">
+			<div class="am-u-sm-4 am-u-lg-3" th:each="hotGoods,hotGoodsStat : ${hotGoods}">
 				<div class="info ">
 					<h3>真的有鱼</h3>
 					<h4>开年福利篇</h4>
 				</div>
-				<div class="recommendationMain one">
-					<a href="introduction.html"><img src="../images/tj.png "/></a>
+				<div class="recommendationMain one" th:class="${hotGoodsStat.index} == 0 ? 'recommendationMain one' : (${hotGoodsStat.index} == 1 ? 'recommendationMain two' : 'recommendationMain three')">
+					<a href="introduction.html"><img th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(hotGoods.sources)}"/></a>
 				</div>
 			</div>
-			<div class="am-u-sm-4 am-u-lg-3 ">
-				<div class="info ">
-					<h3>囤货过冬</h3>
-					<h4>让爱早回家</h4>
-				</div>
-				<div class="recommendationMain two">
-					<img src="../images/tj1.png "/>
-				</div>
-			</div>
-			<div class="am-u-sm-4 am-u-lg-3 ">
-				<div class="info ">
-					<h3>浪漫情人节</h3>
-					<h4>甜甜蜜蜜</h4>
-				</div>
-				<div class="recommendationMain three">
-					<img src="../images/tj2.png "/>
-				</div>
-			</div>
+			<!--<div class="am-u-sm-4 am-u-lg-3 ">-->
+				<!--<div class="info ">-->
+					<!--<h3>囤货过冬</h3>-->
+					<!--<h4>让爱早回家</h4>-->
+				<!--</div>-->
+				<!--<div class="recommendationMain two">-->
+					<!--<img src="../images/tj1.png "/>-->
+				<!--</div>-->
+			<!--</div>-->
+			<!--<div class="am-u-sm-4 am-u-lg-3 ">-->
+				<!--<div class="info ">-->
+					<!--<h3>浪漫情人节</h3>-->
+					<!--<h4>甜甜蜜蜜</h4>-->
+				<!--</div>-->
+				<!--<div class="recommendationMain three">-->
+					<!--<img src="../images/tj2.png "/>-->
+				<!--</div>-->
+			<!--</div>-->
 
 		</div>
 		<div class="clear "></div>
@@ -219,12 +219,12 @@
 		</div>
 		<div class="clear "></div>
 
-		<div id="f1">
+		<div id="f1" th:each="goods,goodsStat : ${goodsMap}">
 			<!--甜点-->
 
 			<div class="am-container ">
 				<div class="shopTitle ">
-					<h4>甜品</h4>
+					<h4 th:text="${goods.key}"></h4>
 					<h3>每一道甜品都有一个故事</h3>
 					<div class="today-brands ">
 					</div>
@@ -261,84 +261,16 @@
 					<div class="triangle-topright"></div>
 				</div>
 
-				<div class="am-u-sm-7 am-u-md-4 text-two sug">
+				<div th:each="goodsItem,goodsItemStat : ${goods.value}" th:class="${goodsItemStat.index} == 0 ? 'am-u-sm-7 am-u-md-4 text-two sug' :
+				 (${goodsItemStat.index} == 1 ? 'am-u-sm-7 am-u-md-4 text-two' : (${goodsItemStat.index} == 2 ? 'am-u-sm-3 am-u-md-2 text-three big' : (${goodsItemStat.index} == 3 ? 'am-u-sm-3 am-u-md-2 text-three sug':(${goodsItemStat.index} == 4 ? 'am-u-sm-3 am-u-md-2 text-three':'am-u-sm-3 am-u-md-2 text-three last big'))))">
 					<div class="outer-con ">
-						<div class="title ">
-							雪之恋和风大福
-						</div>
-						<div class="sub-title ">
-							¥13.8
-						</div>
+						<div class="title " th:text="${goodsItem.name}"></div>
+						<div class="sub-title " th:text="${goodsItem.salePrice}"></div>
 						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 					</div>
-					<a href="#"><img src="../images/2.jpg" /></a>
+					<a href="#"><img th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(goodsItem.sources)}" /></a>
 				</div>
 
-				<div class="am-u-sm-7 am-u-md-4 text-two">
-					<div class="outer-con ">
-						<div class="title ">
-							雪之恋和风大福
-						</div>
-						<div class="sub-title ">
-							¥13.8
-						</div>
-						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-					</div>
-					<a href="#"><img src="../images/1.jpg" /></a>
-				</div>
-
-
-				<div class="am-u-sm-3 am-u-md-2 text-three big">
-					<div class="outer-con ">
-						<div class="title ">
-							小优布丁
-						</div>
-						<div class="sub-title ">
-							¥4.8
-						</div>
-						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-					</div>
-					<a href="#"><img src="../images/5.jpg" /></a>
-				</div>
-
-				<div class="am-u-sm-3 am-u-md-2 text-three sug">
-					<div class="outer-con ">
-						<div class="title ">
-							小优布丁
-						</div>
-						<div class="sub-title ">
-							¥4.8
-						</div>
-						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-					</div>
-					<a href="#"><img src="../images/3.jpg" /></a>
-				</div>
-
-				<div class="am-u-sm-3 am-u-md-2 text-three ">
-					<div class="outer-con ">
-						<div class="title ">
-							小优布丁
-						</div>
-						<div class="sub-title ">
-							¥4.8
-						</div>
-						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-					</div>
-					<a href="#"><img src="../images/4.jpg" /></a>
-				</div>
-
-				<div class="am-u-sm-3 am-u-md-2 text-three last big ">
-					<div class="outer-con ">
-						<div class="title ">
-							小优布丁
-						</div>
-						<div class="sub-title ">
-							¥4.8
-						</div>
-						<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-					</div>
-					<a href="#"><img src="../images/5.jpg" /></a>
-				</div>
 
 			</div>
 			<div class="clear "></div>

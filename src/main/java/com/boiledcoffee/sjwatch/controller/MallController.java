@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by ${juha} on 2018/12/4.
@@ -51,17 +53,17 @@ public class MallController {
         model.addAttribute("hotGoods",hotGoodsHandleResult.getResult().getList());
 
         //首页商品
-        List<GoodsWithBLOBs> goods =  new ArrayList<>();
+        Map<String,List<GoodsWithBLOBs>> goods = new HashMap<>();
         GoodQuery goodQuery = new GoodQuery();
         goodQuery.setSortTime(2);
         for(Brand brand : brands){
             goodQuery.settBId(brand.getId());
             HandleResult<PageRspData<GoodsWithBLOBs>> goodsHandleResult = goodsService.findAllGoods(0,6,goodQuery,uid);
             if (!goodsHandleResult.isError()){
-                goods.addAll(goodsHandleResult.getResult().getList());
+                goods.put(brand.getName(),goodsHandleResult.getResult().getList());
             }
         }
-        model.addAttribute("goods",goods);
+        model.addAttribute("goodsMap",goods);
 
         return "/home/index";
     }

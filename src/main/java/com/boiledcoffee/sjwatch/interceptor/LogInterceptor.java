@@ -24,7 +24,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String strUid = request.getHeader("uid");
         long uid = 2;
-        if (!StringUtils.isEmpty(strUid) && !"null".equals(strUid)){
+        if (!StringUtils.isEmpty(strUid) && !"null".equals(strUid) && !"undefined".equals(strUid)){
             uid = Long.parseLong(strUid);
         }
         UserLog userLog = new UserLog();

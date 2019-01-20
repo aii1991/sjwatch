@@ -30,3 +30,5 @@ hs_err_pid*
 !/admin/package-lock.json
 *.iml
 target/*
+admin/package-lock.json
+src/main/resources/static/js/*.js

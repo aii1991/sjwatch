@@ -13,6 +13,7 @@ import com.boiledcoffee.sjwatch.service.user.IUserService;
 import com.boiledcoffee.sjwatch.util.UploadUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
