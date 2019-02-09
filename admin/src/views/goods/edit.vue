@@ -58,6 +58,9 @@
       <el-form-item label="名称" prop="name">
         <el-input v-model="goodsForm.name" clearable></el-input>
       </el-form-item>
+      <el-form-item label="短名称" prop="shortName">
+        <el-input v-model="goodsForm.shortName" clearable></el-input>
+      </el-form-item>
       <el-form-item label="编号" prop="number">
         <el-input v-model="goodsForm.number" clearable></el-input>
       </el-form-item>
@@ -73,9 +76,19 @@
       <el-form-item label="库存" prop="stock">
         <el-input v-model.number="goodsForm.stock" clearable></el-input>
       </el-form-item>
-      <el-form-item label="描述" prop="descr">
+      <el-form-item label="描述" prop="descr" hidden>
         <el-input v-model.number="goodsForm.descr" type="textarea" clearable></el-input>
       </el-form-item>
+       <el-form-item label="描述">
+        <quill-editor v-model="content"
+                  ref="myQuillEditor"
+                  :options="editorOption"
+                  @blur="onEditorBlur($event)"
+                  @focus="onEditorFocus($event)"
+                  @ready="onEditorReady($event)">
+       </quill-editor>
+      </el-form-item>
+
       <el-form-item label="图片描述">
          <el-upload ref="upload"
             :action="uploadUrl"
@@ -102,8 +115,9 @@
             list-type="picture-card"
             name="file"
             :limit="1"
+            :file-list="coverSrcList"
             :data="uploadInfo"
-            :on-exceed="handleExceed"
+            :on-exceed="handleCoverExceed"
             :on-success="handleUploadCover"
             :on-error="handleUploadError"
             :on-preview="handlePictureCardPreview"
@@ -126,10 +140,56 @@
 
 <script>
 import { getGoodsTypeList } from '@/utils/sjcookies'
+import { quillRedefine } from 'vue-quill-editor-upload'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
+  components: { quillEditor, quillRedefine },
+  created: function() {
+    this.editorOption = quillRedefine(
+      {
+        // 图片上传的设置
+        uploadConfig: {
+          action: process.env.FILE_UPLOAD_URL, // 必填参数 图片上传地址
+          // 必选参数  res是一个函数，函数接收的response为上传成功时服务器返回的数据
+          // 你必须把返回的数据中所包含的图片地址 return 回去
+          res: (respnse) => {
+            console.log(respnse)
+            return respnse
+          },
+          name: 'file',
+          policy: this.getOssUploadInfo()[0],
+          OSSAccessKeyId: this.getOssUploadInfo()[1],
+          Signature: this.getOssUploadInfo()[2]
+        }
+      }
+    )
+    console.log(this.editorOption)
+  },
   data() {
     return {
+      content: this.param.data.descr,
+      contentIsChange: false,
+      editorOption: {
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
+          ]
+        }
+      },
       sexOpts: [
         {
           key: 0,
@@ -163,6 +223,7 @@ export default {
         type: this.param.type,
         tBId: this.param.tBId,
         name: this.param.data.name,
+        shortName: this.param.data.shortName,
         number: this.param.data.number,
         descr: this.param.data.descr,
         salePrice: this.param.data.salePrice,
@@ -183,6 +244,10 @@ export default {
           { required: true, message: '请选择品牌', trigger: 'change' }
         ],
         name: [
+          { required: true, message: '请输入名称', trigger: 'blur' },
+          { min: 3, max: 150, message: '长度在 3 到 150 个字符', trigger: 'blur' }
+        ],
+        shortName: [
           { required: true, message: '请输入名称', trigger: 'blur' },
           { min: 3, max: 30, message: '长度在 3 到 30 个字符', trigger: 'blur' }
         ],
@@ -214,15 +279,23 @@ export default {
         policy: this.getOssUploadInfo()[0],
         OSSAccessKeyId: this.getOssUploadInfo()[1],
         Signature: this.getOssUploadInfo()[2],
-        key: 'sj' + new Date().getTime()
+        key: this.getKey()
       },
       uploadUrl: process.env.FILE_UPLOAD_URL,
       dialogImageUrl: '',
       dialogVisible: false,
-      uploadFileLimit: 9
+      uploadFileLimit: 9,
+      coverSrcList: this.getCoverSrcList()
     }
   },
   props: ['param'],
+  mounted: function() {
+    this.$store.dispatch('GetGoodsById', this.param.data.id).then((response) => {
+      this.content = response.descr
+    }).catch((reason) => {
+      this.$message({ showClose: true, message: '获取商品描述失败,原因=>' + reason, type: 'error' })
+    })
+  },
   methods: {
     fetchGoodsBrandData(goodsTypsId) {
       this.$store.dispatch('ListGoodsBrand', goodsTypsId).then((response) => {
@@ -252,13 +325,14 @@ export default {
       this.$refs['goodsForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('ModifyGoods', {
+          var param = {
             id: this.param.data.id,
             type: this.goodsForm.type,
             tBId: this.goodsForm.tBId,
             name: this.goodsForm.name,
+            shortName: this.goodsForm.shortName,
+            descr: this.content,
             number: this.goodsForm.number,
-            descr: this.goodsForm.descr,
             salePrice: this.goodsForm.salePrice,
             wholesale: this.goodsForm.wholesale,
             purchasePrice: this.goodsForm.purchasePrice,
@@ -266,8 +340,10 @@ export default {
             sex: this.goodsForm.sex,
             isHot: this.isHot,
             isRecommend: this.isRecommend,
-            sources: JSON.stringify(this.goodsForm.sources)
-          }).then(() => {
+            sources: JSON.stringify(this.goodsForm.sources),
+            coverSrc: this.goodsForm.coverSrc
+          }
+          this.$store.dispatch('ModifyGoods', param).then(() => {
             this.loading = false
             this.$message({ showClose: true, message: '编辑成功', type: 'success' })
           }).catch(reason => {
@@ -291,9 +367,15 @@ export default {
       var rvIndex = -1
       for (var i = 0; i < this.goodsForm.sources.length; i++) {
         var item = this.goodsForm.sources[i]
-        if (item.id === file.response.hash) {
-          rvIndex = i
-          break
+        if (file.response) {
+          if (item.id === file.response.hash) {
+            rvIndex = i
+            break
+          }
+        } else {
+          if (item.url === file.url) {
+            rvIndex = i
+          }
         }
       }
       if (rvIndex !== -1) {
@@ -312,6 +394,7 @@ export default {
         'name': file.name,
         'size': file.size
       })
+      this.uploadInfo.key = this.getKey()
     },
     handleUploadError(err, file, fileList) {
       this.$message({ showClose: true, message: '上传失败,' + err, type: 'error' })
@@ -319,10 +402,15 @@ export default {
     handleExceed(files, fileList) {
       this.$message({ showClose: true, message: 'Logo最多上传' + this.uploadFileLimit + '张图片,', type: 'error' })
     },
+    handleCoverExceed(files, fileList) {
+      this.$message({ showClose: true, message: '封面图最多上传' + 1 + '张图片,', type: 'error' })
+    },
     resetForm(formName) {
+      this.content = ''
       this.goodsForm.sources = []
       this.$refs.upload.clearFiles()
       this.$refs[formName].resetFields()
+      this.uploadInfo.key = this.getKey()
     },
     getOssUploadInfo() {
       var upToken = this.$store.getters.uploadToken
@@ -334,6 +422,28 @@ export default {
     handleUploadCover() {
       var fileUrl = this.uploadUrl + '/' + this.uploadInfo.key
       this.goodsForm.coverSrc = fileUrl
+      this.uploadInfo.key = this.getKey()
+    },
+    getCoverSrcList() {
+      if (this.param.data.coverSrc) {
+        return [{
+          url: this.param.data.coverSrc,
+          name: 'sjAd.jpg',
+          uid: 1549595935892
+        }]
+      }
+    },
+    getKey() {
+      return 'sj' + new Date().getTime()
+    },
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill)
+    },
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
     }
   }
 }

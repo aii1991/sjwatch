@@ -41,14 +41,16 @@ export function deleteGoodsType(goodsTypeId) {
  * @param {*} logo 品牌logo
  * @param {*} goodsTypeId 品牌所属商品类型id
  */
-export function addGoodsBrand(name, logo, goodsTypeId) {
+export function addGoodsBrand(name, logo, goodsTypeId, descr, bgColor) {
   return request({
     url: '/goods/brand',
     method: 'post',
     data: {
       name,
       logo,
-      goodsTypeId
+      goodsTypeId,
+      descr,
+      bgColor
     }
   })
 }

@@ -2,11 +2,10 @@ package com.boiledcoffee.sjwatch.service.goods;
 
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
-import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
-import com.boiledcoffee.sjwatch.model.query.GoodQuery;
+import com.boiledcoffee.sjwatch.model.query.GoodsQuery;
 
 import java.util.List;
 import java.util.Map;
@@ -33,10 +32,10 @@ public interface IGoodsService {
      * 查找商品
      * @param page
      * @param pageSize
-     * @param goodQuery
+     * @param goodsQuery
      * @return
      */
-    HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page,int pageSize,GoodQuery goodQuery,String uid);
+    HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page, int pageSize, GoodsQuery goodsQuery, String uid);
 
     /**
      * 通过商品id获取商品

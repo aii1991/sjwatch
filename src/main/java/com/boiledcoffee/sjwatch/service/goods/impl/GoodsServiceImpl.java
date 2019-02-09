@@ -5,11 +5,10 @@ import com.boiledcoffee.sjwatch.dao.GoodsMapper;
 import com.boiledcoffee.sjwatch.dao.GoodsTypeMapper;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Brand;
-import com.boiledcoffee.sjwatch.model.entity.Goods;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
-import com.boiledcoffee.sjwatch.model.query.GoodQuery;
+import com.boiledcoffee.sjwatch.model.query.GoodsQuery;
 import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -72,13 +71,13 @@ public class GoodsServiceImpl implements IGoodsService{
     }
 
     @Override
-    public HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page, int pageSize, GoodQuery goodQuery,String uid) {
+    public HandleResult<PageRspData<GoodsWithBLOBs>> findAllGoods(int page, int pageSize, GoodsQuery goodsQuery, String uid) {
         HandleResult<PageRspData<GoodsWithBLOBs>> handleResult = new HandleResult<>();
         int offSet = page * pageSize;
         try {
             Page page1 = PageHelper.startPage(page, pageSize, true);
             int isAdmin = StringUtils.isEmpty(stringRedisTemplate.opsForValue().get("isAdmin/" + uid)) ? 0 : Integer.parseInt(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
-            List<GoodsWithBLOBs> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodQuery, isAdmin);
+            List<GoodsWithBLOBs> goodsList = goodsMapper.findAllGoods(offSet, pageSize, goodsQuery, isAdmin);
             long total = page1.getTotal();
             PageRspData<GoodsWithBLOBs> pageRspData = new PageRspData<>(total,goodsList);
             handleResult.setResult(pageRspData);

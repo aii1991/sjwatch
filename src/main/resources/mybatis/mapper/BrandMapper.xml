@@ -10,13 +10,23 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="category_id" property="categoryId" jdbcType="INTEGER" />
     <result column="category_name" property="categoryName" jdbcType="CHAR" />
+    <result column="bg_color" property="bgColor" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.boiledcoffee.sjwatch.model.entity.Brand" extends="BaseResultMap" >
+    <result column="descr" property="descr" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, logo, goods_type_id, create_time, modify_time, category_id, category_name
+    id, name, logo, goods_type_id, create_time, modify_time, category_id, category_name,
+    bg_color
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <sql id="Blob_Column_List" >
+    descr
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from t_brand
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -26,11 +36,13 @@
   </delete>
   <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
     insert into t_brand (id, name, logo,
-    goods_type_id, create_time, modify_time,
-    category_id, category_name)
+      goods_type_id, create_time, modify_time,
+      category_id, category_name, bg_color,
+      descr)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR},
-    #{goodsTypeId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
-    #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=CHAR})
+      #{goodsTypeId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP},
+      #{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=CHAR}, #{bgColor,jdbcType=VARCHAR},
+      #{descr,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
     insert into t_brand
@@ -59,6 +71,12 @@
       <if test="categoryName != null" >
         category_name,
       </if>
+      <if test="bgColor != null" >
+        bg_color,
+      </if>
+      <if test="descr != null" >
+        descr,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -84,6 +102,12 @@
       </if>
       <if test="categoryName != null" >
         #{categoryName,jdbcType=CHAR},
+      </if>
+      <if test="bgColor != null" >
+        #{bgColor,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        #{descr,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -111,27 +135,48 @@
       <if test="categoryName != null" >
         category_name = #{categoryName,jdbcType=CHAR},
       </if>
+      <if test="bgColor != null" >
+        bg_color = #{bgColor,jdbcType=VARCHAR},
+      </if>
+      <if test="descr != null" >
+        descr = #{descr,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
+    update t_brand
+    set name = #{name,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      category_name = #{categoryName,jdbcType=CHAR},
+      bg_color = #{bgColor,jdbcType=VARCHAR},
+      descr = #{descr,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Brand" >
     update t_brand
     set name = #{name,jdbcType=VARCHAR},
-    logo = #{logo,jdbcType=VARCHAR},
-    goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
-    create_time = #{createTime,jdbcType=TIMESTAMP},
-    modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-    category_id = #{categoryId,jdbcType=INTEGER},
-    category_name = #{categoryName,jdbcType=CHAR}
+      logo = #{logo,jdbcType=VARCHAR},
+      goods_type_id = #{goodsTypeId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      category_name = #{categoryName,jdbcType=CHAR},
+      bg_color = #{bgColor,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <select id="findSelectiveAll" resultMap="BaseResultMap">
     SELECT
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     FROM t_brand
     <if test="type_id != -1">
       WHERE goods_type_id = #{type_id,jdbcType=BIGINT}
     </if>
   </select>
-
 </mapper>

@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="t_b_id" property="tBId" jdbcType="BIGINT" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
     <result column="number" property="number" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="BIGINT" />
     <result column="sale_price" property="salePrice" jdbcType="DOUBLE" />
@@ -23,7 +24,7 @@
     <result column="sources" property="sources" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, t_b_id, name, number, type, sale_price, wholesale, purchase_price, stock, create_time,
+    id, t_b_id, name,short_name, number, type, sale_price, wholesale, purchase_price, stock, create_time,
     modify_time, is_hot, is_recommend, sex, cover_src
   </sql>
 
@@ -43,13 +44,13 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" keyProperty="id" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs" >
-    insert into t_goods (id, t_b_id, name,
+    insert into t_goods (id, t_b_id, name, short_name,
       number, type, sale_price,
       wholesale, purchase_price, stock,
       create_time, modify_time, is_hot,
       is_recommend, sex, descr,
       sources,cover_src)
-    values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+    values (#{id,jdbcType=BIGINT}, #{tBId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}
       #{number,jdbcType=VARCHAR}, #{type,jdbcType=BIGINT}, #{salePrice,jdbcType=DOUBLE},
       #{wholesale,jdbcType=DOUBLE}, #{purchasePrice,jdbcType=DOUBLE}, #{stock,jdbcType=INTEGER},
       #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, #{isHot,jdbcType=INTEGER},
@@ -67,6 +68,9 @@
       </if>
       <if test="name != null" >
         name,
+      </if>
+      <if test="shortName != null">
+        short_name,
       </if>
       <if test="number != null" >
         number,
@@ -121,6 +125,9 @@
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
+      </if>
       <if test="number != null" >
         #{number,jdbcType=VARCHAR},
       </if>
@@ -174,6 +181,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="shortName != null">
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
       <if test="number != null" >
         number = #{number,jdbcType=VARCHAR},
       </if>
@@ -213,6 +223,9 @@
       <if test="sources != null" >
         sources = #{sources,jdbcType=LONGVARCHAR},
       </if>
+      <if test="coverSrc != null">
+        cover_src = #{coverSrc,jdbcType=VARCHAR}
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -220,6 +233,7 @@
     update t_goods
     set t_b_id = #{tBId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIGINT},
       sale_price = #{salePrice,jdbcType=DOUBLE},
@@ -239,6 +253,7 @@
     update t_goods
     set t_b_id = #{tBId,jdbcType=BIGINT},
       name = #{name,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       type = #{type,jdbcType=BIGINT},
       sale_price = #{salePrice,jdbcType=DOUBLE},
@@ -258,34 +273,34 @@
   <select id="findAllGoods" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
     SELECT <include refid="Base_Column_List" />
     ,
-    <include refid="Blob_Column_List" />
+    sources
     FROM t_goods WHERE 1 = 1
-    <if test="goodQuery.name != null and goodQuery.name != ''">
-      <bind name="Name_Pattern" value="'%' + goodQuery.name + '%'" />
+    <if test="goodsQuery.name != null and goodsQuery.name != ''">
+      <bind name="Name_Pattern" value="'%' + goodsQuery.name + '%'" />
       AND name LIKE #{Name_Pattern}
     </if>
-    <if test="goodQuery.number != null and goodQuery.number != ''" >
-      <bind name="Number_Pattern" value="'%' + goodQuery.number + '%'" />
+    <if test="goodsQuery.number != null and goodsQuery.number != ''" >
+      <bind name="Number_Pattern" value="'%' + goodsQuery.number + '%'" />
       AND number LIKE #{Number_Pattern}
     </if>
-    <if test="goodQuery.type != 0" >
-      AND type = #{goodQuery.type,jdbcType = BIGINT}
+    <if test="goodsQuery.type != 0" >
+      AND type = #{goodsQuery.type,jdbcType = BIGINT}
     </if>
-    <if test="goodQuery.tBId != 0">
-      AND t_b_id = #{goodQuery.tBId,jdbcType = BIGINT}
+    <if test="goodsQuery.tBId != 0">
+      AND t_b_id = #{goodsQuery.tBId,jdbcType = BIGINT}
     </if>
-    <if test="goodQuery.sex > 0">
-      AND sex = #{goodQuery.sex,jdbcType = INTEGER}
+    <if test="goodsQuery.sex > 0">
+      AND sex = #{goodsQuery.sex,jdbcType = INTEGER}
     </if>
-    <if test="goodQuery.isHot > 0">
-      AND is_hot = #{goodQuery.isHot,jdbcType = INTEGER}
+    <if test="goodsQuery.isHot > 0">
+      AND is_hot = #{goodsQuery.isHot,jdbcType = INTEGER}
     </if>
-    <if test="goodQuery.isRecommend > 0">
-      AND is_recommend = #{goodQuery.isRecommend,jdbcType = INTEGER}
+    <if test="goodsQuery.isRecommend > 0">
+      AND is_recommend = #{goodsQuery.isRecommend,jdbcType = INTEGER}
     </if>
 
     <choose>
-      <when test="goodQuery.sortTime == 2">
+      <when test="goodsQuery.sortTime == 2">
         ORDER BY modify_time DESC
       </when>
       <otherwise>
@@ -293,39 +308,39 @@
       </otherwise>
     </choose>
 
-    <if test="goodQuery.sortSalePrice == 1">
-      sale_price ASC
+    <if test="goodsQuery.sortSalePrice == 1">
+      ,sale_price ASC
     </if>
-    <if test="goodQuery.sortSalePrice == 2">
-      sale_price DESC
-    </if>
-
-    <if test="goodQuery.sortWholesale == 1">
-      wholesale ASC
-    </if>
-    <if test="goodQuery.sortWholesale == 2">
-      wholesale DESC
+    <if test="goodsQuery.sortSalePrice == 2">
+      ,sale_price DESC
     </if>
 
-    <if test="goodQuery.sortPurchasePrice == 1">
-      purchase_price ASC
+    <if test="goodsQuery.sortWholesale == 1">
+      ,wholesale ASC
     </if>
-    <if test="goodQuery.sortPurchasePrice == 2">
-      purchase_price DESC
-    </if>
-
-    <if test="goodQuery.sortStock == 1">
-      stock ASC
-    </if>
-    <if test="goodQuery.sortStock == 2">
-      stock DESC
+    <if test="goodsQuery.sortWholesale == 2">
+      ,wholesale DESC
     </if>
 
-    <if test="goodQuery.sortBrand == 1">
-      t_b_id ASC
+    <if test="goodsQuery.sortPurchasePrice == 1">
+      ,purchase_price ASC
     </if>
-    <if test="goodQuery.sortBrand == 2">
-      t_b_id DESC
+    <if test="goodsQuery.sortPurchasePrice == 2">
+      ,purchase_price DESC
+    </if>
+
+    <if test="goodsQuery.sortStock == 1">
+      ,stock ASC
+    </if>
+    <if test="goodsQuery.sortStock == 2">
+      ,stock DESC
+    </if>
+
+    <if test="goodsQuery.sortBrand == 1">
+      ,t_b_id ASC
+    </if>
+    <if test="goodsQuery.sortBrand == 2">
+      ,t_b_id DESC
     </if>
 
   </select>

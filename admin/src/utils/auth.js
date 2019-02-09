@@ -7,7 +7,7 @@ export function getToken() {
 }
 
 export function getUid() {
-  return getUserInfo().uid
+  return getUserInfo().id
 }
 
 export function getUploadToken() {

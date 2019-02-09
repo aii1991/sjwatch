@@ -6,19 +6,19 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
  $(document).ready(function(){
 
-     $(function(){
-         $(".add").click(function(){
-          var t=$(this).parent().find('input[class*=text_box]');
-         t.val(parseInt(t.val())+1)
-        })
-      $(".min").click(function(){
-       var t=$(this).parent().find('input[class*=text_box]');
-         t.val(parseInt(t.val())-1)
-         if(parseInt(t.val())<0){
-          t.val(0);
-          }
-       })
-    }) 
+	 $(function(){
+		 $(".add").click(function(){
+		  var t=$(this).parent().find('input[class*=text_box]');
+		 t.val(parseInt(t.val())+1)
+		})
+	  $(".min").click(function(){
+	   var t=$(this).parent().find('input[class*=text_box]');
+		 t.val(parseInt(t.val())-1)
+		 if(parseInt(t.val())<0){
+		  t.val(0);
+		  }
+	   })
+	});
 
 	
 	<!--兼容IE浏览器 -->
@@ -37,64 +37,147 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     }
  
  
-//地址选择
-				$(function() {
-					$(".user-addresslist").click(function() {
-						$(this).addClass("defaultAddr").siblings().removeClass("defaultAddr");
-					});
-					$(".logistics").each(function() {
-						var i = $(this);
-						var p = i.find("ul>li");
-						p.click(function() {
-							if (!!$(this).hasClass("selected")) {
-								$(this).removeClass("selected");
-							} else {
-								$(this).addClass("selected").siblings("li").removeClass("selected");
-							}
-						})
-					})
-				});
- 
- 
- 
- 
-})
+	//地址选择
+	$(function() {
+		$(".user-addresslist").click(function() {
+			$(this).addClass("defaultAddr").siblings().removeClass("defaultAddr");
+		});
+		$(".logistics").each(function() {
+			var i = $(this);
+			var p = i.find("ul>li");
+			p.click(function() {
+				if (!!$(this).hasClass("selected")) {
+					$(this).removeClass("selected");
+				} else {
+					$(this).addClass("selected").siblings("li").removeClass("selected");
+				}
+			})
+		})
+	});
+});
  
 // 弹出地址选择
- 
-			$(document).ready(function($) {
+$(document).ready(function($) {
+
+	var $ww = $(window).width();
+
+	$('.buy').click(function() {
+//		禁止遮罩层下面的内容滚动
+		$(document.body).css("overflow","hidden");
+
+		$(this).addClass("selected");
+		$(this).parent().addClass("selected");
+
+
+		$('.theme-popover-mask').show();
+		$('.theme-popover-mask').height($(window).height());
+		$('.theme-popover').slideDown(200);
+
+	});
+
+	$('.theme-poptit .close,.btn-op .close').click(function() {
+
+		// $('.theme-login').removeClass("selected");
+		$(document.body).css("overflow","visible");
+		$('.item-props-can').removeClass("selected");
+		$('.theme-popover-mask').hide();
+		$('.theme-popover').slideUp(200);
+	})
 	
-				var $ww = $(window).width();
+	$('#bt-validate-code').click(function () {
+		var phoneNumber = $('#user-phone').val();
+		$.ajax({
+			type: "POST",
+			url: "/rest/v1/sms/" + phoneNumber,
+			dataType: "json",
+			success: function (result) {
+
+			},
+			error: function () {
+				alert("获取验证码失败");
+			}
+		});
+		$('#bt-validate-code').removeClass('am-btn-danger')
+			.attr("disabled","disabled");
+		countdown();
+	});
+
+	$('#btn-cancel').click(function () {
+		window.history.back(-1);
+	});
 	
-				$('.theme-login').click(function() {
-//					禁止遮罩层下面的内容滚动
-					$(document.body).css("overflow","hidden");
-				
-					$(this).addClass("selected");
-					$(this).parent().addClass("selected");
+	$('#btn-submit').click(function(){
+		var receiverName = $('#user-name').val();
+		var receiverNumber = $('#user-phone').val();
+		var price = $('#goods-price').text();
+		var goodsId = $('#goods-id').text();
+		var validateCode = $('#validate-code').val();
+		var address = $('#user-intro').val();
 
-									
-					$('.theme-popover-mask').show();
-					$('.theme-popover-mask').height($(window).height());
-					$('.theme-popover').slideDown(200);																		
-					
-				})
-				
-				$('.theme-poptit .close,.btn-op .close').click(function() {
+		if (receiverName === ""){
+			alert("请输入收货人姓名");
+			return;
+		}
 
-					$(document.body).css("overflow","visible");
-					$('.theme-login').removeClass("selected");
-					$('.item-props-can').removeClass("selected");					
-					$('.theme-popover-mask').hide();
-					$('.theme-popover').slideUp(200);
-				})
+		if (receiverNumber === ""){
+			alert("请输入手机号");
+			return;
+		}
 
-				
-			}); 
- 
- 
- 
- 
+		if (address === ""){
+			alert("请输入地址");
+			return;
+		}
+
+		$.ajax({
+			type: "POST",
+			url: "/rest/v1/order/" + validateCode,
+			contentType: "application/json",
+			headers:{
+				"uid": 2
+			},
+			data:JSON.stringify({
+				receiverName: receiverName,
+				receiverNumber: receiverNumber,
+				price: price,
+				goodsId: goodsId,
+				address: address
+			}),
+			success: function (result) {
+				if (result.error){
+					alert("提交订单失败");
+					return;
+				}
+				alert("订单提交成功,将于近期发货,请注意查收快递单号");
+				console.log(result);
+				$(document.body).css("overflow","visible");
+				$('.item-props-can').removeClass("selected");
+				$('.theme-popover-mask').hide();
+				$('.theme-popover').slideUp(200);
+				window.history.back(-1);
+			},
+			error: function () {
+				alert("提交订单失败");
+			}
+		});
+
+	});
+	
+	function countdown() {
+		var countdown = 60;
+		var flag = setInterval(function () {
+			countdown --;
+			$('#bt-validate-code').text(countdown);
+			if (countdown <= 0){
+				$('#bt-validate-code').text('获取');
+				clearInterval(flag);
+				$('#bt-validate-code').addClass('am-btn-danger')
+					.removeAttr("disabled");
+			}
+		},1000);
+	}
+});
+
  
  
  

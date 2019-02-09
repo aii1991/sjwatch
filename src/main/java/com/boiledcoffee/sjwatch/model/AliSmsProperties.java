@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  *
  */
 @Component
-@ConfigurationProperties(prefix = "qiniu")
+@ConfigurationProperties(prefix = "ali-sms")
 public class AliSmsProperties {
     private String ak;
     private String sk;

@@ -8,6 +8,8 @@
         <el-button type="primary" @click="onSubmit('goodsTypeForm')">提交</el-button>
         <el-button @click="resetForm('goodsTypeForm')">重置</el-button>
       </el-form-item>
+
+      
     </el-form>
  </div>
 </template>
