@@ -230,11 +230,11 @@ export default {
         wholesale: this.param.data.wholesale,
         purchasePrice: this.param.data.purchasePrice,
         stock: this.param.data.stock,
-        sex: 0,
-        isHot: 0,
-        isRecommend: 0,
+        sex: this.param.data.sex,
+        isHot: this.param.data.isHot,
+        isRecommend: this.param.data.isRecommend,
         sources: JSON.parse(this.param.data.sources),
-        coverSrc: ''
+        coverSrc: this.param.data.coverSrc
       },
       rules: {
         type: [

@@ -6,6 +6,18 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
  $(document).ready(function(){
 
+	 var width = window.screen.width;
+	 if (width <= 420){
+		 $('#goods-img').width(width - 20);
+		 $('.am-form-group').width(width - 20);
+		 $('.am-form-group .lb-content').width(width < 375 ? 150 : 250);
+		 $('.am-form-group input').width(width < 375 ? 200 : 300);
+		 $('.am-form-group textarea').width(width < 375 ? 200 : 300);
+		 $('#validate-code').width(width < 375 ? 150 : 200);
+		 $('#pay-info-box').css('left',(-(width-10)/2) + "px");
+	 }
+
+
 	 $(function(){
 		 $(".add").click(function(){
 		  var t=$(this).parent().find('input[class*=text_box]');
@@ -148,7 +160,7 @@ $(document).ready(function($) {
 					alert("提交订单失败");
 					return;
 				}
-				alert("订单提交成功,将于近期发货,请注意查收快递单号");
+				alert("订单提交成功,客服人员将会于你再次确认收货信息");
 				console.log(result);
 				$(document.body).css("overflow","visible");
 				$('.item-props-can').removeClass("selected");

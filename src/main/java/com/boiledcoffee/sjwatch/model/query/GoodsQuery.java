@@ -17,7 +17,7 @@ public class GoodsQuery implements Serializable{
     private int sex = -1;
     private int sortName;
     private int sortNumber;
-    private int sortTime = 2;
+    private int sortTime = 2; //1=createTime ASC,2=createTime DESC,3=modifyTime ASC,4=modifyTime DESC
     private int sortSalePrice;
     private int sortWholesale;
     private int sortPurchasePrice;

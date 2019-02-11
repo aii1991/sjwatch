@@ -67,6 +67,13 @@ public class ThUtils {
         }
 
         if (!StringUtils.isEmpty(sortSalePrice)){
+            if ("0".equals(sortSalePrice)){
+                sortSalePrice = "1";
+            }else if ("1".equals(sortSalePrice)){
+                sortSalePrice = "2";
+            }else if ("2".equals(sortSalePrice)){
+                sortSalePrice = "1";
+            }
             if (result.contains("?")){
                 result += "&sortSalePrice=" + sortSalePrice;
             }else {

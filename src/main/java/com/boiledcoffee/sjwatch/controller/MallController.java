@@ -1,5 +1,6 @@
 package com.boiledcoffee.sjwatch.controller;
 
+import com.boiledcoffee.sjwatch.model.SJProperties;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.communication.PageRspData;
 import com.boiledcoffee.sjwatch.model.entity.Banner;
@@ -18,10 +19,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ${juha} on 2018/12/4.
@@ -36,6 +34,9 @@ public class MallController {
     IOrderService orderService;
     @Autowired
     IBannerService bannerService;
+
+    @Autowired
+    SJProperties sjProperties;
 
     @RequestMapping(value = "/")
     public String entry(){
@@ -64,6 +65,7 @@ public class MallController {
         //热门商品
         GoodsQuery hotGoodsQuery = new GoodsQuery();
         hotGoodsQuery.setIsHot(1);
+        hotGoodsQuery.setSortTime(4);
         HandleResult<PageRspData<GoodsWithBLOBs>> hotGoodsHandleResult = goodsService.findAllGoods(0,3, hotGoodsQuery,uid);
         if (brandHandleResult.isError()){
             return "error";
@@ -71,8 +73,8 @@ public class MallController {
         model.addAttribute("hotGoods",hotGoodsHandleResult.getResult().getList());
 
         //首页商品
-        Map<String,List<GoodsWithBLOBs>> goods = new HashMap<>();
-        Map<String,Brand> brandMap = new HashMap<>();
+        Map<String,List<GoodsWithBLOBs>> goods = new LinkedHashMap<>();
+        Map<String,Brand> brandMap = new LinkedHashMap<>();
 
         GoodsQuery goodsQuery = new GoodsQuery();
         goodsQuery.setSortTime(2);
@@ -86,6 +88,7 @@ public class MallController {
         }
         model.addAttribute("goodsMap",goods);
         model.addAttribute("brandMap",brandMap);
+        model.addAttribute("qrCode",sjProperties.getQrCode());
 
         HandleResult<List<Banner>> handleBannerResult = bannerService.findAllBanner(4);
         if (!handleBannerResult.isError()){
@@ -205,6 +208,7 @@ public class MallController {
             model.addAttribute("currentPage",page);
             model.addAttribute("goodsList",goodsList);
             model.addAttribute("pageList",pageList);
+            model.addAttribute("qrCode",sjProperties.getQrCode());
             return "home/search";
         }
         return "error";
@@ -226,7 +230,7 @@ public class MallController {
         if (!reGoodsHandleResult.isError()){
             model.addAttribute("reGoodsList",reGoodsHandleResult.getResult().getList());
         }
-
+        model.addAttribute("qrCode",sjProperties.getQrCode());
         return "home/introduction";
     }
 
@@ -236,6 +240,7 @@ public class MallController {
         if (!goodsHandleResult.isError()){
             model.addAttribute("goods",goodsHandleResult.getResult());
         }
+        model.addAttribute("qrCode",sjProperties.getQrCode());
         return "home/pay";
     }
 }

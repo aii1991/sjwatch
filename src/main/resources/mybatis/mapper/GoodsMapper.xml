@@ -290,7 +290,7 @@
       AND t_b_id = #{goodsQuery.tBId,jdbcType = BIGINT}
     </if>
     <if test="goodsQuery.sex > 0">
-      AND sex = #{goodsQuery.sex,jdbcType = INTEGER}
+      AND sex = #{goodsQuery.sex,jdbcType = INTEGER} OR sex = 0
     </if>
     <if test="goodsQuery.isHot > 0">
       AND is_hot = #{goodsQuery.isHot,jdbcType = INTEGER}
@@ -300,11 +300,50 @@
     </if>
 
     <choose>
+      <when test="goodsQuery.sortSalePrice == 1">
+        ORDER BY sale_price ASC
+      </when>
+      <when test="goodsQuery.sortSalePrice == 2">
+        ORDER BY sale_price DESC
+      </when>
+      <when test="goodsQuery.sortWholesale == 1">
+        ORDER BY wholesale ASC
+      </when>
+      <when test="goodsQuery.sortWholesale == 1">
+        ORDER BY wholesale DESC
+      </when>
+      <when test="goodsQuery.sortPurchasePrice == 1">
+        ORDER BY purchase_price ASC
+      </when>
+      <when test="goodsQuery.sortPurchasePrice == 2">
+        ORDER BY purchase_price DESC
+      </when>
+      <when test="goodsQuery.sortStock == 1">
+        ORDER BY stock ASC
+      </when>
+      <when test="goodsQuery.sortStock == 2">
+        ORDER BY stock DESC
+      </when>
+      <when test="goodsQuery.sortBrand == 1">
+        ORDER BY t_b_id ASC
+      </when>
+      <when test="goodsQuery.sortBrand == 2">
+        ORDER BY t_b_id DESC
+      </when>
+      <when test="goodsQuery.sortTime == 1">
+        ORDER BY create_time ASC
+      </when>
       <when test="goodsQuery.sortTime == 2">
+        ORDER BY create_time DESC
+      </when>
+      <when test="goodsQuery.sortTime == 3">
+        ORDER BY modify_time ASC
+      </when>
+      <when test="goodsQuery.sortTime == 4">
         ORDER BY modify_time DESC
       </when>
       <otherwise>
-        ORDER BY modify_time ASC
+        ORDER BY create_time ASC
       </otherwise>
     </choose>
 
@@ -342,7 +381,9 @@
     <if test="goodsQuery.sortBrand == 2">
       ,t_b_id DESC
     </if>
-
+    <if test="goodsQuery.sortTime == 2">
+      ,create_time DESC
+    </if>
   </select>
 
   <select id="getGoodsById" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long">

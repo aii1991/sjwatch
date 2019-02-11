@@ -1,149 +1,177 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort()  + #httpServletRequest.getContextPath() + '/'} "/>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0 ,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<head>
+    <base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort()  + #httpServletRequest.getContextPath() + '/'} "/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0 ,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-		<title>结算页面</title>
+    <title>结算页面</title>
 
-		<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
+    <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css"/>
 
-		<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
-		<link href="../css/cartstyle.css" rel="stylesheet" type="text/css" />
+    <link href="../basic/css/demo.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/cartstyle.css" rel="stylesheet" type="text/css"/>
 
-		<link href="../css/jsstyle.css" rel="stylesheet" type="text/css" />
+    <link href="../css/jsstyle.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/slide.qrcode.css" rel="stylesheet" type="text/css"/>
 
-		<script type="text/javascript" src="../js/address.js"></script>
+    <script type="text/javascript" src="../js/address.js"></script>
+</head>
 
-	</head>
+<body>
 
-	<body>
+<!--顶部导航条 -->
+<div class="am-container header am-hide">
+    <ul class="message-l">
+        <div class="topMessage">
+            <div class="menu-hd">
+                <a href="#" target="_top" class="h">亲，请登录</a>
+                <a href="#" target="_top">免费注册</a>
+            </div>
+        </div>
+    </ul>
+    <ul class="message-r">
+        <div class="topMessage home">
+            <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+        </div>
+        <div class="topMessage my-shangcheng">
+            <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+            </div>
+        </div>
+        <div class="topMessage mini-cart">
+            <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i
+                    class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum"
+                                                                                          class="h">0</strong></a></div>
+        </div>
+        <div class="topMessage favorite">
+            <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+            </div>
+        </div>
+    </ul>
+</div>
 
-		<!--顶部导航条 -->
-		<div class="am-container header am-hide">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
-					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-				</div>
-			</ul>
-			</div>
+<!--悬浮搜索框-->
 
-			<!--悬浮搜索框-->
+<div class="nav white">
+    <div class="logo"><img src="../images/logo.png"/></div>
+    <div class="logoBig">
+        <li><img src="../images/logobig.png"/></li>
+    </div>
 
-			<div class="nav white">
-				<div class="logo"><img src="../images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="../images/logobig.png" /></li>
-				</div>
+    <div class="search-bar pr">
+        <a name="index_none_header_sysc" href="#"></a>
+        <form action="/mall/search/1" method="get">
+            <input id="searchInput" name="searchName" type="text" placeholder="搜索" autocomplete="off"/>
+            <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit"/>
+        </form>
+    </div>
+</div>
 
-				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
-					<form action="/mall/search/1" method="get">
-						<input id="searchInput" name="searchName" type="text" placeholder="搜索" autocomplete="off"/>
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit"/>
-					</form>
-				</div>
-			</div>
+<div class="clear"></div>
 
-			<div class="clear"></div>
+<div class="nav-table">
+    <div class="long-title"><span class="all-goods">购买</span></div>
+    <div class="nav-cont">
+        <ul>
+            <li class="index"><a href="/mall/index">首页</a></li>
+        </ul>
+    </div>
+</div>
 
-		<div class="nav-table">
-			<div class="long-title"><span class="all-goods">购买</span></div>
-			<div class="nav-cont">
-				<ul>
-					<li class="index"><a href="/mall/index">首页</a></li>
-				</ul>
-				<div class="nav-extra" style="display: none;">
-					<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-					<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-				</div>
-			</div>
-		</div>
+<div class="theme-popover-mask"></div>
+<div id="pay-info-box" style="height: 450px;margin-left: 50%;position: relative;left: -250px;">
+    <!--标题 -->
+    <div class="am-cf am-padding">
+        <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">购买</strong></div>
+    </div>
+    <hr/>
+    <div class="am-u-md-12">
 
-		<div class="theme-popover-mask"></div>
-		<div style="height: 450px;margin-left: 50%;position: relative;left: -250px;">
-			<!--标题 -->
-			<div class="am-cf am-padding">
-				<div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">购买</strong></div>
-			</div>
-			<hr/>
-			<div class="am-u-md-12">
+        <form class="am-form am-form-horizontal">
+            <div id="goods-id" th:text="${goods.id}" style="display: none"></div>
+            <div>
+                <img id="goods-img" th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(goods.sources)}"/>
+            </div>
 
-				<form class="am-form am-form-horizontal">
-					<div id="goods-id" th:text="${goods.id}" style="display: none"></div>
-					<div>
-						<img th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(goods.sources)}" />
-					</div>
+            <div class="am-form-group">
+                <label class="am-form-label">商品名称</label>
+                <label class="am-form-label lb-content" id="goods-name"
+                       style="width: 300px;text-align: left;margin-left: 15px;" th:text="${goods.name}">卡西欧</label>
+            </div>
 
-					<div class="am-form-group">
-						<label class="am-form-label">商品名称</label>
-						<label class="am-form-label" id="goods-name" style="width: 300px;text-align: left;margin-left: 15px;" th:text="${goods.name}">卡西欧</label>
-					</div>
+            <div class="am-form-group">
+                <label class="am-form-label">商品价格</label>
+                <label class="am-form-label lb-content" id="goods-price" style="width: 300px;text-align: left;"
+                       th:text="${'￥' + goods.salePrice}"></label>
+            </div>
 
-					<div class="am-form-group">
-						<label class="am-form-label">商品价格</label>
-						<label class="am-form-label" style="width: 20px;text-align: left;margin-left: 15px;">￥</label>
-						<label class="am-form-label" id="goods-price" style="width: 300px;text-align: left;" th:text="${goods.salePrice}">￥100</label>
-					</div>
+            <div class="am-form-group">
+                <label for="user-name" class="am-form-label">收货人</label>
+                <div class="am-form-content">
+                    <input type="text" id="user-name" style="width: 400px;" placeholder="收货人" value=""/>
+                </div>
+            </div>
 
-					<div class="am-form-group">
-						<label for="user-name" class="am-form-label">收货人</label>
-						<div class="am-form-content">
-							<input type="text" id="user-name" style="width: 400px;" placeholder="收货人" value="" />
-						</div>
-					</div>
+            <div class="am-form-group">
+                <label for="user-phone" class="am-form-label">手机号码</label>
+                <div class="am-form-content">
+                    <input id="user-phone" placeholder="手机号必填" style="width: 400px;" type="email"/>
+                </div>
+            </div>
 
-					<div class="am-form-group">
-						<label for="user-phone" class="am-form-label">手机号码</label>
-						<div class="am-form-content">
-							<input id="user-phone" placeholder="手机号必填" style="width: 400px;" type="email" />
-						</div>
-					</div>
+            <div class="am-form-group">
+                <label for="user-phone" class="am-form-label">验证码</label>
+                <div class="am-form-content">
+                    <input id="validate-code" placeholder="验证码" style="width: 200px; float: left;" type="text"
+                           value=""/>
+                    <button id="bt-validate-code" type="button" class="am-btn am-btn-danger" style="margin-left: 5px;">
+                        获取
+                    </button>
+                </div>
+            </div>
 
-					<div class="am-form-group">
-						<label for="user-phone" class="am-form-label">验证码</label>
-						<div class="am-form-content">
-							<input id="validate-code" placeholder="验证码" style="width: 200px; float: left;" type="text" value="" />
-							<button id="bt-validate-code" type="button" class="am-btn am-btn-danger" style="margin-left: 5px;">获取</button>
-						</div>
-					</div>
+            <div class="am-form-group">
+                <label for="user-intro" class="am-form-label">地址</label>
+                <div class="am-form-content">
+                    <textarea class="" rows="3" id="user-intro" style="width: 400px;" placeholder="输入详细地址"></textarea>
+                    <small>100字以内写出你的地址...</small>
+                </div>
+            </div>
 
-					<div class="am-form-group">
-						<label for="user-intro" class="am-form-label">地址</label>
-						<div class="am-form-content">
-							<textarea class="" rows="3" id="user-intro" style="width: 400px;" placeholder="输入详细地址"></textarea>
-							<small>100字以内写出你的地址...</small>
-						</div>
-					</div>
+            <div class="am-form-group theme-poptit" style="display: block;">
+                <div class="am-u-sm-9 am-u-sm-push-3">
+                    <div id="btn-submit" class="am-btn am-btn-danger">提交</div>
+                    <div id="btn-cancel" class="am-btn am-btn-danger">取消</div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-					<div class="am-form-group theme-poptit" style="display: block;">
-						<div class="am-u-sm-9 am-u-sm-push-3">
-							<div id="btn-submit" class="am-btn am-btn-danger">提交</div>
-							<div id="btn-cancel" class="am-btn am-btn-danger">取消</div>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</body>
+<div class="side-bar">
+    <a href="javascript:void(0);" class="icon-chat">
+        <div class="chat-tips">
+            <i></i>
+            <img style="width:138px;height:138px;" th:src="${qrCode}" alt="微信订阅号"/>
+        </div>
+    </a>
+    <script>
+        $(document).ready(function () {
+            $(".icon-chat").click(function () {
+                var display = $(".chat-tips").css('display');
+                if (display === "none") {
+                    $(".chat-tips").show();
+                    $(".side-bar a").css("background-color","#669fdd");
+                } else {
+                    $(".chat-tips").hide();
+                    $(".side-bar a").css("background-color","#ddd");
+                }
+            })
+        })
+    </script>
+</div>
+</body>
 
 </html>

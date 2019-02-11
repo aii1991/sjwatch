@@ -1,215 +1,261 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort()  + #httpServletRequest.getContextPath() + '/'} "/>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<head>
+    <base th:href="${#httpServletRequest.getScheme() + '://' + #httpServletRequest.getServerName() + ':' + #httpServletRequest.getServerPort()  + #httpServletRequest.getContextPath() + '/'} "/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
-		<title>搜索页面</title>
+    <title>搜索页面</title>
 
-		<link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css" />
-		<link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css" />
+    <link href="../AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css"/>
+    <link href="../AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css"/>
 
-		<link href="../basic/css/demo.css" rel="stylesheet" type="text/css" />
+    <link href="../basic/css/demo.css" rel="stylesheet" type="text/css"/>
 
-		<link href="../css/seastyle.css" rel="stylesheet" type="text/css" />
+    <link href="../css/seastyle.css" rel="stylesheet" type="text/css"/>
+    <link href="../css/slide.qrcode.css" rel="stylesheet" type="text/css"/>
 
-		<script src="../AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
-		<script  src="../basic/js/quick_links.js"></script>
-		<script src="../js/script.js"></script>
-	</head>
+    <script src="../AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+    <script src="../basic/js/quick_links.js"></script>
+    <script src="../js/script.js"></script>
+    <script src="../js/search.js"></script>
+</head>
 
-	<body>
-		<!--顶部导航条 -->
-		<div class="am-container header am-hide">
-			<ul class="message-l">
-				<div class="topMessage">
-					<div class="menu-hd">
-						<a href="#" target="_top" class="h">亲，请登录</a>
-						<a href="#" target="_top">免费注册</a>
-					</div>
-				</div>
-			</ul>
-			<ul class="message-r">
-				<div class="topMessage home">
-					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
-				</div>
-				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-				</div>
-				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
-				</div>
-				<div class="topMessage favorite">
-					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-				</div>
-			</ul>
-			</div>
+<body>
+<!--顶部导航条 -->
+<div class="am-container header am-hide">
+    <ul class="message-l">
+        <div class="topMessage">
+            <div class="menu-hd">
+                <a href="#" target="_top" class="h">亲，请登录</a>
+                <a href="#" target="_top">免费注册</a>
+            </div>
+        </div>
+    </ul>
+    <ul class="message-r">
+        <div class="topMessage home">
+            <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+        </div>
+        <div class="topMessage my-shangcheng">
+            <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a>
+            </div>
+        </div>
+        <div class="topMessage mini-cart">
+            <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i
+                    class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum"
+                                                                                          class="h">0</strong></a></div>
+        </div>
+        <div class="topMessage favorite">
+            <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+            </div>
+        </div>
+    </ul>
+</div>
 
-			<!--悬浮搜索框-->
+<!--悬浮搜索框-->
 
-			<div class="nav white">
-				<div class="logo"><img src="../images/logo.png" /></div>
-				<div class="logoBig">
-					<li><img src="../images/logobig.png" /></li>
-				</div>
+<div class="nav white">
+    <div class="logo"><img src="../images/logo.png"/></div>
+    <div class="logoBig">
+        <li><img src="../images/logobig.png"/></li>
+    </div>
 
-				<div class="search-bar pr">
-					<a name="index_none_header_sysc" href="#"></a>
-					<form action="/mall/search/1" method="get">
-						<input id="searchInput" name="searchName" type="text" placeholder="搜索" autocomplete="off"/>
-						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit"/>
-					</form>
-				</div>
-			</div>
+    <div class="search-bar pr">
+        <a name="index_none_header_sysc" href="#"></a>
+        <form action="/mall/search/1" method="get">
+            <input id="searchInput" name="searchName" type="text" placeholder="搜索" autocomplete="off"/>
+            <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit"/>
+        </form>
+    </div>
+</div>
 
-			<div class="clear"></div>
-           <div class="search">
-			<div class="search-list">
-			<div class="nav-table">
-					   <div class="long-title"><span class="all-goods">全部分类</span></div>
-					   <div class="nav-cont">
-						   <ul>
-							   <li class="index"><a href="/mall/index">首页</a></li>
-							   <li class="qc"><a href="/mall/search/1?isHot=1">热销</a></li>
-							   <li class="qc"><a href="/mall/search/1?isRecommend=1">推荐</a></li>
-						   </ul>
-						    <div class="nav-extra" style="display: none;">
-						    	<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-						    	<i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-						    </div>
-						</div>
-			</div>
-			
-				
-					<div class="am-g am-g-fixed">
-						<div class="am-u-sm-12 am-u-md-12">
-	                  	<div class="theme-popover">														
-							<ul class="select">
-								<div class="clear"></div>
-								<li class="select-result">
-									<dl>
-										<dt>已选</dt>
-										<dd class="select-no"></dd>
-										<p class="eliminateCriteria">清除</p>
-									</dl>
-								</li>
-								<div class="clear"></div>
-								<li class="select-list">
-									<dl id="select1">
-										<dt class="am-badge am-round">品牌</dt>	
-									
-										 <div class="dd-conent">
+<div class="clear"></div>
+<div class="search">
+    <div class="search-list">
+        <div class="nav-table">
+            <div class="long-title"><span class="all-goods">全部分类</span></div>
+            <div class="nav-cont">
+                <ul>
+                    <li class="index"><a href="/mall/index">首页</a></li>
+                    <li class="qc"><a href="/mall/search/1?isHot=1">热销</a></li>
+                    <li class="qc"><a href="/mall/search/1?isRecommend=1">推荐</a></li>
+                </ul>
+                <div class="nav-extra" style="display: none;">
+                    <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
+                    <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
+                </div>
+            </div>
+        </div>
 
-											<dd th:class="${reqBrandId} == 0 ? 'select-all selected' : ''"><a th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search','1',reqSearchName,'',reqSex,reqSortSalePrice)}">全部</a></dd>
-											<dd th:each="brand:${brandList}" th:class="${reqBrandId == brand.id} ? 'selected':''"><a th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search','1',reqSearchName,brand.id,reqSex,reqSortSalePrice)}" th:text="${brand.name}"></a></dd>
-										 </div>
-						
-									</dl>
-								</li>
-								<li class="select-list">
-									<dl id="select2">
-										<dt class="am-badge am-round">适用人群</dt>
-										<div class="dd-conent">
-											<dd th:class="${reqSex} == 0 ? 'select-all selected' : ''"><a th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'0',reqSortSalePrice)}">全部</a></dd>
-											<dd th:class="${reqSex} == 1 ? 'select-all selected' : ''"><a th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'1',reqSortSalePrice)}">男</a></dd>
-											<dd th:class="${reqSex} == 2 ? 'select-all selected' : ''"><a th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'2',reqSortSalePrice)}">女</a></dd>
-										</div>
-									</dl>
-								</li>
 
-							</ul>
-							<div class="clear"></div>
+        <div class="am-g am-g-fixed">
+            <div class="am-u-sm-12 am-u-md-12">
+                <div class="theme-popover">
+                    <ul class="select">
+                        <div class="clear"></div>
+                        <li class="select-result">
+                            <dl>
+                                <dt>已选</dt>
+                                <dd class="select-no"></dd>
+                                <p class="eliminateCriteria">清除</p>
+                            </dl>
+                        </li>
+                        <div class="clear"></div>
+                        <li class="select-list">
+                            <dl id="select1">
+                                <dt class="am-badge am-round">品牌</dt>
+
+                                <div class="dd-conent">
+
+                                    <dd th:class="${reqBrandId} == 0 ? 'select-all selected' : ''"><a
+                                            th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search','1',reqSearchName,'',reqSex,reqSortSalePrice)}">全部</a>
+                                    </dd>
+                                    <dd th:each="brand:${brandList}"
+                                        th:class="${reqBrandId == brand.id} ? 'selected':''"><a
+                                            th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search','1',reqSearchName,brand.id,reqSex,reqSortSalePrice)}"
+                                            th:text="${brand.name}"></a></dd>
+                                </div>
+
+                            </dl>
+                        </li>
+                        <li class="select-list">
+                            <dl id="select2">
+                                <dt class="am-badge am-round">适用人群</dt>
+                                <div class="dd-conent">
+                                    <dd th:class="${reqSex} == 0 ? 'select-all selected' : ''"><a
+                                            th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'0',reqSortSalePrice)}">全部</a>
+                                    </dd>
+                                    <dd th:class="${reqSex} == 1 ? 'select-all selected' : ''"><a
+                                            th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'1',reqSortSalePrice)}">男</a>
+                                    </dd>
+                                    <dd th:class="${reqSex} == 2 ? 'select-all selected' : ''"><a
+                                            th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,'2',reqSortSalePrice)}">女</a>
+                                    </dd>
+                                </div>
+                            </dl>
+                        </li>
+
+                    </ul>
+                    <div class="clear"></div>
+                </div>
+                <div class="search-content">
+                    <div class="sort">
+                        <li th:class="${reqSortSalePrice == 0 ? 'first' : ''}"><a title="综合"
+                                             th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,reqSex,'')}">综合排序</a>
+                        </li>
+                        <li th:class="${reqSortSalePrice != 0 ? 'first' : ''}"><a title="价格"
+                               th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,reqSex,reqSortSalePrice)}">价格优先</a>
+                        </li>
+                    </div>
+                    <div class="clear"></div>
+
+                    <ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
+                        <li style="width: 218px;margin-left: 11px;" class="i-pic limit" th:each="goods:${ goodsList }">
+                            <div>
+                                <a th:href="@{'/mall/detail/' + ${goods.id}}">
+                                    <img style="width: 218px;"
+                                         th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(goods.sources)}"/>
+                                </a>
+                                <p class="title fl" th:text="${goods.name}"></p>
+                                <p class="price fl">
+                                    <b>¥</b>
+                                    <strong th:text="${goods.salePrice}"></strong>
+                                </p>
+                                <p class="number fl">
+                                    销量<span th:text="${goods.saleNumber}"></span>
+                                </p>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+                <div class="search-side" style="display: none;">
+
+                    <div class="side-title">
+                        经典搭配
+                    </div>
+
+                    <li>
+                        <div class="i-pic check">
+                            <img src="../images/cp.jpg"/>
+                            <p class="check-title">萨拉米 1+1小鸡腿</p>
+                            <p class="price fl">
+                                <b>¥</b>
+                                <strong>29.90</strong>
+                            </p>
+                            <p class="number fl">
+                                销量<span>1110</span>
+                            </p>
                         </div>
-							<div class="search-content">
-								<div class="sort">
-									<li class="first"><a title="综合" th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,reqSex,'')}">综合排序</a></li>
-									<li><a title="价格" th:href="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsSearchUrl('/mall/search',currentPage,reqSearchName,reqBrandId,reqSex,(reqSortSalePrice == 0 ? '1' : '2'))}">价格优先</a></li>
-								</div>
-								<div class="clear"></div>
+                    </li>
+                    <li>
+                        <div class="i-pic check">
+                            <img src="../images/cp2.jpg"/>
+                            <p class="check-title">ZEK 原味海苔</p>
+                            <p class="price fl">
+                                <b>¥</b>
+                                <strong>8.90</strong>
+                            </p>
+                            <p class="number fl">
+                                销量<span>1110</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="i-pic check">
+                            <img src="../images/cp.jpg"/>
+                            <p class="check-title">萨拉米 1+1小鸡腿</p>
+                            <p class="price fl">
+                                <b>¥</b>
+                                <strong>29.90</strong>
+                            </p>
+                            <p class="number fl">
+                                销量<span>1110</span>
+                            </p>
+                        </div>
+                    </li>
 
-								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-									<li style="width: 218px;" class="i-pic limit" th:each="goods:${ goodsList }">
-										<div>
-											<a th:href="@{'/mall/detail/' + ${goods.id}}">
-												<img style="width: 218px;" th:src="${T(com.boiledcoffee.sjwatch.util.ThUtils).getGoodsImgUrl(goods.sources)}" />
-											</a>
-											<p class="title fl" th:text="${goods.name}"></p>
-											<p class="price fl">
-												<b>¥</b>
-												<strong th:text="${goods.salePrice}"></strong>
-											</p>
-											<p class="number fl">
-												销量<span th:text="${goods.saleNumber}"></span>
-											</p>
-										</div>
+                </div>
+                <div class="clear"></div>
+                <!--分页 -->
+                <ul class="am-pagination am-pagination-centered">
+                    <li th:each="page:${pageList}" th:class="${page == currentPage} ? 'am-active' : ''">
+                        <a th:href="@{'/mall/search/' + ${page} + ${reqParam}}" th:text="${page}"></a>
+                    </li>
+                </ul>
 
-									</li>
-								</ul>
-							</div>
-							<div class="search-side" style="display: none;">
-
-								<div class="side-title">
-									经典搭配
-								</div>
-
-								<li>
-									<div class="i-pic check">
-										<img src="../images/cp.jpg" />
-										<p class="check-title">萨拉米 1+1小鸡腿</p>
-										<p class="price fl">
-											<b>¥</b>
-											<strong>29.90</strong>
-										</p>
-										<p class="number fl">
-											销量<span>1110</span>
-										</p>
-									</div>
-								</li>
-								<li>
-									<div class="i-pic check">
-										<img src="../images/cp2.jpg" />
-										<p class="check-title">ZEK 原味海苔</p>
-										<p class="price fl">
-											<b>¥</b>
-											<strong>8.90</strong>
-										</p>
-										<p class="number fl">
-											销量<span>1110</span>
-										</p>
-									</div>
-								</li>
-								<li>
-									<div class="i-pic check">
-										<img src="../images/cp.jpg" />
-										<p class="check-title">萨拉米 1+1小鸡腿</p>
-										<p class="price fl">
-											<b>¥</b>
-											<strong>29.90</strong>
-										</p>
-										<p class="number fl">
-											销量<span>1110</span>
-										</p>
-									</div>
-								</li>
-
-							</div>
-							<div class="clear"></div>
-							<!--分页 -->
-							<ul class="am-pagination am-pagination-centered">
-								<li th:each="page:${pageList}" th:class="${page == currentPage} ? 'am-active' : ''" >
-									<a th:href="@{'/mall/search/' + ${page} + ${reqParam}}" th:text="${page}"></a>
-								</li>
-							</ul>
-
-						</div>
-					</div>
-				</div>
-			</div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="theme-popover-mask"></div>
 
-	</body>
+<div class="side-bar">
+    <a href="javascript:void(0);" class="icon-chat">
+        <div class="chat-tips">
+            <i></i>
+            <img style="width:138px;height:138px;" th:src="${qrCode}" alt="微信订阅号"/>
+        </div>
+    </a>
+    <script>
+        $(document).ready(function () {
+            $(".icon-chat").click(function () {
+                var display = $(".chat-tips").css('display');
+                if (display === "none") {
+                    $(".chat-tips").show();
+                    $(".side-bar a").css("background-color","#669fdd");
+                } else {
+                    $(".chat-tips").hide();
+                    $(".side-bar a").css("background-color","#ddd");
+                }
+            })
+        })
+    </script>
+</div>
+
+</body>
 
 </html>

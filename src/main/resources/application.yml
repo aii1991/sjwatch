@@ -75,3 +75,5 @@ sj-config:
   tokenValidTime: 2
   # 短信验证码有效时长 单位分钟
   smsValidTime: 5
+  #二维码
+  qrCode: https://sjwatch.oss-cn-shenzhen.aliyuncs.com/qrcode/qr-code.jpg
