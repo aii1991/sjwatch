@@ -48,13 +48,13 @@ logging:
   root: INFO
 
 qiniu:
-  ak: 6bpjaMgBu6ChmdHzr88nG0VYIHMtQgM8iMPJ0fJZ
-  sk: 7l7arEeXadKEVSxBX3WIx-xKPgsVQvvKuuExpXGu
+  ak: 
+  sk: 
   bucket: sjwatch
 
 oss:
-  ak: LTAIVzLpulIYD9cW
-  sk: vC2BUofCErvKx4RmBl19YNLrRp3MZW
+  ak: 
+  sk: 
   bucket: sjwatch
   expiration: 24
 
