@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2018/12/27 16:57:24                          */
+/* Created on:     2020/8/17 15:21:02                           */
 /*==============================================================*/
 
+
+drop table if exists repaire;
 
 drop table if exists t_banner;
 
@@ -23,16 +25,32 @@ drop table if exists t_user_acl;
 drop table if exists t_user_log;
 
 /*==============================================================*/
+/* Table: repaire                                               */
+/*==============================================================*/
+create table repaire
+(
+   repaire_id           bigint not null auto_increment,
+   code                 char(20),
+   cover                char(150),
+   wx_name              char(20),
+   create_time          timestamp default CURRENT_TIMESTAMP,
+   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   repaire_time         timestamp default CURRENT_TIMESTAMP,
+   primary key (repaire_id)
+);
+
+/*==============================================================*/
 /* Table: t_banner                                              */
 /*==============================================================*/
 create table t_banner
 (
-   id                   bigint  not null auto_increment,
+   id                   bigint not null auto_increment,
    g_id                 bigint not null,
    src                  varchar(100),
-   create_time           timestamp default CURRENT_TIMESTAMP,
-   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-   primary key (id)
+   create_time          timestamp,
+   modify_time          timestamp,
+   primary key (id),
+   unique key AK_Key_2 (g_id)
 );
 
 /*==============================================================*/
@@ -66,7 +84,7 @@ create table t_goods
    purchase_price       double,
    stock                int,
    descr                text,
-   sources              text comment 'jsonï¿½ï¿½ï¿½ï¿½ï¿½Ê½',
+   sources              text comment 'jsonÊý×é¸ñÊ½',
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    is_hot               int(2),
@@ -103,8 +121,8 @@ create table t_order
    delivery_name        char(30),
    price                double,
    goods_id             bigint,
-  create_time         timestamp default CURRENT_TIMESTAMP,
-   modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   create_time          timestamp,
+   modify_time          timestamp,
    primary key (id),
    unique key AK_Key_2 (no)
 );
@@ -131,7 +149,7 @@ create table t_user
    nick_name            varchar(30),
    password             varchar(100),
    token                varchar(50),
-   sex                  int(1) comment '0=Î´Öª,1=ï¿½ï¿½,2=Å®',
+   sex                  int(1) comment '0=Î´Öª,1=ÄÐ,2=Å®',
    age                  int(3),
    qq_token             varchar(50),
    wechat_token         varchar(50),
