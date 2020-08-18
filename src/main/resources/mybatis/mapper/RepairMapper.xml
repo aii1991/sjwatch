@@ -10,6 +10,9 @@
     <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
     <result column="repaire_time" property="repaireTime" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="ListResultMap" extends="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Repair">
+  </resultMap>
+
   <sql id="Base_Column_List" >
     repair_id, code, cover, wx_name, create_time, modify_time, repaire_time
   </sql>
@@ -23,7 +26,7 @@
     delete from t_repair
     where repair_id = #{repairId,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+  <insert id="insert" keyProperty="repairId" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
     insert into t_repair (repair_id, code, cover, 
       wx_name, create_time, modify_time, 
       repaire_time)
@@ -31,7 +34,7 @@
       #{wxName,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
       #{repaireTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+  <insert id="insertSelective" keyProperty="repairId" useGeneratedKeys="true" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
     insert into t_repair
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="repairId != null" >
@@ -114,4 +117,10 @@
       repaire_time = #{repaireTime,jdbcType=TIMESTAMP}
     where repair_id = #{repairId,jdbcType=BIGINT}
   </update>
+
+
+  <select id="findAllRepairs" resultMap="ListResultMap">
+    SELECT * FROM t_repair ORDER BY modify_time DESC
+  </select>
+
 </mapper>

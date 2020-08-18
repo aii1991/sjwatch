@@ -1,17 +1,10 @@
 package com.boiledcoffee.sjwatch.dao;
 
 import com.boiledcoffee.sjwatch.model.entity.Repair;
+import org.apache.ibatis.annotations.Param;
 
-public interface RepairMapper {
-    int deleteByPrimaryKey(Long repairId);
+import java.util.List;
 
-    int insert(Repair record);
-
-    int insertSelective(Repair record);
-
-    Repair selectByPrimaryKey(Long repairId);
-
-    int updateByPrimaryKeySelective(Repair record);
-
-    int updateByPrimaryKey(Repair record);
+public interface RepairMapper extends BaseMapper<Repair>{
+    List<Repair> findAllRepairs(@Param("offset") int offset, @Param("limit") int limit);
 }
