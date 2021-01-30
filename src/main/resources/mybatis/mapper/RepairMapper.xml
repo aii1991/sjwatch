@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boiledcoffee.sjwatch.dao.RepairMapper" >
+  <resultMap id="BaseResultMap" type="com.boiledcoffee.sjwatch.model.entity.Repair" >
+    <id column="repair_id" property="repairId" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="CHAR" />
+    <result column="cover" property="cover" jdbcType="CHAR" />
+    <result column="wx_name" property="wxName" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+    <result column="repaire_time" property="repaireTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    repair_id, code, cover, wx_name, create_time, modify_time, repaire_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_repair
+    where repair_id = #{repairId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_repair
+    where repair_id = #{repairId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+    insert into t_repair (repair_id, code, cover, 
+      wx_name, create_time, modify_time, 
+      repaire_time)
+    values (#{repairId,jdbcType=BIGINT}, #{code,jdbcType=CHAR}, #{cover,jdbcType=CHAR}, 
+      #{wxName,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{repaireTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+    insert into t_repair
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
+        repair_id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="cover != null" >
+        cover,
+      </if>
+      <if test="wxName != null" >
+        wx_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="modifyTime != null" >
+        modify_time,
+      </if>
+      <if test="repaireTime != null" >
+        repaire_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="repairId != null" >
+        #{repairId,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=CHAR},
+      </if>
+      <if test="cover != null" >
+        #{cover,jdbcType=CHAR},
+      </if>
+      <if test="wxName != null" >
+        #{wxName,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repaireTime != null" >
+        #{repaireTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+    update t_repair
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=CHAR},
+      </if>
+      <if test="cover != null" >
+        cover = #{cover,jdbcType=CHAR},
+      </if>
+      <if test="wxName != null" >
+        wx_name = #{wxName,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyTime != null" >
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="repaireTime != null" >
+        repaire_time = #{repaireTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where repair_id = #{repairId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.boiledcoffee.sjwatch.model.entity.Repair" >
+    update t_repair
+    set code = #{code,jdbcType=CHAR},
+      cover = #{cover,jdbcType=CHAR},
+      wx_name = #{wxName,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      repaire_time = #{repaireTime,jdbcType=TIMESTAMP}
+    where repair_id = #{repairId,jdbcType=BIGINT}
+  </update>
+</mapper>

@@ -36,7 +36,13 @@ redis:
             min-idle: 0
 
 server:
-        port: 80
+        port: 443
+        ssl:
+          key-store: classpath:server.jks
+          key-store-password: 7o6jh129vs8r
+          keyStoreType: JKS
+        http:
+          port: 8888
 
 mybatis:
   type-aliases-package: com.boiledcoffee.sjwatch.model
@@ -49,14 +55,25 @@ logging:
   root: INFO
 
 qiniu:
+<<<<<<< .mine
   ak:
   sk:
+=======
+  ak: 
+  sk: 
+>>>>>>> .theirs
   bucket: sjwatch
 
 oss:
+<<<<<<< .mine
   ak:
   sk:
   bucket:
+=======
+  ak: 
+  sk: 
+  bucket: sjwatch
+>>>>>>> .theirs
   expiration: 24
 
 ali-sms:
@@ -73,6 +90,14 @@ sj-config:
   # 用户token有效时长 单位小时
   tokenValidTime: 2
   # 短信验证码有效时长 单位分钟
+<<<<<<< .mine
   smsValidTime: 5
   #二维码
   qrCode:
+
+=======
+  smsValidTime: 5
+
+file:
+  downloadDir: /var/www/html/video
+>>>>>>> .theirs
