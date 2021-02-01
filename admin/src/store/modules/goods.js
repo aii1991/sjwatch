@@ -63,7 +63,7 @@ const goods = {
     },
     AddGoodsBrand({ commit }, brandInfo) {
       return new Promise((resolve, reject) => {
-        addGoodsBrand(brandInfo.name, brandInfo.logo, brandInfo.goodsTypeId).then(response => {
+        addGoodsBrand(brandInfo.name, brandInfo.logo, brandInfo.goodsTypeId, brandInfo.descr, brandInfo.bgColor).then(response => {
           commit('ADD_GOODS_BRAND_SUCCESS')
           resolve(response)
         }).catch(error => {

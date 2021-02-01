@@ -42,9 +42,9 @@
       <el-form-item label="库存" prop="stock">
         <span>{{ goodsForm.stock }}</span>
       </el-form-item>
-      <el-form-item label="描述" prop="descr">
+      <!-- <el-form-item label="描述" prop="descr">
         <span>{{ goodsForm.descr }}</span>
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item label="图片描述">
          <el-upload ref="upload"
             :action="uploadUrl"

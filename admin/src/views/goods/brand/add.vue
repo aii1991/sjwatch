@@ -4,6 +4,12 @@
       <el-form-item label="品牌名称" prop="name">
           <el-input v-model="goodsBrandForm.name" clearable></el-input>
       </el-form-item>
+       <el-form-item label="品牌描述" prop="descr">
+          <el-input v-model="goodsBrandForm.descr" clearable></el-input>
+      </el-form-item>
+      <el-form-item label="背景颜色" prop="bgColor">
+          <el-color-picker v-model="bgColor"></el-color-picker>
+      </el-form-item>
       <el-form-item label="品牌logo" prop="logo">
           <el-upload ref="upload"
             :action="uploadUrl"
@@ -38,8 +44,10 @@
 export default {
   data() {
     return {
+      bgColor: null,
       goodsBrandForm: {
         name: '',
+        descr: '',
         logo: ''
       },
       loading: false,
@@ -50,7 +58,7 @@ export default {
         policy: this.getOssUploadInfo()[0],
         OSSAccessKeyId: this.getOssUploadInfo()[1],
         Signature: this.getOssUploadInfo()[2],
-        key: 'sj' + new Date().getTime()
+        key: this.getKey()
       },
       dialogImageUrl: '',
       dialogVisible: false,
@@ -58,9 +66,6 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入商品名称', trigger: 'blur' }
-        ],
-        logo: [
-          { required: true, message: '请上传商品logo', trigger: 'blur' }
         ]
       }
     }
@@ -71,7 +76,7 @@ export default {
       this.$refs['goodsBrandForm'].validate((valid) => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('AddGoodsBrand', { name: this.goodsBrandForm.name, logo: this.goodsBrandForm.logo, goodsTypeId: this.goodsTypeId }).then(() => {
+          this.$store.dispatch('AddGoodsBrand', { name: this.goodsBrandForm.name, logo: this.goodsBrandForm.logo, goodsTypeId: this.goodsTypeId, descr: this.goodsBrandForm.descr, bgColor: this.bgColor }).then(() => {
             this.resetForm('goodsBrandForm')
             this.loading = false
             this.$message({ showClose: true, message: '添加成功', type: 'success' })
@@ -94,6 +99,7 @@ export default {
     },
     handleUpload(response, file, fileList) {
       this.goodsBrandForm.logo = this.uploadUrl + '/' + this.uploadInfo.key
+      this.uploadInfo.key = this.getKey()
     },
     handleUploadError(err, file, fileList) {
       this.goodsBrandForm.logo = ''
@@ -106,10 +112,14 @@ export default {
       this.goodsBrandForm.logo = ''
       this.$refs.upload.clearFiles()
       this.$refs[formName].resetFields()
+      this.uploadInfo.key = this.getKey()
     },
     getOssUploadInfo() {
       var upToken = this.$store.getters.uploadToken
       return upToken.split('.')
+    },
+    getKey() {
+      return 'sj' + new Date().getTime()
     }
   }
 }

@@ -23,9 +23,10 @@ spring:
 
 redis:
         database: 0
-        host: 104.160.41.217
+        host: 127.0.0.1
+#        host: 127.0.0.1
         port: 6379
-        password: 123456
+        password:
         timeout: 3000
         expire: 1000
         pool:
@@ -54,27 +55,49 @@ logging:
   root: INFO
 
 qiniu:
+<<<<<<< .mine
+  ak:
+  sk:
+=======
   ak: 
   sk: 
+>>>>>>> .theirs
   bucket: sjwatch
 
 oss:
+<<<<<<< .mine
+  ak:
+  sk:
+  bucket:
+=======
   ak: 
   sk: 
   bucket: sjwatch
+>>>>>>> .theirs
   expiration: 24
 
 ali-sms:
-  ak: 123
-  sk: 123
-  signName: "jason"
-  templateCode: "SMS_1000000"
+  ak:
+  sk:
+  signName: ""
+  templateCode: ""
+
+tx-sms:
+  appId:
+  appKey:
 
 sj-config:
   # 用户token有效时长 单位小时
   tokenValidTime: 2
   # 短信验证码有效时长 单位分钟
+<<<<<<< .mine
+  smsValidTime: 5
+  #二维码
+  qrCode:
+
+=======
   smsValidTime: 5
 
 file:
   downloadDir: /var/www/html/video
+>>>>>>> .theirs

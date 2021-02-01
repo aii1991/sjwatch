@@ -9,6 +9,8 @@ public class Goods {
 
     private String name;
 
+    private String shortName;
+
     private String number;
 
     private Long type;
@@ -151,5 +153,13 @@ public class Goods {
 
     public void setCoverSrc(String coverSrc) {
         this.coverSrc = coverSrc;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 }

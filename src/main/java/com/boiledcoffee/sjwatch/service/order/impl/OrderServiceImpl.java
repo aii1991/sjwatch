@@ -36,7 +36,12 @@ public class OrderServiceImpl implements IOrderService{
 
     @Override
     public HandleResult<Order> insertOrder(long uid,Order order,String verifyCode) {
-        final int isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+        int isAdmin = 0;
+        try{
+            isAdmin = Integer.valueOf(stringRedisTemplate.opsForValue().get("isAdmin/" + uid));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         final HandleResult<Order> handleResult = new HandleResult<>();
         final String receiverName = order.getReceiverName();
         final String receiverPhoneNumber = order.getReceiverNumber();

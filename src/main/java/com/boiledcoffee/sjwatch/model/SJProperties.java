@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class SJProperties {
     private int tokenValidTime; //单位 小时
     private int smsValidTime; //单位 分钟
+    private String qrCode;
 
     public int getTokenValidTime() {
         return tokenValidTime;
@@ -27,5 +28,13 @@ public class SJProperties {
 
     public void setSmsValidTime(int smsValidTime) {
         this.smsValidTime = smsValidTime;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 }

@@ -58,6 +58,9 @@
       <el-form-item label="名称" prop="name">
         <el-input v-model="goodsForm.name" clearable></el-input>
       </el-form-item>
+      <el-form-item label="短名称" prop="shortName">
+        <el-input v-model="goodsForm.shortName" clearable></el-input>
+      </el-form-item>
       <el-form-item label="编号" prop="number">
         <el-input v-model="goodsForm.number" clearable></el-input>
       </el-form-item>
@@ -73,10 +76,21 @@
       <el-form-item label="库存" prop="stock">
         <el-input v-model.number="goodsForm.stock" clearable></el-input>
       </el-form-item>
-      <el-form-item label="描述" prop="descr">
+      <el-form-item label="描述" prop="descr" hidden>
         <el-input v-model.number="goodsForm.descr" type="textarea" clearable></el-input>
       </el-form-item>
-      <el-form-item label="图片描述">
+
+      <el-form-item label="描述">
+        <quill-editor v-model="content"
+                  ref="myQuillEditor"
+                  :options="editorOption"
+                  @blur="onEditorBlur($event)"
+                  @focus="onEditorFocus($event)"
+                  @ready="onEditorReady($event)">
+       </quill-editor>
+      </el-form-item>
+
+      <el-form-item label="商品展示图">
          <el-upload ref="uploadImg"
             :action="uploadUrl"
             list-type="picture-card"
@@ -113,7 +127,7 @@
             <img width="100%" :src="dialogImageUrl" alt="">
           </el-dialog>
       </el-form-item>
-
+      
       <el-form-item>
         <el-button type="primary" @click="onSubmit">提交</el-button>
         <el-button @click="resetForm('goodsForm')">重置</el-button>
@@ -125,10 +139,55 @@
 
 <script>
 import { getGoodsTypeList } from '@/utils/sjcookies'
+import { quillRedefine } from 'vue-quill-editor-upload'
+import { quillEditor } from 'vue-quill-editor'
 
 export default {
+  components: { quillEditor, quillRedefine },
+  created: function() {
+    this.editorOption = quillRedefine(
+      {
+        // 图片上传的设置
+        uploadConfig: {
+          action: process.env.FILE_UPLOAD_URL, // 必填参数 图片上传地址
+          // 必选参数  res是一个函数，函数接收的response为上传成功时服务器返回的数据
+          // 你必须把返回的数据中所包含的图片地址 return 回去
+          res: (respnse) => {
+            console.log(respnse)
+            return respnse
+          },
+          name: 'file',
+          policy: this.getOssUploadInfo()[0],
+          OSSAccessKeyId: this.getOssUploadInfo()[1],
+          Signature: this.getOssUploadInfo()[2]
+        }
+      }
+    )
+    console.log(this.editorOption)
+  },
   data() {
     return {
+      content: '',
+      editorOption: {
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'],
+            ['blockquote', 'code-block'],
+            [{ 'header': 1 }, { 'header': 2 }],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            [{ 'script': 'sub' }, { 'script': 'super' }],
+            [{ 'indent': '-1' }, { 'indent': '+1' }],
+            [{ 'direction': 'rtl' }],
+            [{ 'size': ['small', false, 'large', 'huge'] }],
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+            [{ 'font': [] }],
+            [{ 'color': [] }, { 'background': [] }],
+            [{ 'align': [] }],
+            ['clean'],
+            ['link', 'image', 'video']
+          ]
+        }
+      },
       sexOpts: [
         {
           key: 0,
@@ -162,6 +221,7 @@ export default {
         type: '',
         tBId: '',
         name: '',
+        shortName: '',
         number: '',
         descr: '',
         salePrice: 0,
@@ -182,6 +242,10 @@ export default {
           { required: true, message: '请选择品牌', trigger: 'change' }
         ],
         name: [
+          { required: true, message: '请输入名称', trigger: 'blur' },
+          { min: 3, max: 150, message: '长度在 3 到 150 个字符', trigger: 'blur' }
+        ],
+        shortName: [
           { required: true, message: '请输入名称', trigger: 'blur' },
           { min: 3, max: 30, message: '长度在 3 到 30 个字符', trigger: 'blur' }
         ],
@@ -210,7 +274,7 @@ export default {
         policy: this.getOssUploadInfo()[0],
         OSSAccessKeyId: this.getOssUploadInfo()[1],
         Signature: this.getOssUploadInfo()[2],
-        key: 'sj' + new Date().getTime()
+        key: this.getKey()
       },
       uploadUrl: process.env.FILE_UPLOAD_URL,
       dialogImageUrl: '',
@@ -252,8 +316,9 @@ export default {
             type: this.goodsForm.type,
             tBId: this.goodsForm.tBId,
             name: this.goodsForm.name,
+            shortName: this.goodsForm.shortName,
             number: this.goodsForm.number,
-            descr: this.goodsForm.descr,
+            descr: this.content,
             salePrice: this.goodsForm.salePrice,
             wholesale: this.goodsForm.wholesale,
             purchasePrice: this.goodsForm.purchasePrice,
@@ -288,9 +353,15 @@ export default {
       var rvIndex = -1
       for (var i = 0; i < this.goodsForm.sources.length; i++) {
         var item = this.goodsForm.sources[i]
-        if (item.id === file.response.hash) {
-          rvIndex = i
-          break
+        if (file.response) {
+          if (item.id === file.response.hash) {
+            rvIndex = i
+            break
+          }
+        } else {
+          if (item.url === file.url) {
+            rvIndex = i
+          }
         }
       }
       if (rvIndex !== -1) {
@@ -312,10 +383,12 @@ export default {
         'name': file.name,
         'size': file.size
       })
+      this.uploadInfo.key = this.getKey()
     },
     handleUploadCover(response, file, fileList) {
       var fileUrl = this.uploadUrl + '/' + this.uploadInfo.key
       this.goodsForm.coverSrc = fileUrl
+      this.uploadInfo.key = this.getKey()
     },
     handleUploadError(err, file, fileList) {
       this.$message({ showClose: true, message: '上传失败,' + err, type: 'error' })
@@ -324,14 +397,28 @@ export default {
       this.$message({ showClose: true, message: 'Logo最多上传' + this.uploadFileLimit + '张图片,', type: 'error' })
     },
     resetForm(formName) {
+      this.content = ''
       this.goodsForm.sources = []
       this.$refs.uploadImg.clearFiles()
       this.$refs.uploadCover.clearFiles()
       this.$refs[formName].resetFields()
+      this.uploadInfo.key = this.getKey()
     },
     getOssUploadInfo() {
       var upToken = this.$store.getters.uploadToken
       return upToken.split('.')
+    },
+    onEditorBlur(quill) {
+      console.log('editor blur!', quill)
+    },
+    onEditorFocus(quill) {
+      console.log('editor focus!', quill)
+    },
+    onEditorReady(quill) {
+      console.log('editor ready!', quill)
+    },
+    getKey() {
+      return 'sj' + new Date().getTime()
     }
   }
 }

@@ -1,8 +1,9 @@
 import request from '@/utils/request'
+import md5 from 'blueimp-md5'
 
 export function login(username, password) {
   const params = new URLSearchParams()
-  params.append('password', password)
+  params.append('password', md5(password))
   return request({
     url: '/user/' + username,
     method: 'post',

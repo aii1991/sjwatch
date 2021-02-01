@@ -19,6 +19,10 @@ public class Brand {
 
     private String categoryName;
 
+    private String descr;
+
+    private String bgColor;
+
     public Long getId() {
         return id;
     }
@@ -81,5 +85,21 @@ public class Brand {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName == null ? null : categoryName.trim();
+    }
+
+    public String getDescr() {
+        return descr;
+    }
+
+    public void setDescr(String descr) {
+        this.descr = descr;
+    }
+
+    public String getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(String bgColor) {
+        this.bgColor = bgColor;
     }
 }

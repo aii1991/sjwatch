@@ -69,7 +69,7 @@ export default {
         deliveryName: this.param.data.deliveryName,
         price: this.param.data.price,
         goodsId: this.param.data.goodsId,
-        validateCode: ''
+        validateCode: '0'
       },
       rules: {
         address: [
@@ -103,7 +103,6 @@ export default {
             goodsId: this.orderForm.goodsId,
             validateCode: this.orderForm.validateCode
           }).then(() => {
-            this.resetForm('orderForm')
             this.loading = false
             this.$message({ showClose: true, message: '编辑成功', type: 'success' })
           }).catch(reason => {
@@ -117,7 +116,6 @@ export default {
       })
     },
     resetForm(formName) {
-      this.$refs.upload.clearFiles()
       this.$refs[formName].resetFields()
     }
   }

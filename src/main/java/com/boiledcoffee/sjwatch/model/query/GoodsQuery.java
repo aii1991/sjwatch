@@ -7,7 +7,7 @@ import java.io.Serializable;
  *  排序字段 1=ASC,2=DESC,
  * Created by juha on 2018/1/26.
  */
-public class GoodQuery implements Serializable{
+public class GoodsQuery implements Serializable{
     private String name;
     private String number;
     private long type;
@@ -17,7 +17,7 @@ public class GoodQuery implements Serializable{
     private int sex = -1;
     private int sortName;
     private int sortNumber;
-    private int sortTime = 2;
+    private int sortTime = 2; //1=createTime ASC,2=createTime DESC,3=modifyTime ASC,4=modifyTime DESC
     private int sortSalePrice;
     private int sortWholesale;
     private int sortPurchasePrice;

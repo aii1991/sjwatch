@@ -31,7 +31,6 @@
               <img :src ="getUrl(scope.row.sources)" width="50px" height="50px"/>
           </template>
       </el-table-column>
-       <el-table-column prop="descr" label="商品描述" ></el-table-column>
       <el-table-column prop="number" label="商品编号" ></el-table-column>
       <el-table-column prop="salePrice" label="销售价" ></el-table-column>
       <el-table-column prop="wholesale" label="批发价" ></el-table-column>

@@ -5,6 +5,8 @@ public class GoodsWithBLOBs extends Goods {
 
     private String sources;
 
+    private int saleNumber;
+
     public String getDescr() {
         return descr;
     }
@@ -19,5 +21,13 @@ public class GoodsWithBLOBs extends Goods {
 
     public void setSources(String sources) {
         this.sources = sources == null ? null : sources.trim();
+    }
+
+    public int getSaleNumber() {
+        return saleNumber;
+    }
+
+    public void setSaleNumber(int saleNumber) {
+        this.saleNumber = saleNumber;
     }
 }

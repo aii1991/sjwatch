@@ -6,7 +6,7 @@ import com.boiledcoffee.sjwatch.model.entity.Brand;
 import com.boiledcoffee.sjwatch.model.entity.GoodsType;
 import com.boiledcoffee.sjwatch.model.communication.HandleResult;
 import com.boiledcoffee.sjwatch.model.entity.GoodsWithBLOBs;
-import com.boiledcoffee.sjwatch.model.query.GoodQuery;
+import com.boiledcoffee.sjwatch.model.query.GoodsQuery;
 import com.boiledcoffee.sjwatch.service.goods.IGoodsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,18 +76,18 @@ public class GoodsController extends ApiBaseController {
 
     @RequestMapping(value = "/goods/{page}/{page_size}",method = RequestMethod.GET)
     public HandleResult<PageRspData<GoodsWithBLOBs>> listGoods(HttpServletRequest request,@PathVariable(value = "page")int page,@PathVariable(value = "page_size")int pageSize,@RequestParam(name = "param",required = false) String queryParam){
-        GoodQuery goodQuery;
+        GoodsQuery goodsQuery;
         try {
             if (!StringUtils.isEmpty(queryParam)){
-                goodQuery = objectMapper.readValue(queryParam,GoodQuery.class);
+                goodsQuery = objectMapper.readValue(queryParam, GoodsQuery.class);
             }else {
-                goodQuery = new GoodQuery();
+                goodsQuery = new GoodsQuery();
             }
         }catch (IOException e){
-            goodQuery = new GoodQuery();
+            goodsQuery = new GoodsQuery();
         }
         String uid = request.getHeader("uid");
-        return goodsService.findAllGoods(page,pageSize,goodQuery,uid);
+        return goodsService.findAllGoods(page,pageSize, goodsQuery,uid);
     }
 
     @RequestMapping(value = "/goods/{goodsId}")

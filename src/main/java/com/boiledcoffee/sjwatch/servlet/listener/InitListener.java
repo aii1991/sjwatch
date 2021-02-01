@@ -26,7 +26,7 @@ public class InitListener implements ServletContextListener{
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        addUser(1L,"超级管理员","admin","超级管理员","123456");
+        addUser(1L,"超级管理员","admin","超级管理员",MD5Encoder.encode("ww58879576".getBytes()));
         addUser(100L,"未知用户","unknow","未知用户", MD5Encoder.encode("unknow1122334455".getBytes()));
         Logger.getInstance(this.getClass()).debug("=========init success=======");
     }
