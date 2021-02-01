@@ -4,7 +4,7 @@
 /*==============================================================*/
 
 
-drop table if exists repaire;
+drop table if exists t_repair;
 
 drop table if exists t_banner;
 
@@ -27,16 +27,16 @@ drop table if exists t_user_log;
 /*==============================================================*/
 /* Table: repaire                                               */
 /*==============================================================*/
-create table repaire
+create table t_repair
 (
-   repaire_id           bigint not null auto_increment,
+   repair_id           bigint not null auto_increment,
    code                 char(20),
    cover                char(150),
    wx_name              char(20),
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    repaire_time         timestamp default CURRENT_TIMESTAMP,
-   primary key (repaire_id)
+   primary key (repair_id)
 );
 
 /*==============================================================*/
@@ -84,7 +84,7 @@ create table t_goods
    purchase_price       double,
    stock                int,
    descr                text,
-   sources              text comment 'jsonÊý×é¸ñÊ½',
+   sources              text comment 'jsonï¿½ï¿½ï¿½ï¿½ï¿½Ê½',
    create_time          timestamp default CURRENT_TIMESTAMP,
    modify_time          timestamp default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
    is_hot               int(2),
@@ -149,7 +149,7 @@ create table t_user
    nick_name            varchar(30),
    password             varchar(100),
    token                varchar(50),
-   sex                  int(1) comment '0=Î´Öª,1=ÄÐ,2=Å®',
+   sex                  int(1) comment '0=Î´Öª,1=ï¿½ï¿½,2=Å®',
    age                  int(3),
    qq_token             varchar(50),
    wechat_token         varchar(50),
